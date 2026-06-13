@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synapse Nexus — IIT Kanpur Research Intelligence Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --reddish-brown:#AB4531; --reddish-brown-d:#923524;
+  --mahogany:#421E18; --mahogany-d:#5d2b22;
+  --champagne:#FCE2C5; --champagne-soft:#FDF0DD;
+  --white:#FFFFFF;
+  --grey-olive:#798478; --grey-olive-d:#67705f;
+  --gold:#C9943A; --gold-d:#b07f2d;
+  --pill:#EFEBEB; --pill-text:#5b5b5b;
+  --ink:#1a1a1a; --ink-soft:#5d4a42;
+  --line:rgba(66,30,24,.14); --line-strong:rgba(66,30,24,.30);
+  --shadow:0 12px 32px rgba(66,30,24,.12);
+  --radius:16px;
+  --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--white);color:var(--ink);font-family:var(--font-body);overflow:hidden}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--reddish-brown)}
+img{display:block}
+
+#app{height:100vh;display:flex;flex-direction:column}
+
+/* ================= HEADER ================= */
+header{
+  display:flex;align-items:center;gap:18px;padding:11px 26px;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.95);
+  backdrop-filter:blur(8px);z-index:40;
+}
+.logo{display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none}
+.logo-mark{width:46px;height:46px;flex:none}.logo-mark svg{width:100%;height:100%}
+.logo-name{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--mahogany);letter-spacing:.02em}
+.logo-name span{color:var(--reddish-brown)}
+.logo-inst{font-size:9.5px;letter-spacing:.14em;color:var(--grey-olive);display:block;margin-top:1px;text-transform:uppercase;font-weight:600}
+.nav-tabs{display:flex;gap:2px;margin-left:14px}
+.nav-tab{background:none;border:none;color:var(--ink-soft);padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500;border-bottom:2px solid transparent}
+.nav-tab:hover{color:var(--reddish-brown)}
+.nav-tab.active{color:var(--reddish-brown);font-weight:600}
+.hdr-search{margin-left:auto;position:relative;width:min(290px,28vw)}
+.hdr-search input{width:100%;background:var(--pill);border:1px solid transparent;color:var(--ink);padding:9px 13px 9px 34px;border-radius:999px;font-size:12.5px;outline:none;font-family:var(--font-body)}
+.hdr-search input:focus{border-color:var(--reddish-brown);background:#fff;box-shadow:0 0 0 3px rgba(171,69,49,.13)}
+.hdr-search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--grey-olive);font-size:13px}
+.hdr-cta{background:var(--reddish-brown);color:#fff;border:none;border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600}
+.hdr-cta:hover{background:var(--reddish-brown-d)}
+
+main{flex:1;position:relative;overflow:hidden}
+
+/* ================ SEARCH RESULTS (shared) ================ */
+.search-results{
+  position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;
+  border:1px solid var(--line);border-radius:14px;max-height:420px;overflow:auto;
+  box-shadow:0 22px 60px rgba(66,30,24,.20);display:none;z-index:80;text-align:left;
+}
+.search-results.open{display:block}
+.sr-group{padding:10px 16px 4px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-olive);font-weight:700;display:flex;justify-content:space-between}
+.sr-group em{font-style:normal;font-weight:500;letter-spacing:0;text-transform:none}
+.sr-item{display:flex;align-items:center;gap:11px;padding:10px 16px;cursor:pointer;font-size:13.5px}
+.sr-item:hover{background:var(--champagne-soft)}
+.sr-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.sr-main{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-sub{color:var(--grey-olive);font-size:11px;margin-left:auto;flex:none}
+
+/* ================ LANDING / DISCOVER ================ */
+#discover{position:absolute;inset:0;overflow:auto;scroll-behavior:smooth;background:#fff}
+#discover.hidden{display:none}
+.wrap{max-width:1220px;margin:0 auto;padding:0 48px}
+
+/* --- hero --- */
+.hero{background:linear-gradient(180deg,var(--champagne-soft) 0%,#fff 100%);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center;padding:56px 0 50px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--reddish-brown);font-weight:700;margin-bottom:16px}
+.eyebrow::before{content:'';width:26px;height:2px;background:var(--gold)}
+.hero h1{font-family:var(--font-display);font-size:clamp(30px,3.8vw,50px);font-weight:600;line-height:1.12;color:var(--mahogany)}
+.hero h1 em{font-style:italic;color:var(--reddish-brown)}
+.hero .lede{color:var(--ink-soft);max-width:540px;margin-top:16px;font-size:15px;line-height:1.7}
+.big-search{position:relative;margin-top:26px;max-width:600px}
+.big-search input{
+  width:100%;background:#fff;border:1.5px solid var(--line-strong);color:var(--ink);
+  padding:16px 20px 16px 52px;border-radius:14px;font-size:15px;outline:none;
+  font-family:var(--font-body);box-shadow:0 10px 30px rgba(66,30,24,.10);
+}
+.big-search input:focus{border-color:var(--reddish-brown);box-shadow:0 0 0 4px rgba(171,69,49,.14),0 10px 30px rgba(66,30,24,.10)}
+.big-search .icon{position:absolute;left:19px;top:50%;transform:translateY(-50%);color:var(--reddish-brown);font-size:19px}
+
+.hero-visual{position:relative;min-height:380px}
+.hv-img{
+  position:absolute;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--shadow);background:var(--champagne);
+}
+.hv-img img{width:100%;height:100%;object-fit:cover}
+.hv-1{width:62%;height:62%;right:8%;top:0;z-index:2}
+.hv-2{width:46%;height:46%;left:0;bottom:6%;z-index:3}
+.hv-3{width:34%;height:34%;right:0;bottom:0;z-index:1;opacity:.9}
+.hv-badge{
+  position:absolute;left:6%;top:14%;z-index:4;background:#fff;border:1px solid var(--line);
+  border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);
+}
+.hv-badge b{font-family:var(--font-display);font-size:21px;color:var(--reddish-brown);display:block}
+.hv-badge span{font-size:10.5px;color:var(--grey-olive);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.hv-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--reddish-brown)}
+.hv-fallback svg{width:42%;height:42%;opacity:.5}
+
+/* --- stats band --- */
+.stats-band{background:var(--mahogany);color:var(--champagne)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:26px 0}
+.sstat{padding:6px 26px;border-left:1px solid rgba(252,226,197,.18)}
+.sstat:first-child{border-left:none}
+.sstat b{font-family:var(--font-display);font-size:32px;font-weight:600;color:var(--gold);display:block;line-height:1.1}
+.sstat span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;font-weight:600}
+
+/* --- sections --- */
+.section{padding:52px 0 10px}
+.section.tint{background:var(--champagne-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-bottom:52px;margin-top:42px}
+.sec-head{display:flex;align-items:flex-end;gap:18px;margin-bottom:24px}
+.sec-head .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-d);font-weight:700;display:block;margin-bottom:8px}
+.sec-head h2{font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);font-weight:600;color:var(--mahogany);line-height:1.15}
+.sec-head p{font-size:13px;color:var(--grey-olive);margin-top:6px;max-width:520px}
+.sec-head .spacer{flex:1}
+.see-all{font-size:13px;font-weight:600;color:var(--reddish-brown);cursor:pointer;background:none;border:none;white-space:nowrap}
+.see-all:hover{text-decoration:underline}
+
+/* --- domain grid: 4 x 2 --- */
+.domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.dcard{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);cursor:pointer;overflow:hidden;
+  transition:transform .22s,box-shadow .22s,border-color .22s;display:flex;flex-direction:column;
+}
+.dcard:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--dc)}
+.dimg{height:128px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--dc-soft),#fff)}
+.dimg img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.dcard:hover .dimg img{transform:scale(1.05)}
+.dimg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(66,30,24,0) 45%,rgba(66,30,24,.42) 100%);pointer-events:none}
+.dimg .fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dc)}
+.dimg .fallback svg{width:52px;height:52px;opacity:.45}
+.dimg .badge{
+  position:absolute;left:12px;bottom:12px;z-index:2;width:38px;height:38px;border-radius:11px;
+  background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;color:var(--dc);
+  box-shadow:0 4px 14px rgba(66,30,24,.22);
+}
+.dimg .badge svg{width:21px;height:21px}
+.dbody{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+.dbody h3{font-family:var(--font-display);font-size:16px;font-weight:600;line-height:1.3;color:var(--mahogany);min-height:42px}
+.dbody p{font-size:11.5px;color:var(--ink-soft);line-height:1.55;margin-top:6px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dfoot{display:flex;align-items:center;justify-content:space-between;margin-top:13px;padding-top:11px;border-top:1px dashed var(--line)}
+.dfoot .nums{font-size:11px;color:var(--grey-olive)}
+.dfoot .nums b{color:var(--mahogany)}
+.dfoot .go{font-size:12px;font-weight:700;color:var(--dc)}
+
+/* --- journey strip --- */
+.journey{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:14px;align-items:stretch}
+.jstep{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;position:relative}
+.jstep .num{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--gold-d);letter-spacing:.1em}
+.jstep h4{font-family:var(--font-display);font-size:16.5px;color:var(--mahogany);margin:7px 0 6px;font-weight:600}
+.jstep p{font-size:12px;color:var(--ink-soft);line-height:1.55}
+.jstep::after{content:'→';position:absolute;right:-15px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:18px;z-index:2}
+.jstep:last-of-type::after{content:''}
+.jcta{display:flex;align-items:center}
+.btn-primary{background:var(--reddish-brown);color:#fff;border:none;border-radius:12px;padding:15px 22px;font-size:14px;font-weight:600;white-space:nowrap;box-shadow:0 8px 22px rgba(171,69,49,.32)}
+.btn-primary:hover{background:var(--reddish-brown-d)}
+
+/* --- researchers --- */
+.fac-scroll{display:grid;grid-auto-flow:column;grid-auto-columns:248px;gap:14px;overflow-x:auto;padding-bottom:10px;scrollbar-width:thin}
+.fcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;transition:box-shadow .2s,border-color .2s}
+.fcard:hover{box-shadow:var(--shadow);border-color:var(--line-strong)}
+.fcard .photo{
+  width:54px;height:54px;border-radius:50%;overflow:hidden;margin-bottom:11px;
+  background:var(--dc-soft,#f3e7da);display:flex;align-items:center;justify-content:center;color:var(--dc,#AB4531);
+  border:2px solid var(--dc,#AB4531);
+}
+.fcard .photo img{width:100%;height:100%;object-fit:cover}
+.fcard .photo svg{width:30px;height:30px;opacity:.75}
+.fcard h4{font-size:14px;font-weight:600;line-height:1.35;color:var(--ink)}
+.fcard .meta{font-size:11px;color:var(--grey-olive);margin-top:3px;font-weight:500}
+.fcard .area{font-size:11px;color:var(--ink-soft);margin-top:8px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fcard .cnt{display:inline-block;margin-top:11px;font-size:10.5px;font-weight:700;border-radius:999px;padding:4px 11px;background:var(--dc-soft,#f3e7da);color:var(--dc,#AB4531)}
+
+/* --- funders --- */
+.fund-row{display:flex;flex-wrap:wrap;gap:9px}
+.fund-chip{border:none;background:var(--pill);border-radius:999px;padding:8px 15px;font-size:12px;color:var(--pill-text);cursor:pointer;display:inline-flex;gap:8px;align-items:center;font-weight:500}
+.fund-chip b{color:var(--reddish-brown);font-size:11px}
+.fund-chip:hover{background:var(--champagne);color:var(--mahogany)}
+
+/* --- CTA band --- */
+.cta-band{background:linear-gradient(120deg,var(--reddish-brown) 0%,var(--mahogany-d) 100%);color:#fff;margin-top:52px}
+.cta-inner{display:flex;align-items:center;gap:28px;padding:38px 0;flex-wrap:wrap}
+.cta-inner h2{font-family:var(--font-display);font-size:clamp(21px,2.4vw,28px);font-weight:600;flex:1;min-width:280px;line-height:1.3}
+.cta-inner p{font-size:13px;opacity:.85;margin-top:6px;font-weight:400}
+.btn-light{background:var(--champagne);color:var(--mahogany);border:none;border-radius:12px;padding:14px 24px;font-size:14px;font-weight:700}
+.btn-light:hover{background:#fff}
+
+/* --- footer --- */
+footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
+.foot-logo{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.foot-logo-chip{width:60px;height:60px;flex:none;display:flex;align-items:center;justify-content:center}
+.foot-logo-chip img{width:100%;height:100%;object-fit:contain}
+.foot-logo b{font-family:var(--font-display);font-size:15px;color:#fff;display:block;line-height:1.35}
+.foot-logo span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.7;font-weight:600}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px}
+.foot-grid h5{font-family:var(--font-display);font-size:15px;margin-bottom:12px;color:#fff;font-weight:600}
+.foot-grid p,.foot-grid li{font-size:12.5px;line-height:1.8;opacity:.82;list-style:none}
+.foot-grid li{cursor:pointer}.foot-grid li:hover{opacity:1;color:var(--gold)}
+.foot-base{border-top:1px solid rgba(252,226,197,.18);margin-top:28px;padding-top:16px;font-size:11.5px;opacity:.65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+
+/* --- domain card hover: top sub-domains preview --- */
+.dsubs{max-height:0;overflow:hidden;transition:max-height .28s ease;font-size:10.5px;color:var(--gold-d);font-weight:600;line-height:1.55}
+.dcard:hover .dsubs{max-height:52px;margin-top:7px}
+
+/* --- faculty directory page --- */
+#facdir{position:absolute;inset:0;overflow:auto;background:#fff;display:none}
+#facdir.active{display:block}
+.dir-hero{background:var(--champagne-soft);border-bottom:1px solid var(--line);padding:36px 0 28px}
+.dir-hero h1{font-family:var(--font-display);font-size:clamp(24px,3vw,36px);color:var(--mahogany);font-weight:600}
+.dir-hero p{color:var(--ink-soft);font-size:13.5px;margin-top:8px;max-width:580px;line-height:1.65}
+.dir-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.dir-controls input,.dir-controls select{background:#fff;border:1px solid var(--line-strong);border-radius:10px;padding:10px 14px;font-size:13px;font-family:var(--font-body);color:var(--ink);outline:none}
+.dir-controls input{flex:1;min-width:220px}
+.dir-controls input:focus,.dir-controls select:focus{border-color:var(--reddish-brown);box-shadow:0 0 0 3px rgba(171,69,49,.12)}
+.dir-count{font-size:12px;color:var(--grey-olive);margin:20px 0 14px}
+.dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:16px;padding-bottom:60px}
+.dir-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:box-shadow .2s,border-color .2s}
+.dir-card:hover{box-shadow:var(--shadow);border-color:var(--line-strong)}
+.dir-top{display:flex;gap:12px;align-items:center;cursor:pointer}
+.dir-photo{width:56px;height:56px;border-radius:50%;overflow:hidden;flex:none;border:2px solid var(--dc,#AB4531);background:var(--dc-soft,#F6E3DE);display:flex;align-items:center;justify-content:center;color:var(--dc,#AB4531)}
+.dir-photo img{width:100%;height:100%;object-fit:cover}
+.dir-photo svg{width:30px;height:30px;opacity:.75}
+.dir-top h4{font-size:14px;font-weight:600;color:var(--ink);line-height:1.3}
+.dir-top .meta{font-size:11px;color:var(--grey-olive);margin-top:2px}
+.dir-domain{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--dc-soft,#F6E3DE);color:var(--dc,#AB4531)}
+.dir-contact{margin-top:11px;border-top:1px dashed var(--line);padding-top:11px;display:flex;flex-direction:column;gap:6px}
+.dir-contact a,.dir-contact span.row{font-size:12px;color:var(--ink-soft);text-decoration:none;display:flex;gap:8px;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dir-contact a:hover{color:var(--reddish-brown)}
+.dir-contact svg{flex:none}
+.dir-actions{display:flex;gap:8px;margin-top:13px}
+.dir-btn{flex:1;border:1px solid rgba(171,69,49,.4);background:#fff;color:var(--reddish-brown);border-radius:9px;padding:8px 10px;font-size:12px;font-weight:600}
+.dir-btn:hover{background:var(--champagne-soft)}
+.dir-btn.solid{background:var(--reddish-brown);color:#fff;border-color:var(--reddish-brown)}
+.dir-btn.solid:hover{background:var(--reddish-brown-d)}
+.contact-rows{display:flex;flex-direction:column;gap:7px}
+.contact-rows a,.contact-rows span.row{font-size:12.5px;color:var(--ink-soft);text-decoration:none;display:flex;gap:9px;align-items:center}
+.contact-rows a:hover{color:var(--reddish-brown)}
+
+/* ================ MAP VIEW ================ */
+#mapview{position:absolute;inset:0;display:none;background:radial-gradient(circle at 50% 42%,#fff 0%,var(--champagne-soft) 78%,#f6e8d8 100%)}
+#mapview.active{display:block}
+#graph-svg{width:100%;height:100%;display:block;cursor:grab}
+#graph-svg.grabbing{cursor:grabbing}
+.map-chrome{position:absolute;pointer-events:none;inset:0;z-index:20}
+.map-chrome > *{pointer-events:auto}
+.pill-btn{background:rgba(255,255,255,.95);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:999px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(66,30,24,.08)}
+.pill-btn:hover{border-color:var(--reddish-brown)}
+#btn-back{position:absolute;top:16px;left:18px}
+#mode-switch{position:absolute;top:16px;left:50%;transform:translateX(-50%);display:none;gap:7px}
+#mode-switch.show{display:flex}
+#mode-switch .pill-btn.on{background:var(--reddish-brown);color:#fff;border-color:var(--reddish-brown)}
+@media (max-width:640px){#mode-switch{top:auto;bottom:58px}}
+#history-box{position:absolute;top:16px;right:18px;text-align:right}
+#history-list{margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:12px;min-width:240px;display:none;overflow:hidden;box-shadow:var(--shadow);text-align:left}
+#history-list.open{display:block}
+.hist-item{padding:10px 14px;font-size:12.5px;cursor:pointer;display:flex;gap:9px;align-items:center;color:var(--ink-soft)}
+.hist-item:hover{background:var(--champagne-soft);color:var(--ink)}
+.hist-item .lvl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:2px 7px;border-radius:999px;flex:none}
+#breadcrumb{position:absolute;bottom:16px;left:18px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:60vw}
+.crumb{background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:11.5px;color:var(--ink-soft);cursor:pointer}
+.crumb:hover{color:var(--ink);border-color:var(--line-strong)}
+.crumb.current{color:var(--reddish-brown);border-color:var(--reddish-brown);font-weight:600}
+.crumb-sep{color:var(--grey-olive);font-size:11px}
+#btn-panel{position:absolute;bottom:16px;right:18px}
+#legend{position:absolute;top:70px;left:18px;display:flex;flex-direction:column;gap:6px}
+.leg-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--grey-olive-d)}
+.leg-dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--grey-olive)}
+
+#side-panel{
+  position:absolute;top:0;right:0;bottom:0;width:min(430px,94vw);background:#fff;border-left:1px solid var(--line);
+  z-index:30;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;
+  box-shadow:-12px 0 34px rgba(66,30,24,.10);
+}
+#side-panel.open{transform:translateX(0)}
+.sp-hero{position:relative;height:128px;background:var(--sp-c,#AB4531);overflow:hidden;flex:none}
+.sp-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sp-hero::after{content:'';position:absolute;inset:0;background:rgba(46,20,15,.55)}
+.sp-hero-txt{position:absolute;left:20px;right:50px;bottom:13px;z-index:2;color:#fff}
+.sp-hero-kind{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--champagne);display:block;margin-bottom:4px}
+.sp-hero h2{font-family:var(--font-display);font-size:19px;line-height:1.25;font-weight:600;color:#fff;margin:0}
+.sp-hero .cur{font-size:10.5px;opacity:.88;margin-top:4px}
+.sp-close{position:absolute;top:12px;right:12px;z-index:3;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);color:#fff;width:30px;height:30px;border-radius:50%;font-size:13px}
+.sp-close:hover{background:rgba(255,255,255,.32)}
+.sp-stats{padding:10px 22px;border-bottom:1px solid var(--line);font-size:12px;color:var(--grey-olive-d);background:var(--champagne-soft);flex:none;font-weight:500}
+.sp-lead{font-size:13.5px;font-weight:600;color:var(--mahogany);line-height:1.6}
+.sp-body{flex:1;overflow:auto;padding:18px 22px 30px}
+.sp-sec{margin-bottom:20px}
+.sp-sec h5{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-olive);margin-bottom:9px;font-weight:700}
+.sp-sec p{font-size:13px;line-height:1.65;color:var(--ink-soft)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:7px 12px;font-size:12.5px}
+.kv dt{color:var(--grey-olive)}.kv dd{color:var(--ink)}
+.chip-row{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:none;background:var(--pill);border-radius:999px;padding:6px 12px;font-size:11.5px;color:var(--pill-text);cursor:pointer;font-weight:500}
+.chip:hover{background:var(--champagne);color:var(--mahogany)}
+.chip.static{cursor:default}.chip.static:hover{background:var(--pill);color:var(--pill-text)}
+.list-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;background:#fff;transition:border-color .2s,box-shadow .2s}
+.list-item:hover{border-color:var(--line-strong);box-shadow:0 3px 12px rgba(66,30,24,.08)}
+.li-ava{width:32px;height:32px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;border:1.5px solid;background:#fff;overflow:hidden}
+.li-ava svg{width:17px;height:17px;opacity:.8}
+.li-main{flex:1;min-width:0}
+.li-main b{font-size:13px;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.li-main span{font-size:11px;color:var(--grey-olive);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li-count{font-size:11px;color:var(--grey-olive);flex:none}
+.status-pill{font-size:10px;padding:3px 9px;border-radius:999px;font-weight:700;flex:none}
+.status-Active{background:rgba(121,132,120,.16);color:var(--grey-olive-d)}
+.status-Closed{background:var(--pill);color:var(--pill-text)}
+.home-link{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:600;color:var(--reddish-brown);text-decoration:none;border:1px solid rgba(171,69,49,.4);padding:7px 14px;border-radius:999px}
+.home-link:hover{background:var(--champagne-soft)}
+
+.glink{fill:none;stroke:rgba(122,84,60,.32);stroke-width:1}
+.glink.dim{opacity:.12}
+.glink.lit{opacity:1;stroke:rgba(146,53,36,.8);stroke-width:1.6}
+.gnode{cursor:pointer}
+.gnode text{font-family:var(--font-body);fill:var(--ink);pointer-events:none}
+.glabel-sub{fill:var(--grey-olive) !important;font-size:9.5px}
+.center-name{font-family:var(--font-display);font-weight:600;fill:var(--mahogany);text-anchor:middle}
+.ring-guide{fill:none;stroke:rgba(66,30,24,.14);stroke-dasharray:2 6}
+.ring-outer{fill:none;stroke:rgba(66,30,24,.30);stroke-width:2}
+.r1-label{font-weight:600;font-size:12.5px;fill:var(--ink)}
+.r1-count{font-size:9.5px;fill:var(--grey-olive)}
+.r2-label{font-size:10px;fill:#3d3d3d}
+#tooltip{position:absolute;background:#fff;border:1px solid var(--line-strong);border-radius:10px;padding:9px 13px;font-size:12px;pointer-events:none;display:none;z-index:50;max-width:270px;box-shadow:var(--shadow)}
+#tooltip b{display:block;font-size:12.5px;color:var(--mahogany)}
+#tooltip span{color:var(--grey-olive-d);font-size:11px}
+.dotgrid{position:absolute;inset:0;pointer-events:none;opacity:.5}
+
+/* --- research pulse --- */
+.pulse-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pulse-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.pulse-card h4{font-family:var(--font-display);font-size:17px;color:var(--mahogany);margin-bottom:10px;font-weight:600}
+.prow{display:flex;align-items:center;gap:12px;padding:9px 0;cursor:pointer;border-top:1px dashed var(--line)}
+.prow:first-of-type{border-top:none}
+.prow .nm{flex:1;font-size:13px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow:hover .nm{color:var(--reddish-brown)}
+.prow .bar{flex:none;width:118px;height:7px;border-radius:999px;background:var(--pill);overflow:hidden}
+.prow .bar i{display:block;height:100%;border-radius:999px}
+.prow b{font-size:12.5px;color:var(--mahogany);width:32px;text-align:right;font-weight:700}
+
+/* --- audience cards --- */
+.aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.aud-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:10px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.aud-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-strong)}
+.aud-card .ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:var(--champagne-soft);color:var(--reddish-brown)}
+.aud-card .ic svg{width:24px;height:24px}
+.aud-card h4{font-family:var(--font-display);font-size:18px;color:var(--mahogany);font-weight:600}
+.aud-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.65;flex:1}
+.aud-btn{align-self:flex-start;border:1px solid rgba(171,69,49,.45);background:#fff;color:var(--reddish-brown);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:600}
+.aud-btn:hover{background:var(--champagne-soft)}
+
+@media (max-width:1080px){
+  .pulse-grid,.aud-grid{grid-template-columns:1fr}
+  .domain-grid{grid-template-columns:repeat(2,1fr)}
+  .journey{grid-template-columns:repeat(2,1fr)}
+  .jstep::after{content:''}
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero-visual{display:none}
+  .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:18px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  #side-panel{width:100vw;box-shadow:none}
+  #btn-back,#btn-panel,#history-box .pill-btn{padding:7px 12px;font-size:12px}
+  #breadcrumb{bottom:12px;max-width:70vw}
+  .crumb{padding:5px 10px;font-size:10.5px}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  .domain-grid,.journey{grid-template-columns:1fr}
+  .nav-tabs,.hdr-search,#legend{display:none}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr}
+  #breadcrumb{max-width:55vw}
+}
+#data-loader{position:fixed;inset:0;z-index:200;background:linear-gradient(180deg,var(--champagne-soft),#fff);display:flex;align-items:center;justify-content:center;text-align:center}
+#data-loader.gone{display:none}
+#data-loader.error{background:#fff}
+.dl-box{max-width:440px;padding:30px}
+.dl-box h3{font-family:var(--font-display);font-size:21px;color:var(--mahogany);font-weight:600;margin-bottom:8px}
+.dl-box p{font-size:13px;color:var(--ink-soft);line-height:1.6}
+.dl-box #dl-retry{margin-top:18px;background:var(--reddish-brown);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:13.5px;font-weight:600}
+.dl-spin{width:44px;height:44px;border:4px solid var(--champagne);border-top-color:var(--reddish-brown);border-radius:50%;margin:0 auto 22px;animation:dlspin .8s linear infinite}
+@keyframes dlspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}.dl-spin{animation:dlspin 1.2s linear infinite}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo" onclick="goDiscover()">
+      <div class="logo-mark">
+        <img id="iitk-logo" alt="IIT Kanpur" style="display:none;width:100%;height:100%;object-fit:contain">
+        <svg id="logo-fallback" viewBox="0 0 34 34" fill="none">
+          <circle cx="17" cy="17" r="4.4" fill="#AB4531"/>
+          <circle cx="17" cy="17" r="12.5" stroke="#C9943A" stroke-opacity=".7"/>
+          <circle cx="29" cy="17" r="2.4" fill="#C9943A"/>
+          <circle cx="8" cy="8.5" r="2.4" fill="#798478"/>
+          <circle cx="9.5" cy="27" r="2.4" fill="#421E18"/>
+          <path d="M17 17l12 0M17 17L8 8.5M17 17l-7.5 10" stroke="#AB4531" stroke-opacity=".55" stroke-width="1.1"/>
+        </svg>
+      </div>
+      <div><div class="logo-name">SYNAPSE<span> NEXUS</span></div><span class="logo-inst">IIT Kanpur · Research Intelligence</span></div>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-tab active" id="tab-discover" onclick="goDiscover()">Home</button>
+      <button class="nav-tab" onclick="goDiscover();setTimeout(()=>document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'}),60)">Domains</button>
+      <button class="nav-tab" onclick="goDiscover();setTimeout(()=>document.getElementById('sec-fac').scrollIntoView({behavior:'smooth'}),60)">Researchers</button>
+      <button class="nav-tab" id="tab-dir" onclick="showFacultyDir()">Faculty</button>
+      <button class="nav-tab" id="tab-map" onclick="openLastMap()">Knowledge Map</button>
+    </nav>
+    <div class="hdr-search">
+      <span class="icon">⌕</span>
+      <input id="hsearch" type="text" placeholder="Quick search…" autocomplete="off">
+      <div class="search-results" id="hsearch-results"></div>
+    </div>
+    <button class="hdr-cta" onclick="openLastMap()">Open Map</button>
+  </header>
+
+  <main>
+  <!-- ================= LANDING ================= -->
+  <section id="discover">
+    <div class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Dept. of Electrical Engineering &amp; Sustainable Energy Engineering</span>
+          <h1>One map of <em>every researcher,</em> every project at IIT Kanpur.</h1>
+          <p class="lede">Synapse Nexus connects research domains, faculty expertise and sponsored projects into a single explorable knowledge graph — built for students, collaborators, industry and funding agencies.</p>
+          <div class="big-search">
+            <span class="icon">⌕</span>
+            <input id="bsearch" type="text" placeholder="Search a technology, faculty member, or funding agency…" autocomplete="off">
+            <div class="search-results" id="bsearch-results"></div>
+          </div>
+        </div>
+        <div class="hero-visual" id="hero-visual"></div>
+      </div>
+    </div>
+
+    <div class="stats-band"><div class="wrap stats-grid" id="hero-stats"></div></div>
+
+    <div class="section" id="sec-domains">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kicker">Research landscape</span>
+          <h2>Eight research domains</h2>
+          <p>Every domain opens an interactive map of its sub-domains, faculty and sponsored projects.</p></div>
+          <span class="spacer"></span>
+          <button class="see-all" onclick="openLastMap()">Open knowledge map →</button>
+        </div>
+        <div class="domain-grid" id="domain-grid"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kicker">Research pulse</span>
+          <h2>Where the action is</h2>
+          <p>The busiest research areas right now, and the partners funding them — straight from the project database.</p></div>
+        </div>
+        <div class="pulse-grid">
+          <div class="pulse-card"><h4>Most active sub-domains</h4><div id="pulse-subs"></div></div>
+          <div class="pulse-card"><h4>Top funding partners</h4><div id="pulse-funds"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section tint">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kicker">How it works</span>
+          <h2>From domain to project, in four clicks</h2></div>
+        </div>
+        <div class="journey">
+          <div class="jstep"><span class="num">STEP 1</span><h4>Pick a domain</h4><p>Start from one of the eight research domains on this page.</p></div>
+          <div class="jstep"><span class="num">STEP 2</span><h4>Explore sub-domains</h4><p>The map expands into specialised research areas around the domain.</p></div>
+          <div class="jstep"><span class="num">STEP 3</span><h4>Meet the faculty</h4><p>See exactly who works in each area, with profiles and interests.</p></div>
+          <div class="jstep"><span class="num">STEP 4</span><h4>Open the projects</h4><p>Drill into sponsored projects — funder, PI, department and status.</p></div>
+          <div class="jcta"><button class="btn-primary" onclick="openLastMap()">Start exploring →</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="sec-fac">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kicker">People</span>
+          <h2>Featured researchers</h2>
+          <p>Most active faculty by sponsored projects. Photos can be linked from official IITK profiles.</p></div>
+          <span class="spacer"></span>
+          <button class="see-all" onclick="showFacultyDir()">Full faculty directory →</button>
+        </div>
+        <div class="fac-scroll" id="fac-scroll"></div>
+      </div>
+    </div>
+
+    <div class="section tint" id="sec-fund" style="margin-top:42px">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kicker">Sponsors &amp; collaborators</span>
+          <h2>Funding partners</h2>
+          <p>Agencies and industry partners currently sponsoring research. Click to see their projects.</p></div>
+        </div>
+        <div class="fund-row" id="fund-row"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kicker">Who is it for</span>
+          <h2>Built for everyone around research</h2></div>
+        </div>
+        <div class="aud-grid">
+          <div class="aud-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4L2 9l10 5 10-5-10-5z" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5M22 9v5"/></svg></span>
+            <h4>For students</h4>
+            <p>Thesis guide ya project supervisor dhoondh rahe ho? Domain se shuru karo, area chuno, aur dekho kaun-si faculty wahan kaam kar rahi hai — profile aur email ke saath.</p>
+            <button class="aud-btn" onclick="showFacultyDir()">Browse faculty directory →</button>
+          </div>
+          <div class="aud-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/><path d="M9 9h.01M9 13h.01M15 9h.01M15 13h.01"/></svg></span>
+            <h4>For industry</h4>
+            <p>Collaboration ya consultancy ke liye sahi lab chahiye? Knowledge map pe technology search karo aur seedha relevant research group tak pahuncho.</p>
+            <button class="aud-btn" onclick="openLastMap()">Explore the map →</button>
+          </div>
+          <div class="aud-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+            <h4>For funding agencies</h4>
+            <p>Dekho aapki agency ke sponsored projects kahan chal rahe hain, kaun PI hai, aur kis domain mein portfolio sabse strong hai.</p>
+            <button class="aud-btn" onclick="document.getElementById('sec-fund').scrollIntoView({behavior:'smooth'})">See funding partners →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band"><div class="wrap cta-inner">
+      <div><h2>Looking for an expert or a collaboration?</h2>
+      <p>Search the knowledge map and reach the right lab in minutes.</p></div>
+      <button class="btn-light" onclick="openLastMap()">Open the Knowledge Map</button>
+    </div></div>
+
+    <footer><div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-logo">
+            <span class="foot-logo-chip"><img id="iitk-logo-foot" alt="IIT Kanpur"></span>
+            <div><b>Indian Institute of Technology Kanpur</b><span>Synapse Nexus · Research Intelligence</span></div>
+          </div>
+          <p>Faculty Research Intelligence Portal of IIT Kanpur. Mapping institutional research across domains, people and projects to make expertise discoverable.</p></div>
+        <div><h5>Research domains</h5><ul id="foot-domains"></ul></div>
+        <div><h5>Portal</h5><ul>
+          <li onclick="openLastMap()">Knowledge Map</li>
+          <li onclick="document.getElementById('sec-fac').scrollIntoView({behavior:'smooth'})">Researchers</li>
+          <li onclick="document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'})">Domains</li>
+        </ul></div>
+      </div>
+      <div class="foot-base"><span>© Indian Institute of Technology Kanpur · Office of Research &amp; Development</span><span id="foot-stats"></span></div>
+    </div></footer>
+  </section>
+
+  <!-- ================= FACULTY DIRECTORY ================= -->
+  <section id="facdir">
+    <div class="dir-hero"><div class="wrap">
+      <span class="eyebrow">People</span>
+      <h1>Faculty directory</h1>
+      <p>Every faculty member of EE &amp; SEE with contact details, official profile link and research mapping. Photos appear automatically once a photo URL is added in the data.</p>
+      <div class="dir-controls">
+        <input id="dir-q" type="text" placeholder="Search by name or research area…" autocomplete="off">
+        <select id="dir-dept"><option value="">All departments</option></select>
+        <select id="dir-dom"><option value="">All domains</option></select>
+        <select id="dir-sort"><option value="name">Sort: A–Z</option><option value="projects">Sort: Most projects</option></select>
+      </div>
+    </div></div>
+    <div class="wrap"><div class="dir-count" id="dir-count"></div><div class="dir-grid" id="dir-grid"></div></div>
+  </section>
+
+  <!-- ================= MAP ================= -->
+  <section id="mapview">
+    <canvas class="dotgrid" id="dots"></canvas>
+    <svg id="graph-svg"></svg>
+    <div class="map-chrome">
+      <button class="pill-btn" id="btn-back" onclick="goBack()">← Home</button>
+      <div id="mode-switch">
+        <button class="pill-btn" id="ms-fac">Faculty wise</button>
+        <button class="pill-btn" id="ms-dept">Department wise</button>
+      </div>
+      <div id="history-box">
+        <button class="pill-btn" onclick="toggleHistory(event)">History ▾</button>
+        <div id="history-list"></div>
+      </div>
+      <div id="legend"></div>
+      <div id="breadcrumb"></div>
+      <button class="pill-btn" id="btn-panel" onclick="togglePanel()">Hide panel →</button>
+    </div>
+    <div id="side-panel"></div>
+    <div id="tooltip"></div>
+  </section>
+  <div id="data-loader">
+    <div class="dl-box">
+      <div class="dl-spin"></div>
+      <h3 id="dl-title">Loading data from Google Sheet…</h3>
+      <p id="dl-msg">Aapke IIT Kanpur research data ko sheet se la rahe hain.</p>
+      <button id="dl-retry" onclick="tryLoadExternal(true)" style="display:none">Retry</button>
+    </div>
+  </div>
+  </main>
+</div>
+
+<script>
+/* ================= REAL IITK DATA (generated from DORD CSVs) ================= */
+const DB = {"domains": [{"id": "D1", "name": "AI, ML & Data Intelligence", "apps": "Healthcare AI, defence surveillance, audio/speech, autonomous systems", "funders": ["Infosys Foundation", "Qualcomm", "Samsung", "DRDO", "DBT", "Prasar Bharati"], "desc": "Cross-cutting AI/ML research applied across communications, healthcare, robotics and signal processing."}, {"id": "D2", "name": "Communications & Wireless Networks", "apps": "6G/5G industry partnerships, rural connectivity, defence radar, satellite comms", "funders": ["Qualcomm", "Samsung", "Nokia", "C-DOT", "TCOE India", "DST", "MEITY", "Interdigital"], "desc": "Next-generation wireless systems, spectrum management, coding theory, and satellite communications."}, {"id": "D3", "name": "Power Systems & Smart Grid", "apps": "Smart city infrastructure, grid modernisation, EV grid integration, energy markets", "funders": ["TCS", "KESCO", "Grid Controller of India", "UPSIDA", "ANRF", "SERB"], "desc": "Power system operation, renewable energy integration, smart grids, and electricity markets."}, {"id": "D4", "name": "Power Electronics & Electric Mobility", "apps": "EV charging infrastructure, industrial drives, indigenous EV sub-systems, wireless charging", "funders": ["ANRF (MAHA)", "Juniper Networks", "MHI", "Engineers India Ltd"], "desc": "Converters, drives, EV charging infrastructure, wireless power transfer, and motor control."}, {"id": "D5", "name": "Semiconductors, VLSI & Nanoelectronics", "apps": "Chip design (BSIM/SPICE), neuromorphic hardware, semiconductor fab, spintronics memory", "funders": ["SERB", "DST", "Qualcomm", "Digital India Corp", "MEITY", "Pentarisic", "Seagate"], "desc": "Device physics, compact modeling, VLSI circuit design, neuromorphic hardware, and spintronics."}, {"id": "D6", "name": "Photonics, Quantum & Electromagnetics", "apps": "National Quantum Mission, defence EM systems, space sensing, biomedical imaging", "funders": ["DST (National Quantum Mission)", "HAL", "DRDO", "DBT", "SERB"], "desc": "Nanophotonics, quantum optics, antennas, metamaterials, microwave systems, and advanced imaging."}, {"id": "D7", "name": "Sustainable Energy & Energy Materials", "apps": "Solar energy, battery technology, green hydrogen, climate policy, critical minerals", "funders": ["DST", "DRDO", "Engineers India Ltd", "NEXERA Chem", "Space Technology Cell", "Swansea University", "UPNEDA"], "desc": "Solar cells, energy storage, green hydrogen, electrochemistry, thermal systems, energy materials."}, {"id": "D8", "name": "Control Systems, Robotics & Autonomy", "apps": "Defence robotics, autonomous vehicles, synthetic biology, digital twins", "funders": ["ARDB", "DRDO", "DBT", "Wellcome Trust", "Ministry of Education", "iHub Cobotics"], "desc": "Control theory, autonomous systems, multi-agent coordination, and cyber-physical systems."}], "subdomains": [{"id": "SD1.1", "domain": "D1", "name": "Machine Learning & Deep Learning", "desc": "Federated learning, reinforcement learning, probabilistic graphical models, intelligent data mining"}, {"id": "SD1.2", "domain": "D1", "name": "Computer Vision & Image Processing", "desc": "Visual recognition, multimedia processing, healthcare imaging, biometric systems"}, {"id": "SD1.3", "domain": "D1", "name": "Speech, Audio & Multimodal AI", "desc": "ASR, speech separation, spatial audio, multimodal information fusion"}, {"id": "SD1.4", "domain": "D1", "name": "AI for Healthcare & Biosignals", "desc": "BMI, EEG signal analysis, medical instrumentation, neural interfaces, rehabilitation"}, {"id": "SD1.5", "domain": "D1", "name": "Intelligent Systems & Robotics", "desc": "Cognitive robotics, nano-robotics, autonomous vehicles, UAV control, cyber-physical systems"}, {"id": "SD2.1", "domain": "D2", "name": "5G, 6G & Next-Gen Wireless", "desc": "OTFS, Massive MIMO, IRS, NOMA, mmWave, THz systems, intelligent spectrum"}, {"id": "SD2.2", "domain": "D2", "name": "Wireless Network Theory & Optimization", "desc": "Stochastic geometry, network localization, resource allocation, game theory"}, {"id": "SD2.3", "domain": "D2", "name": "Coding Theory & Information Theory", "desc": "Channel coding, distributed computing applications, molecular communications"}, {"id": "SD2.4", "domain": "D2", "name": "Optical & Fibre-Optic Networks", "desc": "VLC, fibre-optics, optical switching, quantum key distribution, complex networks"}, {"id": "SD2.5", "domain": "D2", "name": "Satellite & Space Communications", "desc": "THz satellite systems, radar, ISAC, remote sensing AI, vehicular comms"}, {"id": "SD3.1", "domain": "D3", "name": "Power System Operation & Control", "desc": "State estimation, stability, distribution planning, FACTS, SCADA, RTDS"}, {"id": "SD3.2", "domain": "D3", "name": "Smart Grid & Energy Management", "desc": "Wide-area monitoring, real-time simulation, EMS/DMS, cyber-resilience"}, {"id": "SD3.3", "domain": "D3", "name": "Renewable Integration & Microgrids", "desc": "AC-DC microgrids, EV-grid interaction, ancillary services, energy storage integration"}, {"id": "SD3.4", "domain": "D3", "name": "Electricity Markets & Energy Policy", "desc": "Transactive energy, market design, energy economics, energy policy"}, {"id": "SD3.5", "domain": "D3", "name": "High Voltage & Electrical Insulation", "desc": "HV engineering, dielectrics, plasma discharges, over-voltages in power systems"}, {"id": "SD4.1", "domain": "D4", "name": "Power Converters & Drives", "desc": "Multi-level inverters, DC-DC converters, HVDC/MVDC, modular converters, electric drives"}, {"id": "SD4.2", "domain": "D4", "name": "Electric Vehicles & Charging", "desc": "EV chargers, G2V/V2G, motor control algorithms, fuel cell vehicles"}, {"id": "SD4.3", "domain": "D4", "name": "Wireless Power Transfer", "desc": "Resonant converters, capacitive charging, WBG devices, power management ICs"}, {"id": "SD4.4", "domain": "D4", "name": "Power Quality & Grid Interfaces", "desc": "FACTS devices, power supplies, utility interfaces for renewables, power quality"}, {"id": "SD5.1", "domain": "D5", "name": "Semiconductor Device Modeling", "desc": "Compact modeling, BSIM, TCAD, atomistic simulation, CMOS/FinFET/GaN devices"}, {"id": "SD5.2", "domain": "D5", "name": "VLSI & Analog/Mixed-Signal Design", "desc": "ADCs, RF/analog ICs, frequency synthesis, time-to-digital converters, mm-Wave ICs"}, {"id": "SD5.3", "domain": "D5", "name": "Neuromorphic Computing Hardware", "desc": "Non-volatile memory, RRAM, in-memory computing, hardware security primitives"}, {"id": "SD5.4", "domain": "D5", "name": "Spintronics & Nanoscale Magnetism", "desc": "Spin-based electronics, 2D materials, MTJs, spin-orbitronics, topological quantum materials"}, {"id": "SD6.1", "domain": "D6", "name": "Nanophotonics & Quantum Optics", "desc": "Plasmonics, quantum electrodynamics, optoelectronics, photonic devices"}, {"id": "SD6.2", "domain": "D6", "name": "Quantum Computing & Sensing", "desc": "Quantum cryptography, topological qubits, quantum-enhanced sensors (National Quantum Mission)"}, {"id": "SD6.3", "domain": "D6", "name": "Antennas, Metamaterials & EM", "desc": "Meta-material antennas, MIMO, phased arrays, EM absorbers, THz passive components"}, {"id": "SD6.4", "domain": "D6", "name": "Microwave Imaging & Sensing", "desc": "RF sensors, microwave NDT, subsurface imaging, tomography, biosensors"}, {"id": "SD6.5", "domain": "D6", "name": "Optical Metrology & Biophotonics", "desc": "Quantitative phase imaging, fringe analysis, label-free cell imaging"}, {"id": "SD7.1", "domain": "D7", "name": "Photovoltaics & Solar Cells", "desc": "Perovskite, organic, tandem, silicon solar cells, photovoltaic materials, printable electronics"}, {"id": "SD7.2", "domain": "D7", "name": "Energy Storage & Batteries", "desc": "Solid-state batteries, Na-ion batteries, electrochemical storage, Li-ion battery recycling"}, {"id": "SD7.3", "domain": "D7", "name": "Green Hydrogen & Carbon Capture", "desc": "Photoelectrodes, CO2 utilization, carbon capture & sequestration, heterogeneous catalysis"}, {"id": "SD7.4", "domain": "D7", "name": "Thermal Energy & Fluid Systems", "desc": "Heat transfer, solar thermal, nuclear reactor hydraulics, ammonia cracking, energy-efficient buildings"}, {"id": "SD7.5", "domain": "D7", "name": "Energy Policy & Decarbonization", "desc": "Carbon emissions, climate modeling, industrial decarbonization, energy economics"}, {"id": "SD7.6", "domain": "D7", "name": "Critical Minerals & Recycling", "desc": "Battery/e-waste recycling, critical mineral recovery, urban mining, X-ray characterization"}, {"id": "SD8.1", "domain": "D8", "name": "Control Theory & Nonlinear Systems", "desc": "Robust control, nonlinear dynamics, wide-area control, discontinuous systems"}, {"id": "SD8.2", "domain": "D8", "name": "Autonomous & Multi-Agent Systems", "desc": "UAV guidance, formation control, nonholonomic vehicles, missile guidance, multi-agent coordination"}, {"id": "SD8.3", "domain": "D8", "name": "Cyber-Physical & Synthetic Biology", "desc": "Systems biology, synthetic genetic circuits, biomolecular circuit design, digital twins"}], "faculty": [{"id": "F001", "name": "Dr. A K Chaturvedi", "dept": "EE", "desig": "HAG", "email": "akc@iitk.ac.in", "phone": "", "photo": "", "areas": "Wireless Communications", "home": "https://home.iitk.ac.in/~akc/", "subs": ["SD2.3"], "domain": "D2"}, {"id": "F002", "name": "Dr. A R Harish", "dept": "EE", "desig": "HAG", "email": "arh@iitk.ac.in", "phone": "", "photo": "", "areas": "Antennas; Radio Frequency Identification (RFID); Computational Electromagnetics", "home": "https://www.iitk.ac.in/a-r-harish", "subs": ["SD6.2", "SD6.3"], "domain": "D6"}, {"id": "F003", "name": "Dr. Aakash Chand Rai", "dept": "SEE", "desig": "Assoc Prof", "email": "aakashrai@iitk.ac.in", "phone": "", "photo": "", "areas": "Energy-efficient Buildings; Climate Change impact on buildings; Indoor Air Quality; Air Pollution", "home": "https://sites.google.com/view/aakashrai", "subs": ["SD7.4"], "domain": "D7"}, {"id": "F004", "name": "Dr. Abheejeet Mohapatra", "dept": "EE", "desig": "Professor", "email": "abheem@iitk.ac.in", "phone": "", "photo": "", "areas": "Power system security; Uncertainty modelling; Stochastic analysis; Renewable integration", "home": "https://www.iitk.ac.in/abheejeet-mohapatra", "subs": ["SD3.1"], "domain": "D3"}, {"id": "F005", "name": "Dr. Abhilash Patel", "dept": "EE", "desig": "Asst Prof Gr I", "email": "apatel@iitk.ac.in", "phone": "", "photo": "", "areas": "Control and Dynamical Systems in Biology; Systems and Synthetic Biology; Robust Control Theory; Wide-Area Control", "home": "https://www.iitk.ac.in/abhilash-patel", "subs": ["SD8.1", "SD8.3"], "domain": "D8"}, {"id": "F006", "name": "Dr. Abhishek Kumar Gupta", "dept": "EE", "desig": "Assoc Prof", "email": "gkrabhi@iitk.ac.in", "phone": "", "photo": "", "areas": "Wireless Communication; Stochastic Geometry; mmWave and 5G networks; Molecular Communications; 6G", "home": "https://home.iitk.ac.in/~gkrabhi/", "subs": ["SD2.1", "SD2.2"], "domain": "D2"}, {"id": "F007", "name": "Dr. Aditya K. Jagannatham", "dept": "EE", "desig": "Professor", "email": "adityaj@iitk.ac.in", "phone": "", "photo": "", "areas": "5G and 6G Wireless Technologies; OTFS Modulation; Terahertz Systems; VLC; IRS; Massive MIMO; mmWave MIMO; NOMA", "home": "https://home.iitk.ac.in/~adityaj/", "subs": ["SD2.1", "SD2.5"], "domain": "D2"}, {"id": "F008", "name": "Dr. Adrish Banerjee", "dept": "EE", "desig": "Professor", "email": "adrish@iitk.ac.in", "phone": "", "photo": "", "areas": "Coding Theory; Wireless Communications; ML in communications; Molecular Communications", "home": "https://home.iitk.ac.in/~adrish/", "subs": ["SD1.1", "SD2.1", "SD2.3"], "domain": "D2"}, {"id": "F009", "name": "Dr. Alok Ranjan Verma", "dept": "EE", "desig": "Assoc Prof", "email": "arverma@iitk.ac.in", "phone": "", "photo": "", "areas": "High Voltage Engineering; Dielectrics and Electrical Insulation; Computational Electrostatics", "home": "https://home.iitk.ac.in/~arverma/", "subs": ["SD3.5"], "domain": "D3"}, {"id": "F010", "name": "Dr. Amarendra Edpuganti", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "amarendrae@iitk.ac.in", "phone": "", "photo": "", "areas": "Power electronics for renewable energy; Electric vehicles; Fuel cell vehicles", "home": "https://home.iitk.ac.in/~amarendrae/", "subs": ["SD4.2"], "domain": "D4"}, {"id": "F011", "name": "Dr. Amit Verma", "dept": "EE", "desig": "Assoc Prof", "email": "amitkver@iitk.ac.in", "phone": "", "photo": "", "areas": "Semiconductor device; Spin-Orbit Photonics", "home": "https://home.iitk.ac.in/~amitkver/", "subs": ["SD5.1", "SD6.1", "SD6.2"], "domain": "D6"}, {"id": "F012", "name": "Dr. Anand Singh", "dept": "SEE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD7.1"], "domain": "D7"}, {"id": "F013", "name": "Dr. Ankush Sharma", "dept": "EE", "desig": "Professor", "email": "ansharma@iitk.ac.in", "phone": "", "photo": "", "areas": "IT in power systems; Wide area monitoring; Power System State Estimation; Smart Grid; Energy Management System", "home": "https://home.iitk.ac.in/~ansharma/", "subs": ["SD3.1", "SD3.2", "SD3.3"], "domain": "D3"}, {"id": "F014", "name": "Dr. Anoop Singh", "dept": "SEE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD7.2"], "domain": "D7"}, {"id": "F015", "name": "Dr. Arnab Bose", "dept": "EE", "desig": "Asst Prof Gr I", "email": "abose@iitk.ac.in", "phone": "", "photo": "", "areas": "Spin-based electronics; 2D material heterostructure; Topological quantum materials; Spintronics; Spin-orbitronics", "home": "https://www.iitk.ac.in/new/arnab-bose", "subs": ["SD5.3", "SD5.4", "SD6.2"], "domain": "D5"}, {"id": "F016", "name": "Dr. Ashish Garg", "dept": "SEE", "desig": "HAG", "email": "ashishg@iitk.ac.in", "phone": "", "photo": "", "areas": "Solar photovoltaic materials (organic, perovskites, tandem); Energy harvesting; Electronic material recycling; Industrial decarbonization", "home": "https://sites.google.com/view/ashish-garg-iitk-group/", "subs": ["SD7.1", "SD7.5", "SD7.6"], "domain": "D7"}, {"id": "F017", "name": "Dr. Ashwani Kumar Thakur", "dept": "EE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD6.1"], "domain": "D6"}, {"id": "F018", "name": "Dr. Ashwin Kumar Ramakrishnan Sivakumar", "dept": "EE", "desig": "Asst Prof Gr I", "email": "ashwinrs@iitk.ac.in", "phone": "", "photo": "", "areas": "Analog-to-digital converters; Biomedical circuits; Signal processing; Analog and mixed-signal IC design", "home": "https://www.iitk.ac.in/new/r-s-ashwin-kumar", "subs": ["SD5.2"], "domain": "D5"}, {"id": "F019", "name": "Dr. Avinash Lahgere", "dept": "EE", "desig": "Asst Prof Gr I", "email": "alahgere@iitk.ac.in", "phone": "", "photo": "", "areas": "Semiconductor Devices; Compact Modeling; Emerging CMOS Devices; Non-volatile Memory; Neuromorphic computing", "home": "https://www.iitk.ac.in/new/avinash-lahgere", "subs": ["SD5.1", "SD5.3"], "domain": "D5"}, {"id": "F020", "name": "Dr. Chithra", "dept": "EE", "desig": "Asst Prof Gr I", "email": "chithra@iitk.ac.in", "phone": "", "photo": "", "areas": "Analog and mixed-signal VLSI design; Digital VLSI design; Frequency and phase synthesis; Time-to-digital converters", "home": "https://www.iitk.ac.in/new/chithra", "subs": ["SD5.2"], "domain": "D5"}, {"id": "F021", "name": "Dr. Debdatta Ray", "dept": "EE", "desig": "Asst Prof Gr I", "email": "dray@iitk.ac.in", "phone": "", "photo": "", "areas": "Optical metasurfaces; Nanophotonics; Nanofabrication; Biosensors", "home": "https://www.iitk.ac.in/new/Debdatta-Ray", "subs": ["SD6.3", "SD6.4"], "domain": "D6"}, {"id": "F022", "name": "Dr. Debopam Das", "dept": "SEE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD7.2"], "domain": "D7"}, {"id": "F023", "name": "Dr. Deepika Swami", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "dswami@iitk.ac.in", "phone": "", "photo": "", "areas": "Climate variability; Impact and Risk assessment; Energy modeling; Energy economics; Energy policy", "home": "https://www.iitk.ac.in/new/deepika-swami", "subs": ["SD3.4", "SD7.5"], "domain": "D7"}, {"id": "F024", "name": "Dr. Ebin Cherian Mathew", "dept": "EE", "desig": "Asst Prof Gr I", "email": "ebincm@iitk.ac.in", "phone": "", "photo": "", "areas": "HVDC and MVDC transmission; Modular converters; DC-DC converters; Power Electronics in Power Systems", "home": "https://www.iitk.ac.in/new/ebin-cherian-mathew", "subs": ["SD3.3", "SD4.1"], "domain": "D4"}, {"id": "F025", "name": "Dr. Gururaj Mirle Vishwanath", "dept": "EE", "desig": "Asst Prof Gr I", "email": "gururajmv@iitk.ac.in", "phone": "", "photo": "", "areas": "Renewable integration; Electric vehicles and grid (G2V/V2G); ML in power systems; Microgrid systems; Cyber-resiliency", "home": "https://home.iitk.ac.in/~gururajmv/", "subs": ["SD3.2", "SD3.3", "SD4.4"], "domain": "D3"}, {"id": "F026", "name": "Dr. Imon Mondal", "dept": "EE", "desig": "Assoc Prof", "email": "imon@iitk.ac.in", "phone": "", "photo": "", "areas": "Analog and RF integrated circuit design", "home": "https://home.iitk.ac.in/~imon/", "subs": ["SD2.1", "SD5.2"], "domain": "D5"}, {"id": "F027", "name": "Dr. Kanwar Singh Nalwa", "dept": "SEE", "desig": "Assoc Prof", "email": "ksnalwa@iitk.ac.in", "phone": "", "photo": "", "areas": "Solar cells; Energy storage materials; Na-ion batteries; Liquid metal batteries", "home": "https://home.iitk.ac.in/~ksnalwa/", "subs": ["SD7.1", "SD7.2"], "domain": "D7"}, {"id": "F028", "name": "Dr. Ketan Rajawat", "dept": "EE", "desig": "Professor", "email": "ketan@iitk.ac.in", "phone": "", "photo": "", "areas": "Optimization algorithms in communications; Dynamic network measurement; Network Localization; Network Optimization", "home": "https://www.iitk.ac.in/new/ketan-rajawat", "subs": ["SD1.1", "SD2.1", "SD2.2", "SD6.4", "SD8.2"], "domain": "D2"}, {"id": "F029", "name": "Dr. Koteswar Rao Jerripothula", "dept": "EE", "desig": "Assoc Prof", "email": "kotesrj@iitk.ac.in", "phone": "", "photo": "", "areas": "Computer Vision; AI & Machine Learning; Multimedia Signal Processing; Image Processing; Healthcare Informatics", "home": "https://www.iitk.ac.in/new/koteswar-rao-jerripothula", "subs": ["SD1.2", "SD1.4"], "domain": "D1"}, {"id": "F030", "name": "Dr. Kumar Vaibhav Srivastava", "dept": "EE", "desig": "HAG", "email": "kvs@iitk.ac.in", "phone": "", "photo": "", "areas": "Meta-Materials; Microwave Antennas; Microwave Absorbers; Electromagnetics", "home": "https://www.iitk.ac.in/new/k-v-srivastava", "subs": ["SD6.3"], "domain": "D6"}, {"id": "F031", "name": "Dr. L D Behera", "dept": "EE", "desig": "HAG", "email": "lbehera@iitk.ac.in", "phone": "", "photo": "", "areas": "Intelligent Systems and Control; Cognitive Robotics; Nano-robotics; Vision based Control; Cyber Physical Systems; BCI", "home": "https://www.iitk.ac.in/new/laxmidhar-behera", "subs": ["SD1.4", "SD1.5", "SD8.2", "SD8.3"], "domain": "D1"}, {"id": "F032", "name": "Dr. Lalit Mohan Pant", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "lalit@iitk.ac.in", "phone": "", "photo": "", "areas": "Electrochemical energy conversion and storage; Numerical modelling; Porous media transport", "home": "https://home.iitk.ac.in/~lalit/", "subs": ["SD7.2"], "domain": "D7"}, {"id": "F033", "name": "Dr. Laltu Chandra", "dept": "SEE", "desig": "Professor", "email": "lchandra@iitk.ac.in", "phone": "", "photo": "", "areas": "Heat Transfer and Fluid Flow; Turbulent Flow Simulation; Solar Thermal; Nuclear Reactor Thermal Hydraulics", "home": "https://home.iitk.ac.in/~lchandra/", "subs": ["SD7.3", "SD7.4"], "domain": "D7"}, {"id": "F034", "name": "Dr. Md. Jaleel Akhtar", "dept": "EE", "desig": "HAG", "email": "mjakhtar@iitk.ac.in", "phone": "", "photo": "", "areas": "RF sensors and NDT; Microwave imaging; EMI/EMC; RF energy harvesting; Microwave absorbers; UWB antennas", "home": "https://www.iitk.ac.in/new/m-j-akhtar", "subs": ["SD6.3", "SD6.4"], "domain": "D6"}, {"id": "F035", "name": "Dr. Mohit Dineshkumar Ganeriwala", "dept": "EE", "desig": "Asst Prof Gr I", "email": "mohitdg@iitk.ac.in", "phone": "", "photo": "", "areas": "Multiscale-Atomistic; Compact Modeling; TCAD; Neuromorphic Computing; 2D Materials", "home": "https://iitk.ac.in/mohit-d-ganeriwala", "subs": ["SD5.1", "SD5.3"], "domain": "D5"}, {"id": "F036", "name": "Dr. Nagaditya Poluri", "dept": "EE", "desig": "Asst Prof Gr I", "email": "npoluri@iitk.ac.in", "phone": "", "photo": "", "areas": "Power amplifiers; Power amplifier linearization; Phased array systems", "home": "https://www.iitk.ac.in/new/nagaditya-poluri", "subs": ["SD2.1", "SD5.2"], "domain": "D5"}, {"id": "F037", "name": "Dr. Nagarjuna Nallam", "dept": "EE", "desig": "Assoc Prof", "email": "nallam@iitk.ac.in", "phone": "", "photo": "", "areas": "Analog; RF; mm-Wave Integrated Circuits", "home": "https://www.iitk.ac.in/nagarjuna-nallam", "subs": ["SD2.1", "SD5.2"], "domain": "D5"}, {"id": "F038", "name": "Dr. Nandini Gupta", "dept": "EE", "desig": "Professor", "email": "ngupta@iitk.ac.in", "phone": "", "photo": "", "areas": "High Voltage Engineering; Dielectric and Insulation; Plasma and gas discharges; Field estimation", "home": "https://www.iitk.ac.in/new/nandini-gupta", "subs": ["SD3.5", "SD4.2"], "domain": "D3"}, {"id": "F039", "name": "Dr. Naren Naik", "dept": "EE", "desig": "Professor", "email": "nnaik@iitk.ac.in", "phone": "", "photo": "", "areas": "Reconstruction algorithms for tomography; Tracking and surveillance; GPR subsurface imaging; Electrical impedance tomography", "home": "https://www.iitk.ac.in/new/naren-naik", "subs": ["SD2.5", "SD6.4"], "domain": "D6"}, {"id": "F040", "name": "Dr. Nikunj Arunkumar Bhagat", "dept": "EE+BSBE", "desig": "Asst Prof Gr I", "email": "nbhagat@iitk.ac.in", "phone": "", "photo": "", "areas": "Neural & Bio-signal processing; Medical Instrumentation; Brain-machine interfaces; Functional Electrical Stimulation; Rehabilitation Engineering", "home": "https://www.iitk.ac.in/new/nikunj-arunkumar-bhagat", "subs": ["SD1.4"], "domain": "D1"}, {"id": "F041", "name": "Dr. Nishchal K Verma", "dept": "EE", "desig": "HAG", "email": "nishchal@iitk.ac.in", "phone": "", "photo": "", "areas": "Intelligent Data mining; Health Monitoring; Machine Learning; Computer Vision; Bioinformatics; Intelligent Agents", "home": "https://www.iitk.ac.in/new/nishchal-verma", "subs": ["SD1.1", "SD1.2", "SD1.5", "SD3.2", "SD8.2"], "domain": "D1"}, {"id": "F042", "name": "Dr. Parthasarathi Sensarma", "dept": "EE", "desig": "HAG", "email": "sensarma@iitk.ac.in", "phone": "", "photo": "", "areas": "Power Electronic Applications; Power Quality; FACTS devices; Utility Interfaces for Renewable Generation", "home": "https://www.iitk.ac.in/new/parthasarathi-sensarma", "subs": ["SD4.1", "SD4.2", "SD4.4"], "domain": "D4"}, {"id": "F043", "name": "Dr. Piyush Kant", "dept": "EE", "desig": "Asst Prof Gr I", "email": "piyushkant@iitk.ac.in", "phone": "", "photo": "", "areas": "Multi-winding transformers; Multi-level inverters; Electrical machines and drives; Motor control for EVs", "home": "https://www.iitk.ac.in/new/piyush-kant", "subs": ["SD4.1"], "domain": "D4"}, {"id": "F044", "name": "Dr. Prabodh Bajpai", "dept": "SEE", "desig": "Professor", "email": "pbajpai@iitk.ac.in", "phone": "", "photo": "", "areas": "Hybrid AC-DC Microgrids; Smart Grid and Renewable Integration; Photovoltaics; Electricity Markets", "home": "https://home.iitk.ac.in/~pbajpai/", "subs": ["SD3.3", "SD4.2"], "domain": "D3"}, {"id": "F045", "name": "Dr. Pradeep Kumar K", "dept": "EE", "desig": "Professor", "email": "pradeepk@iitk.ac.in", "phone": "", "photo": "", "areas": "Quantum Cryptography and Computation; Quantum and Nonlinear Optics; Fibre-Optics", "home": "https://www.iitk.ac.in/new/pradeep-kumar", "subs": ["SD2.4", "SD6.2"], "domain": "D6"}, {"id": "F046", "name": "Dr. Raghvendra Kumar Chaudhary", "dept": "EE", "desig": "Assoc Prof", "email": "raghvendra@iitk.ac.in", "phone": "", "photo": "", "areas": "Reconfigurable Active Antenna; Metamaterial Antenna; Compact MIMO Antenna; mm-wave & THz passive components", "home": "https://www.iitk.ac.in/new/raghvendra-kumar-chaudhary", "subs": ["SD2.1", "SD6.3"], "domain": "D6"}, {"id": "F047", "name": "Dr. Rajeev Jindal", "dept": "SEE", "desig": "Professor", "email": "rajeevj@iitk.ac.in", "phone": "", "photo": "", "areas": "Carbon emissions; Sustainability benchmarking; Radiation mapping; Flexible solar cell", "home": "https://home.iitk.ac.in/~rajeevj/", "subs": ["SD7.5"], "domain": "D7"}, {"id": "F048", "name": "Dr. Rajesh Mahanand Hegde", "dept": "EE", "desig": "HAG", "email": "rhegde@iitk.ac.in", "phone": "", "photo": "", "areas": "Machine Learning; AI; Federated learning; Wireless networks; IoT; Speech/audio processing; Multimodal information fusion", "home": "https://www.iitk.ac.in/new/rajesh-m-hegde", "subs": ["SD1.1", "SD1.3"], "domain": "D1"}, {"id": "F049", "name": "Dr. Rajshekhar Gannavarpu", "dept": "EE", "desig": "Professor", "email": "gshekhar@iitk.ac.in", "phone": "", "photo": "", "areas": "Quantitative Phase Imaging; Optical Metrology; Applied Signal Processing; Fringe Analysis; Biophotonics", "home": "https://www.iitk.ac.in/new/gannavarpu-rajshekhar", "subs": ["SD6.2", "SD6.4", "SD6.5"], "domain": "D6"}, {"id": "F050", "name": "Dr. Raju Kumar Gupta", "dept": "SEE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD7.2"], "domain": "D7"}, {"id": "F051", "name": "Dr. Ramprasad Potluri", "dept": "EE", "desig": "Assoc Prof", "email": "potluri@iitk.ac.in", "phone": "", "photo": "", "areas": "Practical applications of Control Systems theory", "home": "https://www.iitk.ac.in/new/ramprasad-potluri", "subs": ["SD8.1"], "domain": "D8"}, {"id": "F052", "name": "Dr. Rik Dey", "dept": "EE", "desig": "Asst Prof Gr I", "email": "rikdey@iitk.ac.in", "phone": "", "photo": "", "areas": "Nanoelectronics; Magnetism; Spintronics", "home": "https://home.iitk.ac.in/~rikdey/", "subs": ["SD5.4"], "domain": "D5"}, {"id": "F053", "name": "Dr. Rituraj", "dept": "EE", "desig": "Asst Prof Gr I", "email": "rituraj@iitk.ac.in", "phone": "", "photo": "", "areas": "Nanophotonics; Optoelectronic devices; Quantum optics; Waveguide quantum electrodynamics", "home": "https://www.iitk.ac.in/new/rituraj", "subs": ["SD6.1", "SD6.2"], "domain": "D6"}, {"id": "F054", "name": "Dr. Rohit Budhiraja", "dept": "EE", "desig": "Professor", "email": "rohitbr@iitk.ac.in", "phone": "", "photo": "", "areas": "PHY and cross-layer algorithms for 4G/5G/6G; Linear algebra and optimization; Wireless systems", "home": "https://www.iitk.ac.in/new/rohit-budhiraja", "subs": ["SD2.1", "SD2.3", "SD2.5"], "domain": "D2"}, {"id": "F055", "name": "Dr. S N Singh", "dept": "EE", "desig": "HAG", "email": "snsingh@iitk.ac.in", "phone": "", "photo": "", "areas": "Power System Restructuring; FACTS Technology; Power System Dynamics; Distribution System Planning", "home": "https://www.iitk.ac.in/new/sri-niwas-singh", "subs": ["SD3.1", "SD3.4"], "domain": "D3"}, {"id": "F056", "name": "Dr. S P Das", "dept": "EE", "desig": "Professor", "email": "spdas@iitk.ac.in", "phone": "", "photo": "", "areas": "Power Electronics; Electric Drives; Electrical machines; Microprocessor Systems & instrumentation", "home": "https://www.iitk.ac.in/new/shyama-prasad-das", "subs": ["SD4.1"], "domain": "D4"}, {"id": "F057", "name": "Dr. S Sundar K Iyer", "dept": "EE", "desig": "HAG", "email": "sskiyer@iitk.ac.in", "phone": "", "photo": "", "areas": "Organic solar cells; Photovoltaic systems; Printable electronics; VLSI", "home": "https://www.iitk.ac.in/new/sundar-kumar-iyer", "subs": ["SD7.1"], "domain": "D7"}, {"id": "F058", "name": "Dr. Saikat Chakrabarti", "dept": "EE", "desig": "HAG", "email": "saikatc@iitk.ac.in", "phone": "", "photo": "", "areas": "State estimation; Stability and control of power systems; Operation and control of microgrids; Distribution systems", "home": "https://www.iitk.ac.in/new/saikat-chakrabarti", "subs": ["SD3.1", "SD3.3"], "domain": "D3"}, {"id": "F059", "name": "Dr. Sayan Kar", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "sayank@iitk.ac.in", "phone": "", "photo": "", "areas": "Carbon Capture; CO2 Utilisation; Energy Materials", "home": "https://sites.google.com/view/iitk-swachh-lab/", "subs": ["SD7.3"], "domain": "D7"}, {"id": "F060", "name": "Dr. Sheo Shankar Rai", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "sheo@iitk.ac.in", "phone": "", "photo": "", "areas": "Sustainable Development of Natural Resource Sector; Critical Minerals; Carbon Capture and Sequestration", "home": "https://www.iitk.ac.in/see/", "subs": ["SD7.3", "SD7.5", "SD7.6"], "domain": "D7"}, {"id": "F061", "name": "Dr. Shilpi Gupta", "dept": "EE", "desig": "Assoc Prof", "email": "shilpig@iitk.ac.in", "phone": "", "photo": "", "areas": "Photonics; Plasmonics; Quantum optics", "home": "https://www.iitk.ac.in/new/shilpi-gupta", "subs": ["SD6.1", "SD6.2"], "domain": "D6"}, {"id": "F062", "name": "Dr. Shobit Omar", "dept": "SEE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD7.2"], "domain": "D7"}, {"id": "F063", "name": "Dr. Shubham Sahay", "dept": "EE", "desig": "Assoc Prof", "email": "ssahay@iitk.ac.in", "phone": "", "photo": "", "areas": "Hardware Platforms for Neuromorphic Computing; Hardware Security; Novel Device Architectures; Non-volatile Memories; Spintronics", "home": "https://www.iitk.ac.in/new/shubham-sahay", "subs": ["SD5.3", "SD5.4"], "domain": "D5"}, {"id": "F064", "name": "Dr. Soumya Ranjan Sahoo", "dept": "EE", "desig": "Professor", "email": "srsahoo@iitk.ac.in", "phone": "", "photo": "", "areas": "Nonlinear dynamical systems; Control of Unmanned vehicles; Coordinated Control; AC and DC microgrids", "home": "https://www.iitk.ac.in/new/soumya-ranjan-sahoo", "subs": ["SD3.3", "SD8.1", "SD8.2"], "domain": "D8"}, {"id": "F065", "name": "Dr. Soumyabrata Roy", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "soumyar@iitk.ac.in", "phone": "", "photo": "", "areas": "Carbon Capture and Utilization; Green Hydrogen & Sustainable Fuels; Heterogeneous Catalysis", "home": "https://sites.google.com/view/soumyaroy", "subs": ["SD7.3"], "domain": "D7"}, {"id": "F066", "name": "Dr. Srinivas Karthik Yadavalli", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "srinivask@iitk.ac.in", "phone": "", "photo": "", "areas": "Halide Perovskites; Silicon-Perovskite Tandem Cells; Photoelectrodes for Green Hydrogen; PV Recycling", "home": "https://www.iitk.ac.in/see/", "subs": ["SD7.1", "SD7.3"], "domain": "D7"}, {"id": "F067", "name": "Dr. Subrahmanya Swamy Peruru", "dept": "EE", "desig": "Asst Prof Gr I", "email": "swamyp@iitk.ac.in", "phone": "", "photo": "", "areas": "Wireless Networks; AI and Probabilistic Graphical Models", "home": "https://www.iitk.ac.in/new/subrahmanya-swamy-peruru", "subs": ["SD2.1", "SD2.2"], "domain": "D2"}, {"id": "F068", "name": "Dr. Sudarshan Narayanan", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "sudarshan@iitk.ac.in", "phone": "", "photo": "", "areas": "Solid state batteries; Thin films for energy conversion; Advanced characterization", "home": "https://home.iitk.ac.in/~sudarshan/", "subs": ["SD7.2"], "domain": "D7"}, {"id": "F069", "name": "Dr. Suvendu Samanta", "dept": "EE", "desig": "Assoc Prof", "email": "suvendus@iitk.ac.in", "phone": "", "photo": "", "areas": "Power Electronics; Electric Vehicles; Wireless Power Transfer; Resonant Converters with WBG Devices", "home": "https://www.iitk.ac.in/new/suvendu-samanta", "subs": ["SD4.1", "SD4.2", "SD4.3"], "domain": "D4"}, {"id": "F070", "name": "Dr. Swathi Battula", "dept": "EE", "desig": "Asst Prof Gr I", "email": "swathi@iitk.ac.in", "phone": "", "photo": "", "areas": "Electricity Markets; Electrical Energy Systems; Transactive Energy; Energy Policy and Management", "home": "https://www.iitk.ac.in/new/swathi-battula", "subs": ["SD3.2", "SD3.3", "SD3.4"], "domain": "D3"}, {"id": "F071", "name": "Dr. Tushar Balasaheb Sandhan", "dept": "EE", "desig": "Assoc Prof", "email": "sandhan@iitk.ac.in", "phone": "", "photo": "", "areas": "Computer Vision; Machine learning and Robotics", "home": "https://www.iitk.ac.in/new/tushar-sandhan", "subs": ["SD1.2", "SD1.3", "SD1.5"], "domain": "D1"}, {"id": "F072", "name": "Dr. Twinkle Tripathy", "dept": "EE", "desig": "Asst Prof Gr I", "email": "ttripathy@iitk.ac.in", "phone": "", "photo": "", "areas": "Guidance of autonomous vehicles; Formation control; Nonholonomic systems; Missile guidance", "home": "https://www.iitk.ac.in/new/twinkle-tripathy", "subs": ["SD1.5", "SD8.2"], "domain": "D8"}, {"id": "F073", "name": "Dr. Utsab Kundu", "dept": "EE", "desig": "Asst Prof Gr I", "email": "ukundu@iitk.ac.in", "phone": "", "photo": "", "areas": "Resonant converters; Power management ICs; Wireless power transfer", "home": "http://iitk.ac.in/new/utsab-kundu", "subs": ["SD2.1", "SD4.2", "SD4.3"], "domain": "D4"}, {"id": "F074", "name": "Dr. Vaibhav Kumar Arghode", "dept": "SEE", "desig": "", "email": "", "phone": "", "photo": "", "areas": "", "home": "", "subs": ["SD7.4"], "domain": "D7"}, {"id": "F075", "name": "Dr. Vipul Arora", "dept": "EE", "desig": "Assoc Prof", "email": "vipular@iitk.ac.in", "phone": "", "photo": "", "areas": "Machine learning for audio signal processing; Time series analysis on sensor data", "home": "http://home.iitk.ac.in/~vipular/", "subs": ["SD1.1", "SD1.3"], "domain": "D1"}, {"id": "F076", "name": "Dr. Vivek Verma", "dept": "SEE", "desig": "Asst Prof Gr I", "email": "vermav@iitk.ac.in", "phone": "", "photo": "", "areas": "Critical minerals for clean energy; Recycling of electronic/battery waste", "home": "https://publish.obsidian.md/urbanmining/Home", "subs": ["SD7.2", "SD7.6"], "domain": "D7"}, {"id": "F077", "name": "Dr. Washim Uddin Mondal", "dept": "EE", "desig": "Asst Prof Gr I", "email": "wmondal@iitk.ac.in", "phone": "", "photo": "", "areas": "Reinforcement learning; Game theory; Network economics", "home": "https://www.iitk.ac.in/new/washim-uddin-mondal", "subs": ["SD1.1", "SD2.1", "SD2.2"], "domain": "D1"}, {"id": "F078", "name": "Dr. Yatindra Nath Singh", "dept": "EE", "desig": "HAG", "email": "ynsingh@iitk.ac.in", "phone": "", "photo": "", "areas": "Telecom Networks; Optical Networks; Peer-to-peer networking; Complex networks; Wireless sensor networks", "home": "https://www.iitk.ac.in/new/y-n-singh", "subs": ["SD2.4"], "domain": "D2"}, {"id": "F079", "name": "Dr. Yogesh Singh Chauhan", "dept": "EE", "desig": "Professor", "email": "chauhan@iitk.ac.in", "phone": "", "photo": "", "areas": "Nanoelectronics compact modeling; SPICE Modeling; BSIM model development; Atomistic Simulation of Nanoscale Devices", "home": "https://www.iitk.ac.in/new/yogesh-singh-chauhan", "subs": ["SD2.1", "SD3.5", "SD5.1", "SD5.3", "SD6.2"], "domain": "D5"}], "projects": [{"id": "P001", "no": "IITK /EE /2022333", "name": "Measurement Facility In Anechoic Chamber(Aces-325)", "faculty": ["F002"], "sub": "SD6.3", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P002", "no": "DST /EE /2024453F", "name": "Field-Deployable Quantum-Enhanced Sensors On Integrated Hybrid Platform", "faculty": ["F002"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P003", "no": "ANRF /EE /2025773", "name": "Cyber-Resilient Ai-Based Fault Identification Techniques In Power Networks With Inverter-Based Resources (Craft-Ind)", "faculty": ["F004"], "sub": "SD3.1", "dom": "D3", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P004", "no": "IITK /EE /2022117", "name": "Professional Development Account", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P005", "no": "IHFC /EE /2022596", "name": "Nanorobotic Drug Delivery System & Lab-On-Chip Platform Development", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Ihub Foundation For Cobotics", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P006", "no": "IITK /EE /2023171", "name": "Dynamics And Control Laboratory", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P007", "no": "MOE /EE /PMR11028", "name": "Pmrf Sub Project", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P008", "no": "WT /EE /2023592", "name": "Mitigating Resource Burden Of Heterologous Biomolecular Circuits In Escherichia Coil", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Wellcome Trust Dbt", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P009", "no": "MHRD /EE /2024117", "name": "Design Of Synthetic Genetic Circuits: Robustness Towards Change In The Growth Rate", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Min. Of Human Resource Develop", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P010", "no": "DBT /EE /2024320", "name": "Development And Characterization Of Regulatory Biomolecular Circuits For Plasmid Copy Numbers In Synthetic Biology", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Department Of Biotechnology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P011", "no": "STC /EE /2025348", "name": "Development Of Space Probiotics For Vitamin D Production", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P012", "no": "ARDB /EE /2025768", "name": "Design, Development And Fabrication Of Satellite Momentum Exchange Devices: Control Moment Gyros (Cmgs) And Variable Speed Control Moment Gyros (Vscmgs)", "faculty": ["F005"], "sub": "SD8.1", "dom": "D8", "fund": "Aeronautics R&D Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P013", "no": "QUALCO/EE /2023204", "name": "Coverage Performance Of Thz Networks In The Presence Of Blockages And Scatterers", "faculty": ["F006"], "sub": "SD2.1", "dom": "D2", "fund": "Qualcomm", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P014", "no": "SERB /EE /2023755", "name": "Design And Analysis Of A 5G Enabled Vehicular Communication Architecture For Intelligent Transportation System", "faculty": ["F006"], "sub": "SD2.1", "dom": "D2", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P015", "no": "IITK /EE /2023766", "name": "Modern Wireless Network Lab", "faculty": ["F006"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P016", "no": "DST /EE /2025365D", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F006"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P017", "no": "INTERD/EE /2025381", "name": "Constellation Shaping In Wireless Networks", "faculty": ["F006"], "sub": "SD2.1", "dom": "D2", "fund": "Interdigital Communications, Inc", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P018", "no": "QUALCO/EE /2023343", "name": "6G Ur India Gift", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Qualcomm", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P019", "no": "QUALCO/EE /2024259", "name": "Delay Alignment Modulation (Dam) For Ultra-High Data Rates In Next Generation Mmwave And Terahertz Mimo Systems", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Qualcomm", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P020", "no": "SRI-B /EE /2024608", "name": "5G/6G Wireless Technologies With Ai/Ml Python And Matlab Implementation", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Samsung R&D Institute India-Bangalore Private Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P021", "no": "DST /EE /2025365A", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P022", "no": "C-DOT /EE /2025720", "name": "C-Dot Academic Center Of Excellence (Acoe)", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Center For Development Of Telematics", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P023", "no": "QUALCO/EE /2025421", "name": "Generative Adversarial Network (Gan)-Augmented Multi-User Csi For Channel Charting Beyond 5G Networks", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Qualcomm", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P024", "no": "ANRF /EE /2025455", "name": "Ci-Cav: Cooperative Isac For Next-Generation Cav To Enhance Vehicular Communication", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P025", "no": "ANRF /EE /2025802", "name": "Hybrid Field-Aware Waveform Design And Learning Strategies For Next-Generation Wideband Wireless System With Dynamic Metasurface Antenna Architectures", "faculty": ["F007"], "sub": "SD2.1", "dom": "D2", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P026", "no": "IITK /EE /2022137", "name": "Bcb Lab", "faculty": ["F008"], "sub": "SD2.3", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P027", "no": "FREEST/EE /2023706", "name": "Next Generation Broadcasting Technologies", "faculty": ["F008"], "sub": "SD2.3", "dom": "D2", "fund": "Free Stream Technologies Private Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P028", "no": "DST /EE /2025365F", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F008"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P029", "no": "DST /EE /2025365", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F008"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P030", "no": "DST /EE /2025338", "name": "Applications Of Coding Theoretic Techniques In Distributed Computing And Reinforcement Learning", "faculty": ["F008"], "sub": "SD1.1", "dom": "D1", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P031", "no": "IITK /EE /2023530", "name": "Lda (High Voltage Lab)", "faculty": ["F009"], "sub": "SD3.5", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P032", "no": "MOE /EE /PMR11004", "name": "Pmrf Sub Project", "faculty": ["F011"], "sub": "SD5.1", "dom": "D5", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P033", "no": "DST /EE /2024299", "name": "Spin Orbit Photonics In The Palm Of Your Hand", "faculty": ["F011"], "sub": "SD6.1", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P034", "no": "IITK /EE /2024153", "name": "Lab Development Account (Semiconductor Devices Laboratory)", "faculty": ["F011"], "sub": "SD5.1", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P035", "no": "STC /EE /2024427F", "name": "Development Of Optically Transparent Dynamic Emissivity Regulators For Spacecraft Temperature Control", "faculty": ["F011"], "sub": "SD5.1", "dom": "D5", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P036", "no": "DST /EE /2024453C", "name": "Field-Deployable Quantum-Enhanced Sensors On Integrated Hybrid Platform", "faculty": ["F011"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P037", "no": "DST /EE /2025630C", "name": "Setting Up Of Fabrication And Centralized Facilities For Quantum Sensing & Metrology Under The National Quantum Mission", "faculty": ["F011"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P038", "no": "MISC /EE /2021118", "name": "Ui-Assist Project Maintenance Account", "faculty": ["F013"], "sub": "SD3.2", "dom": "D3", "fund": "Miscellaneous", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P039", "no": "IITK /EE /2022555", "name": "Smart Grid Control Centre", "faculty": ["F013"], "sub": "SD3.3", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P040", "no": "TCS /EE /2024302", "name": "Tcs Fellowship Awarded To Ritik Rajput", "faculty": ["F013"], "sub": "SD3.2", "dom": "D3", "fund": "Tata Consultancy Services", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P041", "no": "TCS /EE /2025438", "name": "Development Of Energy Integration For Microgrids (Rural, Semi Urban, Urban) Implemented By Iit Kanpur", "faculty": ["F013"], "sub": "SD3.3", "dom": "D3", "fund": "Tata Consultancy Services", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P042", "no": "KESCO /EE /2025657", "name": "Miscellaneous Consultancy Projects", "faculty": ["F013"], "sub": "SD3.2", "dom": "D3", "fund": "Kesco, Kanpur", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P043", "no": "IITK /EE /2023578", "name": "Quantum Materials And Nanoscale Spintronic Devices For Sensing And Memory Application", "faculty": ["F015"], "sub": "SD6.2", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P044", "no": "IITK /EE /2024138", "name": "Professional Development Account", "faculty": ["F015"], "sub": "SD5.4", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P045", "no": "ANRF /EE /2025150", "name": "Harnessing Orbital Current In Transition Metals For Efficient Manipulation Of Nanomagnets", "faculty": ["F015"], "sub": "SD5.4", "dom": "D5", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P046", "no": "ANRF /EE /2025471", "name": "Neuromorphic And In-Memory Computing (Imc) Techniques For Acceleration Of Deep Neural Networks With Fast And Energy Efficient Spintronic Devices", "faculty": ["F015"], "sub": "SD5.3", "dom": "D5", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P047", "no": "IITK /EE /2025589", "name": "Spin Transport In Nanoscale Devices", "faculty": ["F015"], "sub": "SD5.4", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P048", "no": "STC /EE /2025352", "name": "Design And Development Of Plasmonic Point-Of-Care Biosensors For Diagnosing Cardiovascular Diseases Of Astronauts In Space", "faculty": ["F017"], "sub": "SD6.1", "dom": "D6", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P049", "no": "IITK /EE /2021260", "name": "Professional Development Account", "faculty": ["F018"], "sub": "SD5.2", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P050", "no": "IITK /EE /2024101", "name": "Chip Tapeout & Testing In Tsmc 180Nm", "faculty": ["F018"], "sub": "SD5.2", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P051", "no": "STC /EE /2024427N", "name": "Design Of A 1Ksps Delta Sigma Analog-To-Digital Converter With Greater Than 18 Bits Resolution", "faculty": ["F018"], "sub": "SD5.2", "dom": "D5", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P052", "no": "NEURAL/EE /2025317", "name": "Consultancy For Adc Design", "faculty": ["F018"], "sub": "SD5.2", "dom": "D5", "fund": "Neuralace Inc", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P053", "no": "IITK /EE /2022062", "name": "Professional Development Account", "faculty": ["F019"], "sub": "SD5.1", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P054", "no": "DIC /EE /2025570", "name": "Visvesvaraya Fellowship Awarded To Vaibhav", "faculty": ["F019"], "sub": "SD5.1", "dom": "D5", "fund": "Digital India Corporation", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P055", "no": "IITK /EE /2024292", "name": "Exploratory Devices And Circuits Lab (Edcl)", "faculty": ["F019"], "sub": "SD5.1", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P056", "no": "IITK /EE /2021263", "name": "Professional Development Account", "faculty": ["F020"], "sub": "SD5.2", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P057", "no": "IITK /EE /2021265", "name": "Improving The Performance Of Fractional Open-Loop Dividers", "faculty": ["F020"], "sub": "SD5.2", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P058", "no": "SERB /EE /2023435", "name": "Investigations On A Fractional Divider-Based Open-Loop Clock Synthesizer", "faculty": ["F020"], "sub": "SD5.2", "dom": "D5", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P059", "no": "IITK /EE /2024057", "name": "Professional Development Account", "faculty": ["F021"], "sub": "SD6.4", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P060", "no": "IITK /EE /2024056", "name": "Large Area Low-Cost Substrates With Auag Alloy And Aluminium For Seroa Detection Of Pharmaceutically Relevant Chiral Molecules", "faculty": ["F021"], "sub": "SD6.4", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P061", "no": "IITK /EE /2024595", "name": "Laboratory Of Optical Metamaterials And Sensors", "faculty": ["F021"], "sub": "SD6.3", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P062", "no": "IITK /EE /2023785", "name": "Professional Development Account", "faculty": ["F024"], "sub": "SD4.1", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P063", "no": "IITK /EE /2023786", "name": "Design, Control, And Testing Of A Scaled-Down Experimental Prototype Of A Modular Multilevel Converter Based Hvdc Test Bench", "faculty": ["F024"], "sub": "SD4.1", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P064", "no": "ANRF /EE /2025171", "name": "Design And Development Of Modular E-Statcom With Grid-Forming Capabilities", "faculty": ["F024"], "sub": "SD3.3", "dom": "D3", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P065", "no": "IITK /EE /2025296", "name": "Applied Power Electronics & Grid Integration Lab", "faculty": ["F024"], "sub": "SD4.1", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P066", "no": "IITK /EE /2021425", "name": "Professional Development Account", "faculty": ["F025"], "sub": "SD3.3", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P067", "no": "IITK /EE /2023167", "name": "Ac-Dc Hybrid Microgrid Laboratory Development Account", "faculty": ["F025"], "sub": "SD3.3", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P068", "no": "MHRD /EE /2024074", "name": "Resilience And Cybersecurity Enhancement For An Optimized Distribution System Using Blockchain", "faculty": ["F025"], "sub": "SD3.3", "dom": "D3", "fund": "Min. Of Human Resource Develop", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P069", "no": "IITK /EE /2021233", "name": "Vlsi Integrated Circuit Design And Testing", "faculty": ["F026"], "sub": "SD5.2", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P070", "no": "MEITY /EE /2023257", "name": "Rf Transceiver Soc With Dsp For 27Mhz - 1.05Ghz", "faculty": ["F026"], "sub": "SD2.1", "dom": "D2", "fund": "Ministry Of Electronics And Information Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P071", "no": "SERB /EE /2023762", "name": "A Widely Programmable Integrated Radio Receiver For Sub-6 Ghz Wireless Applications", "faculty": ["F026"], "sub": "SD2.1", "dom": "D2", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P072", "no": "DIC /EE /2025674", "name": "Visvesvaraya Fellowship Grant Awarded To Aadil Bashir", "faculty": ["F026"], "sub": "SD5.2", "dom": "D5", "fund": "Digital India Corporation", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P073", "no": "QUALCO/EE /2025399", "name": "An Lptv Programmable Bandpass True-Time", "faculty": ["F026"], "sub": "SD5.2", "dom": "D5", "fund": "Qualcomm", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P074", "no": "PENTA /EE /2025509", "name": "Consultancy For The Rfic Project", "faculty": ["F026"], "sub": "SD5.2", "dom": "D5", "fund": "Pentarisic Systems", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P075", "no": "IITK /EE /2022144", "name": "Network Simulation, Optimization And Computational Facility (Nsoc)", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P076", "no": "IITK /EE /2022503", "name": "Machine Analysis Of Data For Human Audition And Vision (Madhav Lab)", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P077", "no": "MOE /EE /2023422", "name": "Real-Time Trajectory Generation Via Stochastic Sequential Quadratic And Linear Programming", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Ministry Of Education", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P078", "no": "NNS /EE /2024147", "name": "Tpqa Nns Integration Of Cctv Surveillance Cameras With Ocr", "faculty": ["F028"], "sub": "SD6.4", "dom": "D6", "fund": "Nagar Nigam Shahjahanpur", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P079", "no": "ARMREB/EE /2024322", "name": "Development Of Height Of Burst (Hob) Estimation System For Airburst Ammunition", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Armament Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P080", "no": "ARMREB/EE /2024322B", "name": "Hob Support And Coordination", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Armament Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P081", "no": "AVPL /EE /2024484", "name": "Development Of Uav Solutions For Agricultural Use", "faculty": ["F028"], "sub": "SD8.2", "dom": "D8", "fund": "M/S Aitmc Ventures Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P082", "no": "DST /EE /2025365C", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F028"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P083", "no": "CST /EE /2025637", "name": "Robofest Gujarat 5.0", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Council Of Science & Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P084", "no": "DBT /EE /2025662", "name": "Cardiac Digital Twin For Ablation Targeting", "faculty": ["F028"], "sub": "SD1.1", "dom": "D1", "fund": "Department Of Biotechnology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P085", "no": "IITK /EE /2023628", "name": "Professional Development Account", "faculty": ["F029"], "sub": "SD1.2", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P086", "no": "IITK /EE /2023627", "name": "Complex-Valued Neural Networks For Dense Prediction Tasks", "faculty": ["F029"], "sub": "SD1.2", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P087", "no": "ANRF /EE /2025151", "name": "Vider-Blinks: Video-Based Diagnosis And Rehabilitation Of Bell'S Palsy And Blepharospasm Via Blinks", "faculty": ["F029"], "sub": "SD1.4", "dom": "D1", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P088", "no": "DOLBY /EE /2025334", "name": "Dolby Gift Award", "faculty": ["F029"], "sub": "SD1.2", "dom": "D1", "fund": "Dolby Technology India Pvt. Ltd.", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P089", "no": "IITK /EE /2025531", "name": "Visual Intelligence And Multimodal Signals (Vims) Lab", "faculty": ["F029"], "sub": "SD1.2", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P090", "no": "STP /EE /2025533", "name": "Cattle Identification And Monitoring System Using Complex-Valued Neural Networks", "faculty": ["F029"], "sub": "SD1.2", "dom": "D1", "fund": "Samak Technologies Private Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P091", "no": "IITK /EE /2022334", "name": "Measurement Facility In Microwave Laboratory (Aces-225)", "faculty": ["F030"], "sub": "SD6.3", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P092", "no": "STC /EE /2023664P", "name": "Conformal, Transparent And Lightweight Microwave Absorbers For Ground And Space Applications-Phase-2", "faculty": ["F030"], "sub": "SD6.3", "dom": "D6", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P093", "no": "DRDO /EE /2025015", "name": "Antenna Element Design For A Shared Aperture Array For S And X Band Radar Application", "faculty": ["F030"], "sub": "SD6.3", "dom": "D6", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P094", "no": "DRDO /EE /2025186", "name": "Active Tunable Electromagnetic Structures", "faculty": ["F030"], "sub": "SD6.3", "dom": "D6", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P095", "no": "DRDO /EE /2025755", "name": "Metamaterial Based Ultra-Wideband Antenna Array And Artificial Magnetic Conductor For Rf Applications", "faculty": ["F030"], "sub": "SD6.3", "dom": "D6", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P096", "no": "IITK /EE /2022462", "name": "Microwave Imaging And Material Testing Lab (Aces-329)", "faculty": ["F034"], "sub": "SD6.4", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P097", "no": "IITK /EE /2023311", "name": "Emi/Emc And Electrical Safety Test Facility", "faculty": ["F034"], "sub": "SD6.4", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P098", "no": "STC /EE /2024427A", "name": "Lna And Receiver Design For Cryo-Cooled And Room Temperature Radar Systems", "faculty": ["F034"], "sub": "SD6.4", "dom": "D6", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P099", "no": "DST /EE /2025226", "name": "Transforming India'S Digital Landscape: Harnessing Reconfigurable Intelligent Surfaces For Enhanced Connectivity And Sustainability", "faculty": ["F034"], "sub": "SD6.4", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P100", "no": "IITK /EE /2025439", "name": "Professional Development Account", "faculty": ["F035"], "sub": "SD5.3", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P101", "no": "IITK /EE /2025440", "name": "Atoms To Circuit Modelling Of Two-Dimensional Materials-Based Resistance Switching, Artificial Neural Networks And Neuromorphic Computing", "faculty": ["F035"], "sub": "SD5.3", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P102", "no": "IITK /EE /2023619", "name": "Professional Development Account", "faculty": ["F036"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P103", "no": "IITK /EE /2023729", "name": "Design Of High-Efficiency Tunable Doherty Power Amplifier Suitable For 5G Applications", "faculty": ["F036"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P104", "no": "STC /EE /2025350", "name": "Design And Development Of High-Efficiency Low-Cost 120W C-Band Power Amplifiers", "faculty": ["F036"], "sub": "SD5.2", "dom": "D5", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P105", "no": "IITK /EE /2025642", "name": "Microwave Circuits Lab", "faculty": ["F036"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P106", "no": "IITK /EE /2025193", "name": "Design Of A Bidirectional Transmit-Receive Module For Ku-Band Satcom Application", "faculty": ["F037"], "sub": "SD5.2", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P107", "no": "JPL /EE /2025614", "name": "Wlan Based Millimeter Wave System Design And Optimization For 4096 Qam", "faculty": ["F037"], "sub": "SD5.2", "dom": "D5", "fund": "Jio Platforms Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P108", "no": "IITK /EE /2026016", "name": "Professional Development Account", "faculty": ["F037"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P109", "no": "IITK /EE /2022036", "name": "Dielectric Spectroscopy", "faculty": ["F038"], "sub": "SD3.5", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P110", "no": "ANRF /EE /2025524", "name": "Machine Learning Assisted Detection Of Space Charge In Electric Vehicle Charging Cable Insulation", "faculty": ["F038"], "sub": "SD4.2", "dom": "D4", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P111", "no": "HAL /EE /2022527", "name": "Irst Software Algorithms Development With Iit Kanpur", "faculty": ["F039"], "sub": "SD6.4", "dom": "D6", "fund": "Hindustan Aeronautics Ltd", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P112", "no": "STC /EE /2024427P", "name": "Rte-Modelled Fully-3D Satellite-Based Atmospheric Microphysical Tomography For Cloud Aerosol-Trace Gas Estimation", "faculty": ["F039"], "sub": "SD6.4", "dom": "D6", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P113", "no": "DBT /EE /2023824", "name": "Towards A Closed-Loop Bmi-Fes System For Grasping: Decoding Hand Grasps, User Engagement & Movement Errors From Eeg", "faculty": ["F040"], "sub": "SD1.4", "dom": "D1", "fund": "Department Of Biotechnology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P114", "no": "IITK /EE /2023611", "name": "Professional Development Account", "faculty": ["F040"], "sub": "SD1.4", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P115", "no": "IITK /EE /2023612", "name": "Methods To Reduce Inter-Trial Variability And Improve Snr Of Eeg Signals For Chronic, Minimally Invasive Brain-Machine Interfaces", "faculty": ["F040"], "sub": "SD1.4", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P116", "no": "DBT /EE /2024305", "name": "A Closed-Loop Bmi-Fes System For Grasping", "faculty": ["F040"], "sub": "SD1.4", "dom": "D1", "fund": "Department Of Biotechnology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P117", "no": "IITK /EE /2022228", "name": "Electrical Machine Design & Fabrication For Transport", "faculty": ["F042"], "sub": "SD4.4", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P118", "no": "ANRF /EE /2025140B", "name": "Ac-Dc Converter For Configurable Ev Charger", "faculty": ["F042"], "sub": "SD4.2", "dom": "D4", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P119", "no": "IITK /EE /2022054", "name": "Professional Development Account", "faculty": ["F043"], "sub": "SD4.1", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P120", "no": "IITK /EE /2023650", "name": "Electrical Machines And Power Electronics Research Laboratory", "faculty": ["F043"], "sub": "SD4.1", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P121", "no": "ANRF /EE /2024641", "name": "Design And Development Of High-Power Density Solid-State Transformer Based Medium Voltage (11Kv) Grid Connected Ev Charging Station With Dc-Fast Charger And Renewable Energy Integration", "faculty": ["F043"], "sub": "SD4.1", "dom": "D4", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P122", "no": "IITK /EE /2023253", "name": "Quantum Key Distribution And Fiber-Optics Lab", "faculty": ["F045"], "sub": "SD6.2", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P123", "no": "IITK /EE /2022066", "name": "Professional Development Account", "faculty": ["F046"], "sub": "SD6.3", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P124", "no": "DIC /EE /2022616", "name": "Visvesvaraya Fellowship Awarded To Archana Kumari", "faculty": ["F046"], "sub": "SD6.3", "dom": "D6", "fund": "Digital India Corporation", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P125", "no": "DIC /EE /2023831", "name": "Visvesvaraya Fellowship Awarded To Shreya Pourush", "faculty": ["F046"], "sub": "SD6.3", "dom": "D6", "fund": "Digital India Corporation", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P126", "no": "IITK /EE /2023493", "name": "Mmwave Research Lab", "faculty": ["F046"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P127", "no": "DRDO /EE /2024398", "name": "Antenna Using Metamaterials For X-And Ku-Band Applications", "faculty": ["F046"], "sub": "SD6.3", "dom": "D6", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P128", "no": "DRDO /EE /2025756", "name": "Design Of Metamaterial-Inspired Compact Uwb Antenna At Uhf And Uhf Bands", "faculty": ["F046"], "sub": "SD6.3", "dom": "D6", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P129", "no": "IITK /EE /2022219", "name": "Multimodal Information Processing System Lab (Mipslab)", "faculty": ["F048"], "sub": "SD1.3", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P130", "no": "SEAGAT/EE /2024339", "name": "Integrating Vision Transformation With Edge", "faculty": ["F048"], "sub": "SD1.3", "dom": "D1", "fund": "Seagate Technology Llc", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P131", "no": "SRI-B /EE /2024479", "name": "Adaptive Beamforming For Multi-Channel And Multi-Source Speech Separation", "faculty": ["F048"], "sub": "SD1.3", "dom": "D1", "fund": "Samsung R&D Institute India-Bangalore Private Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P132", "no": "SEAGAT/EE /2025066", "name": "Enhancing Interoperability For Scalable And Reliable Edge Computing Ecosystem In The Internet Of Things", "faculty": ["F048"], "sub": "SD1.3", "dom": "D1", "fund": "Seagate Technology Llc", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P133", "no": "UPSIDA/EE /2025357", "name": "Gap Analysis And Rfp Vetting For Upsida Applications", "faculty": ["F048"], "sub": "SD1.3", "dom": "D1", "fund": "Up State Industrial Development Authority", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P134", "no": "DIC /EE /2025713", "name": "Machine Learning For Spatial Audio Signal Processing", "faculty": ["F048"], "sub": "SD1.3", "dom": "D1", "fund": "Digital India Corporation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P135", "no": "SERB /EE /2024113", "name": "Non-Invasive Technique For Rapid Sub-Micron Surface Profile And Deformation Metrology", "faculty": ["F049"], "sub": "SD6.5", "dom": "D6", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P136", "no": "DST /EE /2024475D", "name": "Design And Development Of Quantum Entanglement-Enhanced Imaging Systems", "faculty": ["F049"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P137", "no": "DBT /EE /2025180", "name": "Development Of Machine Learning Assisted Quantitative Phase Microscopy Technique For Label-Free Cell Imaging", "faculty": ["F049"], "sub": "SD6.5", "dom": "D6", "fund": "Department Of Biotechnology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P138", "no": "IITK /EE /2021168", "name": "Lda For Network Control Systems Laboratory", "faculty": ["F051"], "sub": "SD8.1", "dom": "D8", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P139", "no": "IITK /EE /2022069", "name": "Professional Development Account", "faculty": ["F053"], "sub": "SD6.1", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P140", "no": "DST /EE /2024453D", "name": "Field-Deployable Quantum-Enhanced Sensors On Integrated Hybrid Platform", "faculty": ["F053"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P141", "no": "MOE /EE /PMR11047", "name": "Pmrf Sub Project", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P142", "no": "QUALCO/EE /2023326", "name": "6G Research On Extra Large Massive Mimo Systems", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Qualcomm", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P143", "no": "C-DOT /EE /2024222", "name": "C-Dot Star Program Phd Scholarship", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Center For Development Of Telematics", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P144", "no": "TCOE /EE /2024623", "name": "Research On Channel Modelling, Ai/Ml Driven Transceiver Architectures And Realistic Performance Evaluation In Thz Band For 6G Wireless Systems", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Telecom Centre Of Excellence India", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P145", "no": "IITK /EE /2025144", "name": "6G Wireless Test Bed Lab (Physical Layer Design Techniques For Next Generation Cellular Technology)", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P146", "no": "DST /EE /2025365B", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P147", "no": "NCA /EE /2025262", "name": "6G Cell-Free And Integrated Sensing And Communication (Isac) Technologies", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "National Communications Academy, Ghaziabad", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P148", "no": "NCA /EE /2025250", "name": "Advanced Executive Program On Emerging Communication Technologies", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "National Communications Academy, Ghaziabad", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P149", "no": "NOKIA /EE /2025336", "name": "Algorithm Design For Green 6G Wireless Networks", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Nokia", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P150", "no": "MEITY /EE /2025797", "name": "6G Research And Standardization", "faculty": ["F054"], "sub": "SD2.1", "dom": "D2", "fund": "Ministry Of Electronics And Information Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P151", "no": "IITK /EE /2021086", "name": "Rtds Users And Maintenance Account", "faculty": ["F058"], "sub": "SD3.1", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P152", "no": "KESCO /EE /2021441", "name": "Hosting Backup Control Centre Of Kesco Scada/Adms/Gis Project At Iit Kanpur", "faculty": ["F058"], "sub": "SD3.1", "dom": "D3", "fund": "Kesco, Kanpur", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P153", "no": "MOE /EE /PMR10021", "name": "Pmrf Sub Project", "faculty": ["F058"], "sub": "SD3.1", "dom": "D3", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P154", "no": "ANRF /EE /2025147", "name": "Grid Readiness For Ev: Enablers And Technological Developments", "faculty": ["F058"], "sub": "SD3.3", "dom": "D3", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P155", "no": "ANRF /EE /2025146", "name": "Grid Readiness For Ev: Enablers And Technological Developments (Greet)", "faculty": ["F058"], "sub": "SD3.3", "dom": "D3", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P156", "no": "IITK /EE /2025468", "name": "Smart Grid Lab Lda", "faculty": ["F058"], "sub": "SD3.1", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P157", "no": "UPSIDA/EE /2025605", "name": "Upsida Technical Verification Of 33Kv, 11Kv, And Lt Network System", "faculty": ["F058"], "sub": "SD3.1", "dom": "D3", "fund": "Up State Industrial Development Authority", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P158", "no": "UPSIDA/EE /2025613", "name": "Upsida Technical Inspection Of Feeder Designs For Prayagraj", "faculty": ["F058"], "sub": "SD3.1", "dom": "D3", "fund": "Up State Industrial Development Authority", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P159", "no": "IITK /EE /2023262", "name": "Photonic Device Characterization Facility", "faculty": ["F061"], "sub": "SD6.1", "dom": "D6", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P160", "no": "DST /EE /2024453B", "name": "Field-Deployable Quantum-Enhanced Sensors On Integrated Hybrid Platform", "faculty": ["F061"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P161", "no": "DST /EE /2025630B", "name": "Setting Up Of Fabrication And Centralized Facilities For Quantum Sensing & Metrology Under The National Quantum Mission", "faculty": ["F061"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P162", "no": "IITK /EE /2022281", "name": "Array-Level Semiconductor Device Characterization Facility", "faculty": ["F063"], "sub": "SD5.3", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P163", "no": "MOE /EE /PMR11008", "name": "Pmrf Sub Project", "faculty": ["F063"], "sub": "SD5.3", "dom": "D5", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P164", "no": "DST /EE /2024075", "name": "Neuromorphic Computing And Neuro-Optimizer Platforms Utilizing High-Yield Passive Rram Crossbar Arrays", "faculty": ["F063"], "sub": "SD5.3", "dom": "D5", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P165", "no": "IITK /EE /2023297", "name": "Distributed Systems And Control Lab (Disco Lab)", "faculty": ["F064"], "sub": "SD8.2", "dom": "D8", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P166", "no": "DRDO /EE /2024118", "name": "Design And Development Of A Tether System For Drone Application", "faculty": ["F064"], "sub": "SD8.2", "dom": "D8", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P167", "no": "TCOE /EE /2024624", "name": "Ai-Driven Semantic Communications For 6G Networks", "faculty": ["F067"], "sub": "SD2.1", "dom": "D2", "fund": "Telecom Centre Of Excellence India", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P168", "no": "IITK /EE /2025187", "name": "Advance Artificial Intelligence And Networking Facility", "faculty": ["F067"], "sub": "SD2.2", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P169", "no": "IITK /EE /2021179", "name": "Development Of Intelligent Systems & Control Lab Lda", "faculty": ["F069"], "sub": "SD4.2", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P170", "no": "IITK /EE /2023067", "name": "Power Electronics & Green Transportation Lab", "faculty": ["F069"], "sub": "SD4.1", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P171", "no": "IITK /EE /2021499", "name": "Professional Development Account", "faculty": ["F070"], "sub": "SD3.4", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P172", "no": "MOE /EE /PMR10025", "name": "Pmrf Sub Project", "faculty": ["F070"], "sub": "SD3.4", "dom": "D3", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P173", "no": "SERB /EE /2023699", "name": "Flexible Contracts To Procure Ancillary Services For Indian Power Markets", "faculty": ["F070"], "sub": "SD3.4", "dom": "D3", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P174", "no": "GRIDI /EE /2025453", "name": "Utilization Of Battery Energy Storage System For Providing Market Based Ancillary Services And Energy Arbitrage", "faculty": ["F070"], "sub": "SD3.3", "dom": "D3", "fund": "Grid Controller Of India Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P175", "no": "IITK /EE /2025572", "name": "Transactive Energy Systems Laboratory", "faculty": ["F070"], "sub": "SD3.4", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P176", "no": "PB /EE /2021128C", "name": "Automatic Speech Recognition For Speech Subtitling", "faculty": ["F071"], "sub": "SD1.3", "dom": "D1", "fund": "Prasar Bharati", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P177", "no": "PB /EE /2021128B", "name": "Archival Content Retrieval Through Audio And Text Query", "faculty": ["F071"], "sub": "SD1.3", "dom": "D1", "fund": "Prasar Bharati", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P178", "no": "IITK /EE /2021424", "name": "Professional Development Account", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P179", "no": "IITK /EE /2022166", "name": "Facility Of Imaging And Ai Computations And Hw Device Development", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P180", "no": "C3IHUB/EE /2023221", "name": "Vulnerability Discovery And Liveness Detection For Improving The Security In Biometric Authentication Systems", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "C3Ihub", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P181", "no": "ANRF /EE /2024383", "name": "Star-Agri: Spectro-Temporal Analysis For Regional Indian Agricultural Crops For High-Yield Potential", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P182", "no": "ARMREB/EE /2024322A", "name": "Hob System Design And Integration", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "Armament Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P183", "no": "ITCLTD/EE /2025023", "name": "Ai And Deep Learning Based Prototype Development For Wheat Grains", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "Itc Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P184", "no": "SAMSUN/EE /2025295", "name": "Deep Portrait Video Relighting", "faculty": ["F071"], "sub": "SD1.2", "dom": "D1", "fund": "Samsung", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P185", "no": "IITK /EE /2020329", "name": "Professional Development Account", "faculty": ["F072"], "sub": "SD8.2", "dom": "D8", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P186", "no": "MOE /EE /PMR10001", "name": "Pmrf Sub Project", "faculty": ["F072"], "sub": "SD8.2", "dom": "D8", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P187", "no": "IITK /EE /2024365", "name": "Development Of Distributed Control & Decision Lab", "faculty": ["F072"], "sub": "SD8.2", "dom": "D8", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P188", "no": "DST /EE /2024308", "name": "Inspire Faculty Fellowship", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P189", "no": "IITK /EE /2024291", "name": "Development Of A Capacitive Wireless Charging System For Electric Scooters", "faculty": ["F073"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P190", "no": "IITK /EE /2024288", "name": "Professional Development Account", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P191", "no": "JUNIPР/EE /2024591", "name": "Analog Implementation Of Closed-Loop Control Techniques For Synchronous Buck Converter", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Juniper Networks India Private Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P192", "no": "IITK /EE /2025038", "name": "Meipes Lab", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P193", "no": "ANRF /EE /2025140", "name": "Empowering Research In Indigenous Development Of Ev Sub-Systems (E-Rides)", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P194", "no": "ANRF /EE /2025140A", "name": "Dc-Dc Converter For Configurable Ev Charger", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P195", "no": "ANRF /EE /2025153", "name": "Emi Performance And Efficiency Optimization Of On-Board Battery Chargers For Electric Scooters", "faculty": ["F073"], "sub": "SD4.2", "dom": "D4", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P196", "no": "IITK /EE /2023730", "name": "Uplink Noma-Aided Cooperative Integrated Sensing And Communications Via Multi-Agent Reinforcement Learning", "faculty": ["F077"], "sub": "SD2.1", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P197", "no": "IITK /EE /2024239", "name": "Professional Development Account", "faculty": ["F077"], "sub": "SD1.1", "dom": "D1", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P198", "no": "DST /EE /2025365E", "name": "Intelligent Spectrum Innovation Icon", "faculty": ["F077"], "sub": "SD2.1", "dom": "D2", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P199", "no": "ANRF /EE /2025169", "name": "Distributionally Robust Constrained Reinforcement Learning With Function Approximation", "faculty": ["F077"], "sub": "SD1.1", "dom": "D1", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P200", "no": "OLF /EE /2020319", "name": "Indigenization Of Ballistic Computer (1V528) Of T-90 Tanks", "faculty": ["F078"], "sub": "SD2.4", "dom": "D2", "fund": "Opto Electronics Factory", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P201", "no": "IITK /EE /2025034", "name": "Lab Development Account (Networks Lab)", "faculty": ["F078"], "sub": "SD2.4", "dom": "D2", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P202", "no": "HBL /EE /2025306", "name": "Development Of Dcs For Use In Cbtc Solution Developed By The Hbl", "faculty": ["F078"], "sub": "SD2.4", "dom": "D2", "fund": "Hbl Engineering Limited", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P203", "no": "IITK /EE /2022001", "name": "Wafer Characterization Laboratory", "faculty": ["F079"], "sub": "SD5.1", "dom": "D5", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P204", "no": "MOE /EE /PMR9014", "name": "Pmrf Sub-Project", "faculty": ["F079"], "sub": "SD5.1", "dom": "D5", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P205", "no": "MOE /EE /PMR11056", "name": "Pmrf Sub Project", "faculty": ["F079"], "sub": "SD5.1", "dom": "D5", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P206", "no": "SERB /EE /2023709", "name": "Rf Characterization And Compact Modeling Of Wide Band-Gap Gallium Nitride (Gan) Devices For The Next Generation Wireless Communication", "faculty": ["F079"], "sub": "SD2.1", "dom": "D2", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P207", "no": "DIC /EE /2023827A", "name": "Visvesvaraya Phd Scheme", "faculty": ["F079"], "sub": "SD5.1", "dom": "D5", "fund": "Digital India Corporation", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P208", "no": "INAE /EE /2024125", "name": "Design And Technology Co-Optimization Of Stacked Nanosheet Rf For 6G Applications", "faculty": ["F079"], "sub": "SD2.1", "dom": "D2", "fund": "Indian National Academy Of Engineering", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P209", "no": "MHRD /EE /2024126", "name": "In-Memory Computing Utilizing Ferroelectric Transistors", "faculty": ["F079"], "sub": "SD5.3", "dom": "D5", "fund": "Min. Of Human Resource Develop", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P210", "no": "DIC /EE /2025751", "name": "Visvesvaraya Phd Fellowship Awarded To Muntaha Rafiq", "faculty": ["F079"], "sub": "SD5.1", "dom": "D5", "fund": "Digital India Corporation", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "EE"}, {"id": "P211", "no": "STC /EE /2024427M", "name": "Characterization And Modeling Of High Voltage N/P Ldmos Fets For 180Nm Scl Process", "faculty": ["F079"], "sub": "SD3.5", "dom": "D3", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P212", "no": "DST /EE /2024573", "name": "Quantum Computing - Design And Development", "faculty": ["F079"], "sub": "SD6.2", "dom": "D6", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "EE"}, {"id": "P213", "no": "IITK /SEE /2023166", "name": "Professional Development Account", "faculty": ["F003"], "sub": "SD7.4", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P214", "no": "IITK /SEE /2022442", "name": "Professional Development Account", "faculty": ["F010"], "sub": "SD4.2", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P215", "no": "IITK /SEE /2022576A", "name": "Iitk Motorsports: Institute Support Grant", "faculty": ["F010"], "sub": "SD4.2", "dom": "D4", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P216", "no": "SERB /SEE /2021537", "name": "Development Of Transparent Perovskite Devices For Building Integrated Photovoltaics (Trade)", "faculty": ["F012"], "sub": "SD7.1", "dom": "D7", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P217", "no": "R&D /SEE /2023328", "name": "Additional Fund To Purchase Integrated Fluorescence Spectrophotometer With Time Correlated Single Photon Counting", "faculty": ["F012"], "sub": "SD7.1", "dom": "D7", "fund": "R & D Fund", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P218", "no": "MOE /SEE /PMR11046", "name": "Pmrf Sub Project", "faculty": ["F014"], "sub": "SD7.2", "dom": "D7", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P219", "no": "IITK /SEE /2020331", "name": "Dpa Of Sustainable Energy Engineering Department", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P220", "no": "IITK /SEE /2021175", "name": "Atomic Force Microscopy Facility Lda", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P221", "no": "IITK /SEE /2023630", "name": "Dpa - Chandrakanta Kesavan Centre For Energy Policy & Climate Solutions", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P222", "no": "IITK /SEE /2025027", "name": "Squid Magnetometer Facility", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P223", "no": "DST /SEE /2025125", "name": "Environment-Friendly Processing Approaches For Fabricating Perovskite Solar Cells", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P224", "no": "MISC /SEE /2025223", "name": "Department Of Sustainable Energy Engineering (Dsees)", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Miscellaneous", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P225", "no": "IITK /SEE /2025265", "name": "See Material Characterization Lab", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P226", "no": "DST /SEE /2025330", "name": "Innovative Mechanical Process For Efficient And Sustainable Recycling Of End-Of-Life Solar Panels", "faculty": ["F016"], "sub": "SD7.6", "dom": "D7", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P227", "no": "MISC /SEE /T26-22", "name": "Testing Account", "faculty": ["F016"], "sub": "SD7.1", "dom": "D7", "fund": "Miscellaneous", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P228", "no": "MOE /SEE /PMR10022", "name": "Pmrf Sub Project", "faculty": ["F022"], "sub": "SD7.2", "dom": "D7", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P229", "no": "IITK /SEE /2021341", "name": "Developing Pathways To Decarbonize The Indian Iron And Steel Industry", "faculty": ["F023"], "sub": "SD7.5", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P230", "no": "IITK /SEE /2022464", "name": "Professional Development Account", "faculty": ["F023"], "sub": "SD3.4", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P231", "no": "CFDRI /SEE /2025252", "name": "Resilient Infrastructure Planning For Glof-Prone Regions: Focus On Western Himalayas And Kullu Valley", "faculty": ["F023"], "sub": "SD3.4", "dom": "D3", "fund": "Coalition For Disaster Resilient Infrastructure", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P232", "no": "VEDA-O/SEE /2025436", "name": "Assessment Of Site Sustainability Of Nuclear Plant", "faculty": ["F023"], "sub": "SD3.4", "dom": "D3", "fund": "Vedanta Limited", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P233", "no": "IITK /SEE /2022481", "name": "Professional Development Account", "faculty": ["F032"], "sub": "SD7.2", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P234", "no": "IITK /SEE /2024564", "name": "Lab Development Account For Electrochemical Energy Systems Lab", "faculty": ["F032"], "sub": "SD7.2", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P235", "no": "IITK /SEE /2024404", "name": "Professional Development Account", "faculty": ["F033"], "sub": "SD7.4", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P236", "no": "EIL /SEE /2025390", "name": "Catalytic Solar Thermal Decomposition Of Ammonia To Produce Hydrogen", "faculty": ["F033"], "sub": "SD7.3", "dom": "D7", "fund": "Engineers India Limited", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P237", "no": "ANRF /SEE /2025470", "name": "A Novel Waste Heat Recovery And Reuse Sub-System For Efficient Hydrogen Regeneration Via Ammonia Cracking In A Solar Tower Simulator", "faculty": ["F033"], "sub": "SD7.3", "dom": "D7", "fund": "Anusandhan National Research Foundation", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P238", "no": "IITK /SEE /2022372", "name": "Professional Development Account", "faculty": ["F044"], "sub": "SD3.3", "dom": "D3", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P239", "no": "UPNEDA/SEE /2023810", "name": "Inspection And Assessment Of Bio-Energy Projects In The State Of Uttar Pradesh", "faculty": ["F044"], "sub": "SD3.3", "dom": "D3", "fund": "Upneda", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P240", "no": "SERB /SEE /2021514", "name": "Centre For Rechargeable Energy Storage Systems For Augmenting Transportation And Electrification (Create)", "faculty": ["F050"], "sub": "SD7.2", "dom": "D7", "fund": "Science & Engineering Research Board", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P241", "no": "IITK /SEE /2025057", "name": "Photothermal Nanoadsorbents For Solar-Driven Carbon Capture", "faculty": ["F059"], "sub": "SD7.3", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P242", "no": "IITK /SEE /2024224", "name": "Initiation Grant", "faculty": ["F060"], "sub": "SD7.6", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P243", "no": "IITK /SEE /2024445", "name": "Professional Development Account", "faculty": ["F060"], "sub": "SD7.6", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P244", "no": "DST /SEE /2021223", "name": "Transition Metal Oxides And Chalcogenides Based Hierarchical Nanostructures For Energy Storage And Conversion Systems", "faculty": ["F062"], "sub": "SD7.2", "dom": "D7", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P245", "no": "IITK /SEE /2024098", "name": "Integrated Electrochemical Systems For Sustainable Carbon Transformation", "faculty": ["F065"], "sub": "SD7.3", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P246", "no": "IITK /SEE /2024293", "name": "Professional Development Account", "faculty": ["F065"], "sub": "SD7.3", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P247", "no": "DST /SEE /2021513", "name": "Dst-Materials Map", "faculty": ["F066"], "sub": "SD7.1", "dom": "D7", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P248", "no": "SWANSE/SEE /2025288", "name": "Tea @ Sunrise", "faculty": ["F066"], "sub": "SD7.1", "dom": "D7", "fund": "Swansea University", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P249", "no": "IITK /SEE /2024058", "name": "Large-Area Lamination Of Semitransparent Perovskite Solar Cells With Ambient-Processed Transport Layers", "faculty": ["F066"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P250", "no": "IITK /SEE /2024560", "name": "Professional Development Account", "faculty": ["F066"], "sub": "SD7.1", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P251", "no": "DST /SEE /2025124", "name": "Large-Area Lamination Of Perovskites For Efficient And Durable 4T Silicon-Perovskite Tandem Solar Cells", "faculty": ["F066"], "sub": "SD7.1", "dom": "D7", "fund": "Department Of Sc.& Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P252", "no": "IITK /SEE /2022475", "name": "Professional Development Account", "faculty": ["F068"], "sub": "SD7.2", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P253", "no": "STC /SEE /2023664I", "name": "Development Of Earth Abundant Organic Materials As Cathode For High Energy Density Solid-State Li-Ion Batteries", "faculty": ["F068"], "sub": "SD7.2", "dom": "D7", "fund": "Space Technology Cell", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P254", "no": "DRDO /SEE /2024393", "name": "Flexible Solid-Electrolyte Alternative Chemistry Batteries (Flex Sea Bat)", "faculty": ["F068"], "sub": "SD7.2", "dom": "D7", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P255", "no": "NEXERA/SEE /2025379", "name": "Lithium-Ion Battery Materials Development And Performance Evaluation", "faculty": ["F068"], "sub": "SD7.2", "dom": "D7", "fund": "Nexera Chem Private Limited", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P256", "no": "DRDO /SEE /2025703", "name": "Design And Fabrication Of High Energy Density & High C-Rate Rechargeable Batteries", "faculty": ["F068"], "sub": "SD7.2", "dom": "D7", "fund": "Defence R & D Organisation", "type": "Research Project", "status": "Active", "dept": "SEE"}, {"id": "P257", "no": "MOE /SEE /PMR10019", "name": "Pmrf Sub Project", "faculty": ["F074"], "sub": "SD7.4", "dom": "D7", "fund": "Ministry Of Education", "type": "Admin / Lab / Fellowship", "status": "Active", "dept": "SEE"}, {"id": "P258", "no": "IITK /SEE /2025054", "name": "Ni/Co/Mn Recovery As Their Mixed Metal Sulphates From Spent Li-Ion Batteries", "faculty": ["F076"], "sub": "SD7.2", "dom": "D7", "fund": "Indian Institute Of Technology", "type": "Research Project", "status": "Active", "dept": "SEE"}]};
+
+/* Earthy domain accents derived from the brand palette */
+const EMBEDDED_DB=DB;  /* reference rakha; SHEET_FIRST hua to neeche khaali kar denge */
+const COLORS={D1:'#AB4531',D2:'#C9943A',D3:'#67705F',D4:'#4F7A5B',D5:'#6F5B82',D6:'#A85D75',D7:'#3E7C7C',D8:'#8A5A33'};
+const SOFT  ={D1:'#F6E3DE',D2:'#F6ECD9',D3:'#E9ECE6',D4:'#E2EEE6',D5:'#ECE6F2',D6:'#F4E3EA',D7:'#DFEEEE',D8:'#F0E4D8'};
+
+/* ======= IMAGES — replace any URL with official IITK photos (or local files) ======= */
+const DOMAIN_IMG={
+  D1:'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=60',  /* AI */
+  D2:'https://images.unsplash.com/photo-1516044734145-07ca8eef8731?auto=format&fit=crop&w=800&q=60',  /* telecom tower */
+  D3:'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=60',  /* power infra */
+  D4:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=800&q=60',  /* EV charging */
+  D5:'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=60',  /* chip */
+  D6:'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=60',  /* physics/quantum */
+  D7:'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=60',  /* solar */
+  D8:'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=60'   /* robotics */
+};
+const HERO_IMG=[
+  'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=60',     /* lab research */
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=700&q=60',        /* network/servers */
+  'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=60'      /* microscope */
+];
+
+const ICONS={
+ D1:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5" cy="12" r="2.1"/><circle cx="19" cy="5" r="2.1"/><circle cx="19" cy="19" r="2.1"/><circle cx="12" cy="12" r="2.6"/><path d="M7 11.3l2.5-.6M14.4 10.6L17 6.6M14.4 13.4L17 17.4M7.1 12.7l2.4.5"/></svg>',
+ D2:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21V11"/><circle cx="12" cy="9" r="2.2"/><path d="M7.5 4.8a8 8 0 0 0 0 8.4M16.5 4.8a8 8 0 0 1 0 8.4M5 2.5a12 12 0 0 0 0 13M19 2.5a12 12 0 0 1 0 13" stroke-linecap="round"/></svg>',
+ D3:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 3h6l-2.2 6H17L8.5 21l2-8H6L9 3z" stroke-linejoin="round"/></svg>',
+ D4:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="15" height="10" rx="2"/><path d="M21 11v4M10.8 10l-2 3h3l-2 3" stroke-linejoin="round"/><path d="M7 5.5h7"/></svg>',
+ D5:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="7" width="10" height="10" rx="1.5"/><rect x="10.2" y="10.2" width="3.6" height="3.6"/><path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M7 9H4M7 12H4M7 15H4M20 9h-3M20 12h-3M20 15h-3"/></svg>',
+ D6:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>',
+ D7:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3.6"/><path d="M12 3v2.4M12 18.6V21M3 12h2.4M18.6 12H21M5.6 5.6l1.7 1.7M16.7 16.7l1.7 1.7M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7" stroke-linecap="round"/></svg>',
+ D8:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5.5" cy="19" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 17.4L10.6 11.6M13.9 9L17 7M3 22h18" stroke-linecap="round"/></svg>'
+};
+const IITK_LOGO_SOURCES=['IITK Logo (1).png','https://www.iitk.ac.in/new/images/IIT_Kanpur_Logo.png']; /* pehle local file, phir official URL; apni file ka naam/path yahan rakhein */
+const EMAIL_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>';
+const PHONE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>';
+const LINK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg>';
+const PERSON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4.2 4.2 0 1 0 0-8.4A4.2 4.2 0 0 0 12 12zm0 2.1c-4.4 0-7.6 2.3-7.6 5.1v1.2h15.2v-1.2c0-2.8-3.2-5.1-7.6-5.1z"/></svg>';
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const byId=(a,id)=>a.find(x=>x.id===id);
+const domainOf=sid=>byId(DB.domains, byId(DB.subdomains,sid).domain);
+const colorOfSub=sid=>COLORS[byId(DB.subdomains,sid).domain];
+const subsOfDomain=d=>DB.subdomains.filter(s=>s.domain===d);
+const facultyOfSub=sid=>DB.faculty.filter(f=>f.subs.includes(sid));
+const projectsOfSub=sid=>DB.projects.filter(p=>p.sub===sid);
+const projectsOfFaculty=fid=>DB.projects.filter(p=>p.faculty.includes(fid));
+const projectsOfDomain=d=>DB.projects.filter(p=>p.dom===d);
+const facultyOfDomain=d=>DB.faculty.filter(f=>f.domain===d||f.subs.some(s=>byId(DB.subdomains,s).domain===d));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fcolor=f=>COLORS[f.domain]||'#AB4531';
+const fsoft=f=>SOFT[f.domain]||'#F6E3DE';
+const DEPT_FULL={EE:'Electrical Engineering',SEE:'Sustainable Energy Engineering','EE+BSBE':'EE + BSBE (Joint)'};
+const deptFull=d=>DEPT_FULL[d]||d;
+const shortName=n=>{ // "Dr. Aditya K. Jagannatham" -> "Dr. Jagannatham" for tight graph labels
+  const parts=n.replace(/^(Dr|Prof)\.?\s*/i,'').split(' ').filter(Boolean);
+  return 'Dr. '+(parts.length>2?parts[0]+' '+parts[parts.length-1]:parts.join(' '));
+};
+
+/* =========================================================
+   LANDING PAGE
+   ========================================================= */
+function renderDiscover(){
+  // hero visual collage with graceful fallback
+  $('#hero-visual').innerHTML=
+    `<div class="hv-img hv-1"><div class="hv-fallback">${ICONS.D1}</div><img src="${HERO_IMG[0]}" alt="Research at IIT Kanpur" onerror="this.remove()"></div>
+     <div class="hv-img hv-2"><div class="hv-fallback">${ICONS.D5}</div><img src="${HERO_IMG[1]}" alt="" onerror="this.remove()"></div>
+     <div class="hv-img hv-3"><div class="hv-fallback">${ICONS.D7}</div><img src="${HERO_IMG[2]}" alt="" onerror="this.remove()"></div>
+     <div class="hv-badge"><b>${DB.projects.length}</b><span>Active projects</span></div>`;
+
+  const stats=[[DB.domains.length,'Research domains'],[DB.subdomains.length,'Sub-domains'],[DB.faculty.length,'Faculty members'],[DB.projects.length,'Sponsored projects']];
+  $('#hero-stats').innerHTML=stats.map(([n,l])=>`<div class="sstat"><b>${n}</b><span>${l}</span></div>`).join('');
+  $('#foot-stats').textContent=`${DB.faculty.length} faculty · ${DB.projects.length} projects mapped`;
+
+  $('#domain-grid').innerHTML=DB.domains.map(d=>{
+    const fac=facultyOfDomain(d.id),prj=projectsOfDomain(d.id),subs=subsOfDomain(d.id);
+    const top3=subs.slice().sort((a,b)=>projectsOfSub(b.id).length-projectsOfSub(a.id).length).slice(0,3).map(s=>s.name);
+    return `<div class="dcard" style="--dc:${COLORS[d.id]};--dc-soft:${SOFT[d.id]}" onclick="openDomain('${d.id}')">
+      <div class="dimg">
+        <div class="fallback">${ICONS[d.id]}</div>
+        <img src="${DOMAIN_IMG[d.id]}" alt="${esc(d.name)}" loading="lazy" onerror="this.remove()">
+        <span class="badge">${ICONS[d.id]}</span>
+      </div>
+      <div class="dbody">
+        <h3>${esc(d.name)}</h3>
+        <p>${esc(d.desc||d.apps)}</p>
+        <div class="dsubs">${top3.map(esc).join(' · ')}</div>
+        <div class="dfoot">
+          <span class="nums"><b>${fac.length}</b> faculty · <b>${prj.length}</b> projects</span>
+          <span class="go">Explore →</span>
+        </div>
+      </div></div>`;
+  }).join('');
+
+  $('#foot-domains').innerHTML=DB.domains.map(d=>`<li onclick="openDomain('${d.id}')">${esc(d.name)}</li>`).join('');
+
+  const ranked=DB.faculty.map(f=>({f,n:projectsOfFaculty(f.id).length})).sort((a,b)=>b.n-a.n).slice(0,10);
+  $('#fac-scroll').innerHTML=ranked.map(({f,n})=>{
+    const c=fcolor(f);
+    return `<div class="fcard" style="--dc:${c};--dc-soft:${fsoft(f)}" onclick='navigate({type:"faculty",id:"${f.id}"})'>
+      <div class="photo">${f.photo?`<img src="${esc(f.photo)}" alt="${esc(f.name)}" onerror="this.outerHTML='${PERSON.replace(/'/g,"\\'")}'">`:PERSON}</div>
+      <h4>${esc(f.name)}</h4>
+      <div class="meta">${esc(f.desig||'Faculty')} · ${esc(f.dept)}, IIT Kanpur</div>
+      <div class="area">${esc((f.areas||'').split(';').slice(0,3).join(' · '))}</div>
+      <span class="cnt">${n} sponsored projects</span>
+    </div>`;
+  }).join('');
+
+  const counts={};DB.projects.forEach(p=>{counts[p.fund]=(counts[p.fund]||0)+1;});
+  const top=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,14);
+  $('#fund-row').innerHTML=top.map(([f,n])=>`<button class="fund-chip" onclick="bigSearchSet('${esc(f).replace(/'/g,"\\'")}')">${esc(f)} <b>${n}</b></button>`).join('');
+
+  const subRank=DB.subdomains.map(s=>({s,n:projectsOfSub(s.id).length})).sort((a,b)=>b.n-a.n).slice(0,6);
+  const mxS=subRank.length?subRank[0].n:1;
+  if($('#pulse-subs'))$('#pulse-subs').innerHTML=subRank.map(({s,n})=>
+    `<div class="prow" onclick='navigate({type:"subdomain",id:"${s.id}"})'>
+      <span class="nm">${esc(s.name)}</span>
+      <span class="bar"><i style="width:${Math.max(8,Math.round(n/mxS*100))}%;background:${COLORS[s.domain]}"></i></span><b>${n}</b></div>`).join('');
+  const topF=top.slice(0,6),mxF=topF.length?topF[0][1]:1;
+  if($('#pulse-funds'))$('#pulse-funds').innerHTML=topF.map(([f,n])=>
+    `<div class="prow" onclick="bigSearchSet('${esc(f).replace(/'/g,"\\'")}')">
+      <span class="nm">${esc(f)}</span>
+      <span class="bar"><i style="width:${Math.max(8,Math.round(n/mxF*100))}%;background:var(--gold)"></i></span><b>${n}</b></div>`).join('');
+}
+
+/* =========================================================
+   NAVIGATION / STATE
+   ========================================================= */
+let view=null,historyStack=[],panelOpen=true,lastView=null;
+function setTabs(mode){$('#tab-discover').classList.toggle('active',mode==='home');$('#tab-map').classList.toggle('active',mode==='map');$('#tab-dir').classList.toggle('active',mode==='dir');}
+function goDiscover(){$('#discover').classList.remove('hidden');$('#mapview').classList.remove('active');$('#facdir').classList.remove('active');setTabs('home');}
+function openLastMap(){if(lastView)navigate(lastView,false);else openDomain('D1');}
+function showMap(){$('#discover').classList.add('hidden');$('#facdir').classList.remove('active');$('#mapview').classList.add('active');setTabs('map');sizeDots();}
+function showFacultyDir(){
+  $('#discover').classList.add('hidden');$('#mapview').classList.remove('active');
+  $('#facdir').classList.add('active');setTabs('dir');
+  if(!$('#dir-grid').dataset.ready){initDir();$('#dir-grid').dataset.ready='1';}
+  renderDir();
+}
+function openDomain(id){prevPos={};navigate({type:'domain',id});}
+function openProjectGlobal(pid){const p=byId(DB.projects,pid);navigate({type:'faculty',id:p.faculty[0]},true,()=>showProjectPanel(pid));}
+function navigate(v,push=true,after){
+  view=v;lastView=v;showMap();
+  if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept));historyStack.push({...v});}
+  drawGraph();renderBreadcrumb();renderHistory();renderLegend();renderModeSwitch();openPanel();renderCenterPanel();
+  if(after)after();
+}
+function renderModeSwitch(){
+  const box=$('#mode-switch');if(!box)return;
+  const show=view&&view.type==='subdomain';
+  box.classList.toggle('show',show);
+  if(show){
+    $('#ms-fac').classList.toggle('on',view.mode!=='dept');
+    $('#ms-dept').classList.toggle('on',view.mode==='dept');
+  }
+}
+function goBack(){const t=breadcrumbTrail();if(t.length>1)navigate(t[t.length-2].view);else goDiscover();}
+function breadcrumbTrail(){
+  const t=[];if(!view)return t;
+  if(view.type==='domain')t.push({label:byId(DB.domains,view.id).name,view});
+  if(view.type==='subdomain'){const sd=byId(DB.subdomains,view.id);
+    t.push({label:domainOf(view.id).name,view:{type:'domain',id:sd.domain}});t.push({label:sd.name,view});}
+  if(view.type==='subdept'){const sd=byId(DB.subdomains,view.id);
+    t.push({label:domainOf(view.id).name,view:{type:'domain',id:sd.domain}});
+    t.push({label:sd.name,view:{type:'subdomain',id:sd.id,mode:'dept'}});
+    t.push({label:deptFull(view.dept),view});}
+  if(view.type==='faculty'){const f=byId(DB.faculty,view.id);
+    const did=f.domain||(f.subs[0]?byId(DB.subdomains,f.subs[0]).domain:'D1');
+    const dom=byId(DB.domains,did);
+    t.push({label:dom?dom.name:'Research',view:{type:'domain',id:did}});
+    if(f.subs[0]){const s=byId(DB.subdomains,f.subs[0]);t.push({label:s.name,view:{type:'subdomain',id:s.id}});}
+    t.push({label:f.name,view});}
+  return t;
+}
+function renderBreadcrumb(){
+  const t=breadcrumbTrail();
+  $('#breadcrumb').innerHTML=`<button class="crumb" onclick="goDiscover()">Home</button><span class="crumb-sep">›</span>`+
+    t.map((c,i)=>`<button class="crumb ${i===t.length-1?'current':''}" onclick='navigate(${JSON.stringify(c.view)})'>${esc(c.label)}</button>`).join('<span class="crumb-sep">›</span>');
+}
+function renderHistory(){
+  const lvl={domain:'Domain',subdomain:'Sub-domain',subdept:'Department',faculty:'Faculty'};
+  const nm=h=>h.type==='domain'?byId(DB.domains,h.id).name
+    :h.type==='subdomain'?byId(DB.subdomains,h.id).name
+    :h.type==='subdept'?`${deptFull(h.dept)} · ${byId(DB.subdomains,h.id).name}`
+    :byId(DB.faculty,h.id).name;
+  $('#history-list').innerHTML=historyStack.slice().reverse().slice(0,10)
+    .map(h=>`<div class="hist-item" onclick='navigate(${JSON.stringify({type:h.type,id:h.id,dept:h.dept})});toggleHistory()'><span class="lvl">${lvl[h.type]}</span>${esc(nm(h))}</div>`).join('')||'<div class="hist-item">No history yet</div>';
+}
+function toggleHistory(e){if(e)e.stopPropagation();$('#history-list').classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('#history-box'))$('#history-list').classList.remove('open');});
+function renderLegend(){
+  let items;
+  if(view.type==='domain')items=['Centre — Domain','Ring — Sub-domains','Click a sub-domain to go deeper'];
+  else if(view.type==='subdomain')items=view.mode==='dept'
+    ?['Centre — Sub-domain','Ring — Departments','Click a department to see its faculty']
+    :['Centre — Sub-domain','Ring — Faculty','Click a faculty member to go deeper'];
+  else if(view.type==='subdept')items=['Centre — Department','Ring — Faculty of this dept','Click a faculty member to go deeper'];
+  else items=['Centre — Faculty','Ring — Their projects','Click a project for details'];
+  $('#legend').innerHTML=items.map(l=>`<div class="leg-item"><span class="leg-dot"></span>${l}</div>`).join('');
+}
+function togglePanel(){panelOpen=!panelOpen;$('#side-panel').classList.toggle('open',panelOpen);$('#btn-panel').textContent=panelOpen?'Hide panel →':'← Show panel';repositionGraph();}
+function openPanel(){const was=panelOpen;panelOpen=true;$('#side-panel').classList.add('open');$('#btn-panel').textContent='Hide panel →';if(!was)repositionGraph();}
+function repositionGraph(){
+  try{
+    if(!gRoot||!$('#mapview').classList.contains('active'))return;
+    const ob=baseX;baseX=-panelOffset()/2;
+    gRoot.setAttribute('transform',`translate(${zoom.x+baseX},${zoom.y}) scale(${zoom.k})`);
+    gRoot.animate([{transform:`translate(${zoom.x+ob}px,${zoom.y}px) scale(${zoom.k})`},
+                   {transform:`translate(${zoom.x+baseX}px,${zoom.y}px) scale(${zoom.k})`}],
+      {duration:380,easing:'cubic-bezier(.4,0,.2,1)'});
+  }catch(e){}
+}
+
+/* =========================================================
+   GRAPH MODEL
+   ========================================================= */
+function buildGraphData(){
+  if(view.type==='domain'){
+    const d=byId(DB.domains,view.id),c=COLORS[d.id];
+    const ring=subsOfDomain(d.id).map(s=>({id:s.id,kind:'subdomain',label:s.name,color:c,
+      count:`${facultyOfSub(s.id).length} faculty · ${projectsOfSub(s.id).length} projects`}));
+    return {center:{label:d.name,sub:'Research domain',color:c},ring};
+  }
+  if(view.type==='subdomain'){
+    const s=byId(DB.subdomains,view.id),c=colorOfSub(s.id);
+    if(view.mode==='dept'){
+      const fac=facultyOfSub(s.id),prj=projectsOfSub(s.id);
+      /* domain se related SAARE departments — jis dept ki is area mein faculty nahi, wo dimmed */
+      const depts=[...new Set(facultyOfDomain(s.domain).map(f=>f.dept))].sort();
+      const ring=depts.map(dp=>{
+        const nf=fac.filter(f=>f.dept===dp).length,np=prj.filter(p=>p.dept===dp).length;
+        return {id:dp,kind:'dept',label:deptFull(dp),color:c,dim:nf===0,
+          count:nf?`${nf} faculty · ${np} projects`:'No faculty in this area'};
+      });
+      return {center:{label:s.name,sub:domainOf(s.id).name,color:c},ring};
+    }
+    const ring=facultyOfSub(s.id).map(f=>({id:f.id,kind:'faculty',label:f.name,color:c,
+      count:projectsOfFaculty(f.id).length+' projects',ava:true}));
+    return {center:{label:s.name,sub:domainOf(s.id).name,color:c},ring};
+  }
+  if(view.type==='subdept'){
+    const s=byId(DB.subdomains,view.id),c=colorOfSub(s.id);
+    const ring=facultyOfSub(s.id).filter(f=>f.dept===view.dept).map(f=>({id:f.id,kind:'faculty',label:f.name,color:c,
+      count:projectsOfFaculty(f.id).filter(p=>p.dept===view.dept).length+' projects',ava:true}));
+    return {center:{label:deptFull(view.dept),sub:s.name,color:c,dept:true},ring};
+  }
+  const f=byId(DB.faculty,view.id);const c=fcolor(f);
+  const ring=projectsOfFaculty(f.id).map(p=>({id:p.id,kind:'project',label:p.name,
+    color:p.sub?colorOfSub(p.sub):c,count:p.fund.split(' ').slice(0,4).join(' ')}));
+  const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean).slice(0,3);
+  return {center:{label:f.name,sub:(f.desig?f.desig+' · ':'')+f.dept+', IIT Kanpur',color:c,ava:true,areas},ring};
+}
+
+/* =========================================================
+   GRAPH RENDERING — WEF-style with animated recentring
+   ========================================================= */
+const svg=$('#graph-svg'),SVGNS='http://www.w3.org/2000/svg';
+let gRoot,zoom={k:1,x:0,y:0},prevPos={},drawToken=0,baseX=0;
+function panelOffset(){return (panelOpen&&window.innerWidth>760)?Math.min(430,window.innerWidth*0.94):0;}
+const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function el(t,a,p){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+function polar(r,a){return [r*Math.cos(a),r*Math.sin(a)];}
+function personGlyph(parent,r,color){
+  el('circle',{cy:-r*0.30,r:r*0.30,fill:color,'fill-opacity':.85},parent);
+  el('path',{d:`M ${-r*0.52} ${r*0.62} a ${r*0.52} ${r*0.5} 0 0 1 ${r*1.04} 0 z`,fill:color,'fill-opacity':.85},parent);
+}
+function glide(g,key,tx,ty,newPos,extraScale){
+  newPos[key]={x:tx,y:ty};
+  g.setAttribute('transform',`translate(${tx},${ty})`+(extraScale?` scale(1)`:''));
+  if(REDUCED||!g.animate)return;
+  const from=prevPos[key];
+  try{
+    if(from&&(Math.abs(from.x-tx)>1||Math.abs(from.y-ty)>1)){
+      g.animate([{transform:`translate(${from.x}px,${from.y}px) scale(${extraScale?0.55:1})`},
+                 {transform:`translate(${tx}px,${ty}px) scale(1)`}],
+        {duration:680,easing:'cubic-bezier(.45,.05,.2,1)'});
+    }else if(!from){
+      g.animate([{transform:`translate(${tx}px,${ty}px) scale(.25)`,opacity:0},
+                 {transform:`translate(${tx}px,${ty}px) scale(1)`,opacity:1}],
+        {duration:500,delay:140,easing:'ease-out',fill:'backwards'});
+    }else if(extraScale){
+      g.animate([{transform:`translate(${tx}px,${ty}px) scale(.55)`},
+                 {transform:`translate(${tx}px,${ty}px) scale(1)`}],
+        {duration:680,easing:'cubic-bezier(.45,.05,.2,1)'});
+    }
+  }catch(err){}
+}
+
+function makeLines(str,perLine,maxLines){
+  const words=String(str).split(/\s+/).filter(Boolean);
+  const lines=[''];
+  for(const w of words){
+    const li=lines.length-1;
+    if(!lines[li]||((lines[li]+' '+w).length<=perLine))lines[li]=(lines[li]+' '+w).trim();
+    else lines.push(w);
+  }
+  if(lines.length>maxLines){
+    const kept=lines.slice(0,maxLines);
+    kept[maxLines-1]=kept[maxLines-1].slice(0,Math.max(perLine-1,4)).replace(/[ ,;:.-]+$/,'')+'…';
+    return kept;
+  }
+  return lines;
+}
+
+function drawGraph(){
+  const myDraw=++drawToken;
+  svg.innerHTML='';
+  const W=svg.clientWidth||window.innerWidth,H=svg.clientHeight||(window.innerHeight-56);
+  svg.setAttribute('viewBox',`${-W/2} ${-H/2} ${W} ${H}`);
+  zoom={k:1,x:0,y:0};
+  const PW=panelOffset();
+  baseX=-PW/2;
+  gRoot=el('g',{transform:`translate(${baseX},0)`},svg);
+  const data=buildGraphData();
+  const n=data.ring.length||1;
+
+  /* ---- geometry: ek waqt mein sirf ek level — centre + uska ring ---- */
+  const isMobile=W<640;
+  const A=Math.max(W-PW-24,300);
+  const small=Math.min(A,H-(isMobile?100:60));
+  const horiz=n<=20&&!isMobile;                 /* bold horizontal labels; bahut dense ho to radial */
+  const CLEAR=horiz?150:(isMobile?40:105);      /* labels ke liye reserved space */
+  const CR=Math.max(56,Math.min(small*(isMobile?0.20:0.175),140));
+  const R=Math.max(CR+86,small/2-CLEAR);
+  const newPos={};
+
+  const defs=el('defs',{},gRoot);
+  const grad=el('radialGradient',{id:'cgrad'},defs);
+  el('stop',{offset:'0%','stop-color':data.center.color,'stop-opacity':'0.12'},grad);
+  el('stop',{offset:'100%','stop-color':data.center.color,'stop-opacity':'0.02'},grad);
+  el('circle',{r:R,class:'ring-outer'},gRoot);
+
+  data.ring.forEach((d,i)=>{d.a=-Math.PI/2+i*2*Math.PI/n;[d.x,d.y]=polar(R,d.a);});
+
+  const linkLayer=el('g',{},gRoot),nodeLayer=el('g',{},gRoot);
+  data.ring.forEach(d=>{
+    const [sx,sy]=polar(CR+12,d.a);
+    const mx=(sx+d.x)/2*1.06,my=(sy+d.y)/2*1.06;
+    el('path',{d:`M${sx},${sy} Q${mx},${my} ${d.x},${d.y}`,class:'glink','data-link':d.id},linkLayer);
+  });
+  if(!REDUCED&&linkLayer.animate){
+    try{linkLayer.animate([{opacity:0},{opacity:1}],{duration:380,delay:380,easing:'ease',fill:'backwards'});}catch(e){}}
+
+  /* ---- centre disc ---- */
+  const centerKey=view.type==='subdept'?('dept:'+view.dept):(view.type+':'+view.id);
+  const gC=el('g',{class:'gnode'},nodeLayer);
+  el('circle',{r:CR*1.32,fill:'url(#cgrad)'},gC);
+  el('circle',{r:CR,fill:'#fff',stroke:data.center.color,'stroke-width':2},gC);
+  el('circle',{r:CR+11,fill:'none',stroke:data.center.color,'stroke-width':1.6,'stroke-opacity':.85},gC);
+  let fs=Math.max(12,CR*0.145);
+  let lines=makeLines(data.center.label,Math.max(10,Math.floor((CR*1.7)/(fs*0.56))),3);
+  if(lines.length===3){fs*=0.88;lines=makeLines(data.center.label,Math.max(10,Math.floor((CR*1.7)/(fs*0.56))),3);}
+  const hasSub=CR>66;
+  const glyphOff=data.center.ava?CR*0.34:0;
+  if(data.center.ava){
+    const gp=el('g',{transform:`translate(0,${-CR*0.46}) scale(${CR*0.020})`},gC);
+    personGlyph(gp,16,data.center.color);
+  }
+  const lh=fs*1.18;
+  const y0=glyphOff-(lines.length-1)*lh/2-(hasSub?fs*0.30:0);
+  lines.forEach((l,i)=>{const tx=el('text',{y:y0+i*lh,class:'center-name','font-size':fs},gC);tx.textContent=l;});
+  if(hasSub){
+    const subT=el('text',{y:y0+lines.length*lh+2,class:'glabel-sub','text-anchor':'middle','font-size':Math.max(9,CR*0.085)},gC);
+    subT.textContent=data.center.sub.length>34?data.center.sub.slice(0,32)+'…':data.center.sub;
+  }
+  /* faculty view: research areas centre ke neeche proper details ki tarah */
+  if(data.center.areas&&data.center.areas.length&&!isMobile){
+    const at=el('text',{y:CR+34,'text-anchor':'middle','font-size':11,'font-weight':600,fill:'#4a4a4a'},gC);
+    at.textContent='Research areas';
+    data.center.areas.forEach((a,i)=>{
+      const al=el('text',{y:CR+50+i*15,'text-anchor':'middle','font-size':10.5,fill:'#6b6b6b'},gC);
+      al.textContent=a.length>46?a.slice(0,44)+'…':a;
+    });
+  }
+  gC.addEventListener('click',()=>{openPanel();renderCenterPanel();});
+  glide(gC,centerKey,0,0,newPos,true);
+
+  const domId=view.type==='domain'?view.id
+    :(view.type==='subdomain'||view.type==='subdept')?byId(DB.subdomains,view.id).domain
+    :byId(DB.faculty,view.id).domain;
+  if(!data.center.ava&&DOMAIN_IMG[domId]){
+    const pre=new Image();
+    pre.onload=()=>{
+      if(myDraw!==drawToken)return;
+      const clip=el('clipPath',{id:'cclip'},defs);
+      el('circle',{r:CR-2},clip);
+      const firstText=gC.querySelector('text');
+      const im=el('image',{href:DOMAIN_IMG[domId],x:-CR,y:-CR,width:CR*2,height:CR*2,
+        preserveAspectRatio:'xMidYMid slice','clip-path':'url(#cclip)'});
+      const ov=el('circle',{r:CR-2,fill:'rgba(46,20,15,.58)'});
+      gC.insertBefore(ov,firstText);gC.insertBefore(im,ov);
+      gC.querySelectorAll('text').forEach(tx=>tx.style.setProperty('fill','#fff','important'));
+    };
+    pre.src=DOMAIN_IMG[domId];
+  }
+
+  /* ---- ring nodes: WEF jaise bold 2-line labels, kabhi cut nahi ---- */
+  const maxL=n<=8?3:2;
+  data.ring.forEach(d=>{
+    const g=el('g',{class:'gnode'},nodeLayer);
+    if(d.dim)g.setAttribute('opacity',0.45);
+    el('circle',{r:30,fill:'rgba(255,255,255,.01)'},g);
+    const nr=d.kind==='project'?(isMobile?10:13):(isMobile?13:16);
+    el('circle',{r:nr,class:'core',fill:'#fff',stroke:d.color,'stroke-width':2},g);
+    if(d.kind==='faculty'){const gp=el('g',{transform:`scale(${isMobile?0.5:0.58})`},g);personGlyph(gp,16,d.color);}
+    else el('circle',{r:d.kind==='project'?(isMobile?3:4):(isMobile?4:5),fill:d.color,'fill-opacity':.9},g);
+
+    if(horiz){
+      const side=Math.cos(d.a)>=0?1:-1;
+      const l1=makeLines(d.label,18,maxL);
+      const showCnt=!!d.count;
+      const lh1=14;
+      const yT=-(l1.length-1)*lh1/2-(showCnt?6:0)+4;
+      const tt=el('text',{class:'r1-label','text-anchor':side>0?'start':'end',y:yT,'font-size':12.5},g);
+      l1.forEach((ln,i)=>{const ts=el('tspan',{x:side*(nr+8),dy:i?lh1:0},tt);ts.textContent=ln;});
+      if(showCnt){
+        const c2=el('text',{class:'r1-count','text-anchor':side>0?'start':'end',x:side*(nr+8),y:yT+(l1.length-1)*lh1+14},g);
+        c2.textContent=d.count.length>30?d.count.slice(0,28)+'…':d.count;
+      }
+    }else if(!isMobile){
+      const deg=d.a*180/Math.PI,flip=Math.cos(d.a)<0;
+      const lg=el('g',{transform:`rotate(${flip?deg+180:deg})`},g);
+      const l2=makeLines(d.label,21,2);
+      const tt=el('text',{class:'r2-label','text-anchor':flip?'end':'start',y:3-(l2.length-1)*5.5},lg);
+      l2.forEach((ln,i)=>{const ts=el('tspan',{x:flip?-(nr+7):(nr+7),dy:i?11:0},tt);ts.textContent=ln;});
+    }
+    attachNode(g,d);
+    glide(g,d.kind+':'+(d.real||d.id),d.x,d.y,newPos);
+  });
+
+  prevPos=newPos;
+  enablePanZoom();
+}
+function attachNode(g,d){
+  g.addEventListener('mouseenter',e=>{highlight(d.id,d.parent);showTooltip(e,d);});
+  g.addEventListener('mousemove',moveTooltip);
+  g.addEventListener('mouseleave',()=>{clearHighlight();hideTooltip();});
+  g.addEventListener('click',e=>{
+    e.stopPropagation();hideTooltip();
+    if(d.kind==='subdomain')navigate({type:'subdomain',id:d.id});
+    else if(d.kind==='dept')navigate({type:'subdept',id:view.id,dept:d.id});
+    else if(d.kind==='faculty')navigate({type:'faculty',id:d.real||d.id});
+    else if(d.kind==='project'){openPanel();showProjectPanel(d.id);pulse(g);}
+  });
+}
+function pulse(g){const c=g.querySelector('.core');if(!c)return;c.setAttribute('stroke-width',3);setTimeout(()=>c.setAttribute('stroke-width',1.4),600);}
+function highlight(id,parent){
+  svg.querySelectorAll('.glink').forEach(l=>{
+    const hit=l.getAttribute('data-link')===id||l.getAttribute('data-parent')===id||l.getAttribute('data-link')===parent;
+    l.classList.toggle('lit',hit);l.classList.toggle('dim',!hit);
+  });
+}
+function clearHighlight(){svg.querySelectorAll('.glink').forEach(l=>l.classList.remove('lit','dim'));}
+
+const tip=$('#tooltip');
+function showTooltip(e,d){
+  let body='';
+  if(d.kind==='subdomain'){const s=byId(DB.subdomains,d.id);body=`<span>${esc(s.desc||d.count||'')}</span>`;}
+  if(d.kind==='dept'){body=`<span>${esc(d.count||'')} — click to open</span>`;}
+  if(d.kind==='faculty'){const f=byId(DB.faculty,d.real||d.id);body=`<span>${esc(f.name)} · ${esc(f.desig||'')} ${esc(f.dept)} · ${projectsOfFaculty(f.id).length} projects</span>`;}
+  if(d.kind==='project'){const p=byId(DB.projects,d.id);body=`<span>${esc(p.fund)} · ${esc(p.status)} — click for details</span>`;}
+  tip.innerHTML=`<b>${esc(d.label)}</b>${body}`;tip.style.display='block';moveTooltip(e);
+}
+function moveTooltip(e){const r=$('#mapview').getBoundingClientRect();
+  tip.style.left=Math.min(e.clientX-r.left+16,r.width-290)+'px';tip.style.top=(e.clientY-r.top+14)+'px';}
+function hideTooltip(){tip.style.display='none';}
+
+function enablePanZoom(){
+  let start=null,dragging=false;
+  const apply=()=>gRoot.setAttribute('transform',`translate(${zoom.x+baseX},${zoom.y}) scale(${zoom.k})`);
+  svg.onwheel=e=>{e.preventDefault();const f=e.deltaY<0?1.12:0.89;zoom.k=Math.min(3.5,Math.max(0.4,zoom.k*f));apply();};
+  svg.onpointerdown=e=>{start={x:e.clientX,y:e.clientY};dragging=false;};
+  svg.onpointermove=e=>{
+    if(!start)return;
+    const dx=e.clientX-start.x,dy=e.clientY-start.y;
+    if(!dragging){
+      if(Math.hypot(dx,dy)<5)return;          /* 5px se kam = click, drag nahi */
+      dragging=true;svg.classList.add('grabbing');
+      try{svg.setPointerCapture(e.pointerId);}catch(_){}
+    }
+    zoom.x+=dx;zoom.y+=dy;start={x:e.clientX,y:e.clientY};apply();
+  };
+  svg.onpointerup=svg.onpointercancel=svg.onpointerleave=()=>{start=null;dragging=false;svg.classList.remove('grabbing');};
+}
+window.addEventListener('resize',()=>{if($('#mapview').classList.contains('active')){prevPos={};drawGraph();sizeDots();}});
+
+/* =========================================================
+   SIDE PANEL
+   ========================================================= */
+const panel=$('#side-panel');
+function panelShell(kind,color,title,sub,body,domId){
+  const img=domId&&DOMAIN_IMG[domId]?`<img src="${DOMAIN_IMG[domId]}" alt="" onerror="this.remove()">`:'';
+  panel.innerHTML=`<div class="sp-hero" style="--sp-c:${color}">${img}
+    <button class="sp-close" onclick="togglePanel()">✕</button>
+    <div class="sp-hero-txt">
+      <span class="sp-hero-kind">${kind}</span>
+      <h2>${esc(title)}</h2>
+      <div class="cur">Curation: Office of Research &amp; Development · IIT Kanpur</div>
+    </div></div>
+  <div class="sp-stats">${esc(sub)}</div>
+  <div class="sp-body">${body}</div>`;
+}
+function renderCenterPanel(){
+  if(view.type==='domain')return panelDomain(view.id);
+  if(view.type==='subdomain')return panelSubdomain(view.id);
+  if(view.type==='subdept')return panelSubdept(view.id,view.dept);
+  if(view.type==='faculty')return panelFaculty(view.id);
+}
+function panelSubdept(sid,dept){
+  const s=byId(DB.subdomains,sid),c=colorOfSub(sid);
+  const fac=facultyOfSub(sid).filter(f=>f.dept===dept);
+  const prj=projectsOfSub(sid).filter(p=>p.dept===dept);
+  panelShell('Department view',c,`${deptFull(dept)}`,`${s.name} · ${fac.length} faculty · ${prj.length} projects`,`
+    <div class="sp-sec"><p class="sp-lead">${esc(s.name)} ke andar ${esc(deptFull(dept))} department ki faculty aur unke sponsored projects.</p></div>
+    <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No faculty from this department here.</p>'}</div>
+    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No projects from this department here.</p>'}</div>`,s.domain);
+}
+function panelDomain(id){
+  const d=byId(DB.domains,id),c=COLORS[id];
+  const subs=subsOfDomain(id),fac=facultyOfDomain(id),prj=projectsOfDomain(id);
+  panelShell('Research domain',c,d.name,`${subs.length} sub-domains · ${fac.length} faculty · ${prj.length} projects`,`
+    <div class="sp-sec"><p class="sp-lead">${esc(d.desc)}</p></div>
+    ${d.apps?`<div class="sp-sec"><h5>Application areas</h5><p>${esc(d.apps)}</p></div>`:''}
+    <div class="sp-sec"><h5>Sub-domains</h5><div class="chip-row">
+      ${subs.map(s=>`<button class="chip" onclick='navigate({type:"subdomain",id:"${s.id}"})'>${esc(s.name)}</button>`).join('')}</div></div>
+    ${d.funders&&d.funders.length?`<div class="sp-sec"><h5>Key funders &amp; partners</h5><div class="chip-row">
+      ${d.funders.map(f=>`<span class="chip static">${esc(f)}</span>`).join('')}</div></div>`:''}
+    <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${capList(fac,f=>listFaculty(f,c),100)}</div>`,id);
+}
+function panelSubdomain(id){
+  const s=byId(DB.subdomains,id),c=colorOfSub(id);
+  const fac=facultyOfSub(id),prj=projectsOfSub(id);
+  panelShell('Sub-domain',c,s.name,`${domainOf(id).name} · ${fac.length} faculty · ${prj.length} projects`,`
+    ${s.desc?`<div class="sp-sec"><p class="sp-lead">${esc(s.desc)}.</p></div>`:''}
+    <div class="sp-sec"><h5>Faculty</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No mapped faculty yet.</p>'}</div>
+    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No mapped projects yet.</p>'}</div>`,s.domain);
+}
+function panelFaculty(id){
+  const f=byId(DB.faculty,id),c=fcolor(f);
+  const prj=projectsOfFaculty(id);
+  const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean);
+  panelShell('Faculty member',c,f.name,`${f.desig?f.desig+' · ':''}${f.dept}, IIT Kanpur · ${prj.length} projects`,`
+    <div class="sp-sec"><h5>Contact</h5><div class="contact-rows">
+      ${f.email?`<a href="mailto:${esc(f.email)}">${EMAIL_ICON}${esc(f.email)}</a>`:''}
+      ${f.phone?`<span class="row">${PHONE_ICON}${esc(f.phone)}</span>`:''}
+      ${f.home?`<a href="${esc(f.home)}" target="_blank" rel="noopener">${LINK_ICON}Official faculty profile</a>`:''}
+      ${!f.email&&!f.phone&&!f.home?'<span class="row">Contact details coming soon</span>':''}
+    </div></div>
+    ${areas.length?`<div class="sp-sec"><h5>Research interests</h5><div class="chip-row">
+      ${areas.map(a=>`<span class="chip static">${esc(a)}</span>`).join('')}</div></div>`:''}
+    <div class="sp-sec"><h5>Mapped research areas</h5><div class="chip-row">
+      ${f.subs.map(sid=>{const s=byId(DB.subdomains,sid);return `<button class="chip" onclick='navigate({type:"subdomain",id:"${sid}"})'>${esc(s.name)}</button>`;}).join('')}</div></div>
+    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${capList(prj,listProject)}</div>`,f.domain);
+}
+function capList(arr,render,cap=80){
+  return arr.slice(0,cap).map(render).join('')+(arr.length>cap?`<p style="font-size:12px;color:var(--grey-olive);padding:4px 2px">+ ${arr.length-cap} more — search se refine karein</p>`:'');
+}
+function listFaculty(f,c){
+  return `<div class="list-item" onclick='navigate({type:"faculty",id:"${f.id}"})'>
+    <span class="li-ava" style="color:${c};border-color:${c}">${PERSON}</span>
+    <span class="li-main"><b>${esc(f.name)}</b><span>${esc(f.desig||'')} ${esc(f.dept)}, IIT Kanpur</span></span>
+    <span class="li-count">${projectsOfFaculty(f.id).length} prj</span></div>`;
+}
+function listProject(p){
+  const c=p.sub?colorOfSub(p.sub):'#798478';
+  return `<div class="list-item" onclick="showProjectPanel('${p.id}')">
+    <span class="li-ava" style="color:${c};border-color:${c};border-radius:8px;font-size:13px">◆</span>
+    <span class="li-main"><b>${esc(p.name)}</b><span>${esc(p.fund)}</span></span>
+    <span class="status-pill status-${esc(p.status)}">${esc(p.status)}</span></div>`;
+}
+function showProjectPanel(pid){
+  const p=byId(DB.projects,pid);
+  const sd=p.sub?byId(DB.subdomains,p.sub):null,dom=byId(DB.domains,p.dom),c=COLORS[p.dom]||'#AB4531';
+  const pi=byId(DB.faculty,p.faculty[0]);
+  panelShell('Project detail',c,p.name,`${p.fund} · ${p.status}`,`
+    ${sd&&sd.desc?`<div class="sp-sec"><p class="sp-lead">${esc(sd.desc)}.</p></div>`:''}
+    <div class="sp-sec"><h5>Details</h5><dl class="kv">
+      <dt>Project No.</dt><dd>${esc(p.no||'—')}</dd>
+      <dt>Principal Investigator</dt><dd>${esc(pi?pi.name:'—')}</dd>
+      <dt>Department</dt><dd>${esc(p.dept)}, IIT Kanpur</dd>
+      <dt>Research Domain</dt><dd>${esc(dom?dom.name:'—')}</dd>
+      <dt>Sub-domain</dt><dd>${esc(sd?sd.name:'—')}</dd>
+      <dt>Funding Agency</dt><dd>${esc(p.fund)}</dd>
+      <dt>Project Type</dt><dd>${esc(p.type)}</dd>
+      <dt>Status</dt><dd>${esc(p.status)}</dd></dl></div>
+    ${pi?`<div class="sp-sec"><h5>Principal Investigator</h5>${listFaculty(pi,c)}</div>`:''}
+    <div class="sp-sec"><h5>Explore</h5><div class="chip-row">
+      ${sd?`<button class="chip" onclick='navigate({type:"subdomain",id:"${sd.id}"})'>↳ ${esc(sd.name)} map</button>`:''}
+      ${dom?`<button class="chip" onclick='navigate({type:"domain",id:"${dom.id}"})'>↳ ${esc(dom.name)} map</button>`:''}</div></div>`,p.dom);
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+function searchAll(q){
+  q=q.toLowerCase();const has=t=>t.toLowerCase().includes(q);
+  return {
+    domains:DB.domains.filter(d=>has(d.name)||has(d.apps||'')),
+    subs:DB.subdomains.filter(s=>has(s.name)||has(s.desc||'')),
+    faculty:DB.faculty.filter(f=>has(f.name)||has(f.dept)||has(f.areas||'')),
+    projects:DB.projects.filter(p=>has(p.name)||has(p.fund))
+  };
+}
+function srItem(c,label,sub,action){
+  return `<div class="sr-item" onmousedown="${action};">
+    <span class="sr-dot" style="background:${c}"></span><span class="sr-main">${esc(label)}</span><span class="sr-sub">${esc(sub)}</span></div>`;
+}
+function renderResults(box,q){
+  if(q.trim().length<2){box.classList.remove('open');return;}
+  const r=searchAll(q.trim());const LIM=5;const out=[];
+  const grp=(title,items,total)=>{if(items.length)out.push(`<div class="sr-group">${title}${total>LIM?`<em>${total} found · showing ${LIM}</em>`:''}</div>`+items.join(''));};
+  grp('Domains',r.domains.slice(0,LIM).map(d=>srItem(COLORS[d.id],d.name,subsOfDomain(d.id).length+' areas',`navigate({type:'domain',id:'${d.id}'})`)),r.domains.length);
+  grp('Sub-domains',r.subs.slice(0,LIM).map(s=>srItem(COLORS[s.domain],s.name,domainOf(s.id).name.split(',')[0],`navigate({type:'subdomain',id:'${s.id}'})`)),r.subs.length);
+  grp('Faculty',r.faculty.slice(0,LIM).map(f=>srItem(fcolor(f),f.name,(f.desig||f.dept),`navigate({type:'faculty',id:'${f.id}'})`)),r.faculty.length);
+  grp('Projects',r.projects.slice(0,LIM).map(p=>srItem(p.dom?COLORS[p.dom]:'#798478',p.name,p.fund.split(' ').slice(0,3).join(' '),`openProjectGlobal('${p.id}')`)),r.projects.length);
+  box.innerHTML=out.length?out.join(''):`<div class="sr-item">No results for “${esc(q)}”. Try a technology, name, or funder.</div>`;
+  box.classList.add('open');
+}
+function wireSearch(inputId,boxId){
+  const inp=$(inputId),box=$(boxId);
+  inp.addEventListener('input',()=>renderResults(box,inp.value));
+  inp.addEventListener('focus',()=>{if(inp.value.trim().length>=2)renderResults(box,inp.value);});
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){const first=box.querySelector('.sr-item');if(first){first.dispatchEvent(new Event('mousedown'));box.classList.remove('open');}}
+    if(e.key==='Escape')box.classList.remove('open');
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest(inputId)&&!e.target.closest(boxId))box.classList.remove('open');});
+}
+function bigSearchSet(q){const i=$('#bsearch');i.value=q;i.focus();renderResults($('#bsearch-results'),q);}
+
+function sizeDots(){
+  const c=$('#dots'),m=$('#mapview');c.width=m.clientWidth;c.height=m.clientHeight;
+  const x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);x.fillStyle='rgba(122,84,60,.16)';
+  for(let i=26;i<c.width;i+=26)for(let j=26;j<c.height;j+=26){x.beginPath();x.arc(i,j,0.9,0,7);x.fill();}
+}
+
+/* ===== faculty directory ===== */
+function initDir(){
+  const depts=[...new Set(DB.faculty.map(f=>f.dept))].sort();
+  $('#dir-dept').innerHTML='<option value="">All departments</option>'+depts.map(d=>`<option value="${esc(d)}">${esc(d)}</option>`).join('');
+  $('#dir-dom').innerHTML='<option value="">All domains</option>'+DB.domains.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('');
+  ['dir-q','dir-dept','dir-dom','dir-sort'].forEach(id=>{
+    const e=document.getElementById(id);
+    e.addEventListener(id==='dir-q'?'input':'change',renderDir);
+  });
+}
+function dirCard(f){
+  const c=fcolor(f),soft=fsoft(f),n=projectsOfFaculty(f.id).length;
+  const dom=byId(DB.domains,f.domain);
+  return `<div class="dir-card" style="--dc:${c};--dc-soft:${soft}">
+    <div class="dir-top" onclick='navigate({type:"faculty",id:"${f.id}"})'>
+      <span class="dir-photo">${f.photo?`<img src="${esc(f.photo)}" alt="${esc(f.name)}" onerror="this.remove()">`:PERSON}</span>
+      <span><h4>${esc(f.name)}</h4><div class="meta">${esc(f.desig||'Faculty')} · ${esc(f.dept)}, IIT Kanpur</div></span>
+    </div>
+    ${dom?`<span class="dir-domain">${esc(dom.name)}</span>`:''}
+    <div class="dir-contact">
+      ${f.email?`<a href="mailto:${esc(f.email)}" title="${esc(f.email)}">${EMAIL_ICON}${esc(f.email)}</a>`:''}
+      ${f.phone?`<span class="row">${PHONE_ICON}${esc(f.phone)}</span>`:''}
+      ${f.home?`<a href="${esc(f.home)}" target="_blank" rel="noopener">${LINK_ICON}Official profile</a>`:''}
+    </div>
+    <div class="dir-actions">
+      <button class="dir-btn solid" onclick='navigate({type:"faculty",id:"${f.id}"})'>View on map</button>
+      <button class="dir-btn" onclick='navigate({type:"faculty",id:"${f.id}"})'>${n} projects</button>
+    </div></div>`;
+}
+function renderDir(){
+  const q=($('#dir-q').value||'').toLowerCase(),dept=$('#dir-dept').value,dom=$('#dir-dom').value,sort=$('#dir-sort').value;
+  let list=DB.faculty.filter(f=>(!dept||f.dept===dept)&&(!dom||f.domain===dom)&&
+    (!q||f.name.toLowerCase().includes(q)||(f.areas||'').toLowerCase().includes(q)));
+  list=list.slice().sort(sort==='projects'
+    ?(a,b)=>projectsOfFaculty(b.id).length-projectsOfFaculty(a.id).length
+    :(a,b)=>a.name.localeCompare(b.name));
+  const CAP=200,shown=list.slice(0,CAP);
+  $('#dir-count').textContent=list.length>CAP?`Showing first ${CAP} of ${list.length} faculty — filters se refine karein`:`Showing ${list.length} of ${DB.faculty.length} faculty members`;
+  $('#dir-grid').innerHTML=shown.map(dirCard).join('')||'<p style="color:var(--grey-olive);font-size:13px">No faculty match these filters.</p>';
+}
+
+/* init */
+renderDiscover();
+(function(){
+  const targets=[['iitk-logo','logo-fallback'],['iitk-logo-foot',null]];
+  targets.forEach(([imgId,fbId])=>{
+    const im=document.getElementById(imgId);if(!im)return;
+    let i=0;
+    const tryNext=()=>{
+      if(i>=IITK_LOGO_SOURCES.length){im.remove();return;}
+      im.src=IITK_LOGO_SOURCES[i++];
+    };
+    im.onload=()=>{im.style.display='block';if(fbId){const fb=document.getElementById(fbId);if(fb)fb.style.display='none';}};
+    im.onerror=tryNext;
+    tryNext();
+  });
+})();
+wireSearch('#bsearch','#bsearch-results');
+wireSearch('#hsearch','#hsearch-results');
+$('#ms-fac').addEventListener('click',()=>{if(view&&view.type==='subdomain'&&view.mode==='dept'){view.mode='fac';drawGraph();renderLegend();renderModeSwitch();renderCenterPanel();}});
+$('#ms-dept').addEventListener('click',()=>{if(view&&view.type==='subdomain'&&view.mode!=='dept'){view.mode='dept';drawGraph();renderLegend();renderModeSwitch();renderCenterPanel();}});
+
+/* =========================================================
+   LIVE EXCEL DATA — drop "data.xlsx" next to this HTML file
+   Sheets needed: Domain Summary, Domain Taxonomy, Faculty
+   Master, Project Database (same columns as the DORD file).
+   Faculty Master may also have extra columns: Phone, Photo URL.
+   No file found -> embedded data is used as fallback.
+   ========================================================= */
+/* ===== DATA CONFIG — yahin se data dynamic hota hai =====
+   Option 1: portal ke folder mein "data.xlsx" rakho (4 sheets: Domain Summary,
+             Domain Taxonomy, Faculty Master, Project Database). Replace + refresh = update.
+   Option 2: Google Sheet ka ID neeche daalo — phir DORD online sheet edit karega
+             aur har page-load pe portal latest data khud kheench lega.
+             (Sheet sharing: "Anyone with the link – Viewer" hona chahiye) */
+const DATA_FILE='data.xlsx';
+const GOOGLE_SHEET_ID='1_45YJ8eIzlRzha9uJ4qo-iiYFu-1G_vq';   /* aapki Google Sheet */
+const SHEET_FIRST=true;     /* true = sirf sheet/xlsx se data; embedded backup nahi */
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+
+function buildFromWorkbook(wb){
+  const sheet=key=>{const sn=wb.SheetNames.find(s=>s.toLowerCase().includes(key));
+    return sn?XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:''}):null;};
+  const afterHeader=(rows,marker)=>{if(!rows)return null;
+    const i=rows.findIndex(r=>r.some(c=>String(c).trim().toLowerCase()===marker));
+    return i<0?null:rows.slice(i+1);};
+  const S=afterHeader(sheet('summary'),'domain id');
+  const T=afterHeader(sheet('taxonomy'),'domain id');
+  const F=afterHeader(sheet('faculty'),'faculty name');
+  const P=afterHeader(sheet('project'),'project title');
+  if(!S||!T||!F||!P){console.warn('data.xlsx: sheets/headers not recognised');return null;}
+  const str=v=>String(v==null?'':v).trim();
+
+  const domains={};
+  S.forEach(r=>{const id=str(r[0]);if(!id)return;
+    domains[id]={id,name:str(r[1]),apps:str(r[5]),funders:str(r[6]).split(';').map(x=>x.trim()).filter(Boolean),desc:''};});
+
+  const subdomains={};let cur=null;
+  T.forEach(r=>{if(str(r[0]))cur=str(r[0]);
+    if(str(r[2])&&domains[cur])domains[cur].desc=str(r[2]);
+    const sid=str(r[3]);if(!sid)return;
+    subdomains[sid]={id:sid,domain:cur,name:str(r[4]),desc:str(r[5]),
+      keyfac:str(r[6]).split(';').map(x=>x.trim()).filter(Boolean)};});
+
+  const normN=n=>str(n).replace(/^(Dr\.?|Prof\.?)\s*/i,'').replace(/[.\u00b7]/g,' ').replace(/\s+/g,' ').trim().toLowerCase();
+  const faculty={};
+  F.forEach(r=>{const nm=str(r[2]);if(!nm)return;
+    faculty[normN(nm)]={name:nm,dept:str(r[3]),desig:str(r[4]),email:str(r[5]),
+      domain:str(r[6]),subname:str(r[8]),areas:str(r[9]),home:str(r[10]),
+      phone:str(r[11]),photo:str(r[12]),subs:new Set()};});
+
+  const keys=Object.keys(faculty);
+  const find=name=>{const k=normN(name);if(faculty[k])return k;
+    const tset=new Set(k.split(' '));let best=null;
+    for(const fk of keys){const fset=new Set(fk.split(' '));
+      const sub=[...tset].every(x=>fset.has(x))||[...fset].every(x=>tset.has(x));
+      if(sub)return fk;
+      const ks=k.split(' '),fs=fk.split(' ');
+      if(ks[0]===fs[0]){const la=ks[ks.length-1],lb=fs[fs.length-1];
+        if(la===lb||fset.has(la)||tset.has(lb)||la.startsWith(lb)||lb.startsWith(la))best=fk;}}
+    return best;};
+
+  for(const fk in faculty){const f=faculty[fk];
+    const hit=Object.values(subdomains).find(s=>(s.domain===f.domain&&s.name.toLowerCase()===f.subname.toLowerCase())||s.name.toLowerCase()===f.subname.toLowerCase());
+    if(hit)f.subs.add(hit.id);}
+  Object.values(subdomains).forEach(s=>s.keyfac.forEach(kn=>{
+    const fk=find(kn.replace(/\(partial\)/g,''));if(fk)faculty[fk].subs.add(s.id);}));
+
+  const projects=[];
+  P.forEach(r=>{const title=str(r[5]);if(!title)return;
+    const fname=str(r[4]);let fk=find(fname);
+    if(!fk){fk=normN(fname);
+      if(!faculty[fk])faculty[fk]={name:'Dr. '+fname.replace(/\s+\.$/,''),dept:str(r[2]),desig:'',email:'',
+        domain:str(r[7]),subname:'',areas:'',home:'',phone:'',photo:'',subs:new Set()};}
+    const sid=subdomains[str(r[9])]?str(r[9]):'';
+    if(sid)faculty[fk].subs.add(sid);
+    projects.push({no:str(r[1]),dept:str(r[2]),fk,title,fund:str(r[6]),sub:sid,
+      dom:domains[str(r[7])]?str(r[7]):(sid?subdomains[sid].domain:''),type:str(r[11]),status:str(r[12])});});
+
+  const fids={},out={domains:Object.values(domains),subdomains:[],faculty:[],projects:[]};
+  Object.values(subdomains).forEach(s=>out.subdomains.push({id:s.id,domain:s.domain,name:s.name,desc:s.desc}));
+  Object.entries(faculty).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([k,f],i)=>{
+    const fid='F'+String(i+1).padStart(3,'0');fids[k]=fid;
+    const nm=/^(dr|prof)/i.test(f.name)?f.name:'Dr. '+f.name;
+    out.faculty.push({id:fid,name:nm,dept:f.dept,desig:f.desig,email:f.email,phone:f.phone,photo:f.photo,
+      areas:f.areas,home:f.home,subs:[...f.subs].sort(),domain:f.domain});});
+  projects.forEach((p,i)=>out.projects.push({id:'P'+String(i+1).padStart(3,'0'),no:p.no,name:p.title,
+    faculty:[fids[p.fk]],sub:p.sub,dom:p.dom,fund:p.fund,type:p.type,status:p.status,dept:p.dept}));
+  if(!out.domains.length||!out.projects.length)return null;
+  return out;
+}
+
+function dlShow(title,msg,retry){
+  const o=$('#data-loader');if(!o)return;
+  o.classList.remove('gone');o.classList.toggle('error',!!retry);
+  if($('#dl-title'))$('#dl-title').textContent=title;
+  if($('#dl-msg'))$('#dl-msg').innerHTML=msg;
+  if($('#dl-retry'))$('#dl-retry').style.display=retry?'inline-block':'none';
+  if(retry)$('#data-loader').querySelector('.dl-spin').style.display='none';
+  else{const s=$('#data-loader').querySelector('.dl-spin');if(s)s.style.display='block';}
+}
+function dlHide(){const o=$('#data-loader');if(o)o.classList.add('gone');}
+
+function sheetUrls(id){
+  /* xlsx export — fastest; phir CSV gviz; phir CORS proxy (agar Google block kare) */
+  return [
+    `https://docs.google.com/spreadsheets/d/${id}/export?format=xlsx`,
+    `https://corsproxy.io/?url=`+encodeURIComponent(`https://docs.google.com/spreadsheets/d/${id}/export?format=xlsx`)
+  ];
+}
+
+async function tryLoadExternal(isRetry){
+  if(SHEET_FIRST)dlShow('Loading data from Google Sheet…','Aapke IIT Kanpur research data ko sheet se la rahe hain.');
+  const sources=[];
+  if(GOOGLE_SHEET_ID)sheetUrls(GOOGLE_SHEET_ID).forEach((u,i)=>sources.push({url:u,label:i?'Google Sheet (via proxy)':'Google Sheet (live)'}));
+  sources.push({url:DATA_FILE,label:DATA_FILE});
+  let lastErr='';
+  for(const src of sources){
+    try{
+      const res=await fetch(src.url,{cache:'no-store'});
+      if(!res.ok){lastErr='HTTP '+res.status;continue;}
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+      const wb=XLSX.read(await res.arrayBuffer(),{type:'array'});
+      const fresh=buildFromWorkbook(wb);
+      if(!fresh){lastErr='Sheet structure pehchaani nahi gayi (tab names / header rows check karein).';continue;}
+      DB.domains=fresh.domains;DB.subdomains=fresh.subdomains;DB.faculty=fresh.faculty;DB.projects=fresh.projects;
+      prevPos={};
+      renderDiscover();
+      const dg=$('#dir-grid');
+      if(dg&&dg.dataset.ready){initDir();renderDir();}
+      if($('#mapview').classList.contains('active')&&view)drawGraph();
+      const fsEl=$('#foot-stats');
+      if(fsEl)fsEl.textContent=`${DB.faculty.length} faculty · ${DB.projects.length} projects · live from ${src.label}`;
+      console.info('Synapse Nexus: live data loaded from',src.label,
+        {domains:DB.domains.length,subdomains:DB.subdomains.length,faculty:DB.faculty.length,projects:DB.projects.length});
+      dlHide();
+      return;
+    }catch(e){lastErr=(e&&e.message)||String(e);console.warn('Synapse Nexus: source failed —',src.label,e);}
+  }
+  /* yahan pahunche matlab koi source load nahi hua */
+  if(SHEET_FIRST){
+    dlShow('Sheet load nahi ho payi',
+      'Wajah: <b>'+esc(lastErr||'network/permission')+'</b><br><br>'+
+      '1. Sheet <b>Share → Anyone with the link → Viewer</b> honi chahiye.<br>'+
+      '2. Sheet me 4 tabs hon: <b>Domain Summary, Domain Taxonomy, Faculty Master, Project Database</b>.<br>'+
+      '3. Portal ko <b>http server</b> par kholo (file:// se fetch block hota hai).',
+      true);
+  }else{
+    dlHide();
+  }
+}
+if(SHEET_FIRST){
+  /* embedded data turant khaali — taaki sirf sheet ka data dikhe */
+  DB.domains=[];DB.subdomains=[];DB.faculty=[];DB.projects=[];
+}
+tryLoadExternal();
+tryLoadExternal();
+</script>
+</body>
+</html>
