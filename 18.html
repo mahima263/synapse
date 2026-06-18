@@ -245,11 +245,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .dir-btn:hover{background:var(--champagne-soft)}
 .dir-btn.solid{background:var(--reddish-brown);color:#fff;border-color:var(--reddish-brown)}
 .dir-btn.solid:hover{background:var(--reddish-brown-d)}
-.contact-rows{display:flex;flex-direction:column;gap:8px}
-.contact-rows a,.contact-rows span.row{font-size:12.5px;color:var(--ink-soft);text-decoration:none;display:flex;gap:10px;align-items:center;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;transition:border-color .15s,background .15s,color .15s}
-.contact-rows a:hover{color:var(--reddish-brown);border-color:var(--gold);background:var(--champagne-soft)}
-.contact-rows svg{flex:none;color:var(--grey-olive-d)}
-.contact-rows a:hover svg{color:var(--reddish-brown)}
+.contact-rows{display:flex;flex-direction:column;gap:7px}
+.contact-rows a,.contact-rows span.row{font-size:12.5px;color:var(--ink-soft);text-decoration:none;display:flex;gap:9px;align-items:center}
+.contact-rows a:hover{color:var(--reddish-brown)}
 
 /* ================ MAP VIEW ================ */
 #mapview{position:absolute;inset:0;display:none;background:radial-gradient(circle at 50% 42%,#fff 0%,var(--champagne-soft) 78%,#f6e8d8 100%)}
@@ -287,54 +285,37 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   box-shadow:-12px 0 34px rgba(66,30,24,.10);
 }
 #side-panel.open{transform:translateX(0)}
-.sp-hero{position:relative;height:178px;background:var(--sp-c,#AB4531);overflow:hidden;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-.sp-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04)}
-/* layered overlay: brand wash + bottom fade for crisp text */
-.sp-hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,var(--sp-c,#AB4531) 0%,rgba(66,30,24,.30) 100%);mix-blend-mode:multiply;opacity:.85}
-.sp-hero::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(46,20,15,.10) 0%,rgba(46,20,15,.30) 45%,rgba(46,20,15,.82) 100%)}
-.sp-hero-txt{position:absolute;left:26px;right:58px;bottom:18px;z-index:2;color:#fff}
-.sp-hero-kind{display:inline-flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);padding:4px 10px;border-radius:999px;margin-bottom:9px;backdrop-filter:blur(3px)}
-.sp-hero h2{font-family:var(--font-display);font-size:24.5px;line-height:1.2;font-weight:600;color:#fff;margin:0;text-shadow:0 1px 14px rgba(0,0,0,.4);letter-spacing:.005em}
-.sp-hero .cur{font-size:10.5px;opacity:.85;margin-top:6px;display:flex;align-items:center;gap:6px}
-.sp-hero .cur::before{content:'';width:13px;height:1.5px;background:var(--gold)}
-.sp-close{position:absolute;top:14px;right:14px;z-index:3;background:rgba(20,8,5,.34);border:1px solid rgba(255,255,255,.5);color:#fff;width:32px;height:32px;border-radius:50%;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s;backdrop-filter:blur(4px)}
-.sp-close:hover{background:rgba(20,8,5,.6);transform:rotate(90deg)}
-/* metric strip */
-.sp-stats{display:flex;flex-wrap:wrap;gap:8px;padding:14px 26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--champagne-soft),#fff);flex:none}
-.sp-stat{display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12px;color:var(--ink-soft);font-weight:500;box-shadow:0 1px 4px rgba(66,30,24,.05)}
-.sp-stat b{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--mahogany);line-height:1}
-.sp-stats .sp-stat:first-child{background:var(--mahogany);border-color:transparent;color:var(--champagne);box-shadow:0 2px 8px rgba(66,30,24,.22)}
-.sp-stats .sp-stat:first-child b{color:var(--gold)}
-.sp-lead{font-size:14.5px;font-weight:600;color:var(--mahogany);line-height:1.65;padding:13px 16px;border-left:3px solid var(--gold);background:var(--champagne-soft);border-radius:0 12px 12px 0}
-.sp-body{flex:1;overflow:auto;padding:24px 26px 40px;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
-.sp-body::-webkit-scrollbar{width:9px}
-.sp-body::-webkit-scrollbar-thumb{background:rgba(66,30,24,.22);border-radius:999px;border:2px solid #fff}
-.sp-body::-webkit-scrollbar-thumb:hover{background:rgba(66,30,24,.38)}
-.sp-sec{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-.sp-sec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.sp-sec h5{display:flex;align-items:center;gap:9px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-olive-d);margin-bottom:12px;font-weight:700}
-.sp-sec h5::before{content:'';width:14px;height:2px;background:var(--gold);border-radius:2px;flex:none}
+.sp-hero{position:relative;height:148px;background:var(--sp-c,#AB4531);overflow:hidden;flex:none}
+.sp-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sp-hero::after{content:'';position:absolute;inset:0;background:rgba(46,20,15,.55)}
+.sp-hero-txt{position:absolute;left:24px;right:54px;bottom:15px;z-index:2;color:#fff}
+.sp-hero-kind{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--champagne);display:block;margin-bottom:5px}
+.sp-hero h2{font-family:var(--font-display);font-size:22px;line-height:1.25;font-weight:600;color:#fff;margin:0}
+.sp-hero .cur{font-size:10.5px;opacity:.88;margin-top:4px}
+.sp-close{position:absolute;top:12px;right:12px;z-index:3;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);color:#fff;width:30px;height:30px;border-radius:50%;font-size:13px}
+.sp-close:hover{background:rgba(255,255,255,.32)}
+.sp-stats{padding:12px 26px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--grey-olive-d);background:var(--champagne-soft);flex:none;font-weight:500}
+.sp-lead{font-size:14.5px;font-weight:600;color:var(--mahogany);line-height:1.65}
+.sp-body{flex:1;overflow:auto;padding:22px 26px 36px}
+.sp-sec{margin-bottom:22px}
+.sp-sec h5{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-olive);margin-bottom:10px;font-weight:700}
 .sp-sec p{font-size:13.5px;line-height:1.72;color:var(--ink-soft)}
-.kv{display:grid;grid-template-columns:150px 1fr;gap:0;font-size:13px}
-.kv dt{color:var(--grey-olive);padding:8px 0;border-top:1px dashed var(--line);font-size:12px}
-.kv dd{color:var(--ink);padding:8px 0;border-top:1px dashed var(--line);font-weight:500}
-.kv dt:first-of-type,.kv dd:first-of-type{border-top:none}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:9px 14px;font-size:13px}
+.kv dt{color:var(--grey-olive)}.kv dd{color:var(--ink)}
 .chip-row{display:flex;flex-wrap:wrap;gap:7px}
-.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;color:var(--ink-soft);cursor:pointer;font-weight:500;transition:background .15s,color .15s,border-color .15s}
-.chip:hover{background:var(--champagne-soft);color:var(--mahogany);border-color:var(--gold)}
-.chip.static{cursor:default;background:var(--pill);border-color:transparent;color:var(--pill-text)}.chip.static:hover{background:var(--pill);color:var(--pill-text);border-color:transparent}
-.list-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px;cursor:pointer;background:#fff;position:relative;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .15s}
-.list-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:center;transition:transform .2s}
-.list-item:hover{border-color:var(--line-strong);box-shadow:0 4px 14px rgba(66,30,24,.10);transform:translateX(2px)}
-.list-item:hover::before{transform:scaleY(1)}
+.chip{border:none;background:var(--pill);border-radius:999px;padding:7px 13px;font-size:12px;color:var(--pill-text);cursor:pointer;font-weight:500}
+.chip:hover{background:var(--champagne);color:var(--mahogany)}
+.chip.static{cursor:default}.chip.static:hover{background:var(--pill);color:var(--pill-text)}
+.list-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;margin-bottom:9px;cursor:pointer;background:#fff;transition:border-color .2s,box-shadow .2s}
+.list-item:hover{border-color:var(--line-strong);box-shadow:0 3px 12px rgba(66,30,24,.08)}
 .li-ava{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;border:1.5px solid;background:#fff;overflow:hidden}
 .li-ava svg{width:19px;height:19px;opacity:.8}
 .li-main{flex:1;min-width:0}
 .li-main b{font-size:14px;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
 .li-main span{font-size:11.5px;color:var(--grey-olive);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.li-count{font-size:11px;color:var(--ink-soft);flex:none;background:var(--pill);border-radius:999px;padding:3px 10px;font-weight:600}
+.li-count{font-size:11.5px;color:var(--grey-olive);flex:none}
 .status-pill{font-size:10px;padding:3px 9px;border-radius:999px;font-weight:700;flex:none}
-.status-Active{background:rgba(79,122,91,.16);color:#3c6048}
+.status-Active{background:rgba(121,132,120,.16);color:var(--grey-olive-d)}
 .status-Closed{background:var(--pill);color:var(--pill-text)}
 .home-link{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:600;color:var(--reddish-brown);text-decoration:none;border:1px solid rgba(171,69,49,.4);padding:7px 14px;border-radius:999px}
 .home-link:hover{background:var(--champagne-soft)}
@@ -343,16 +324,14 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .glink.dim{opacity:.12}
 .glink.lit{opacity:1;stroke:rgba(146,53,36,.8);stroke-width:1.6}
 .gnode{cursor:pointer}
-/* paint-order:stroke -> har label ke peeche safed halo, taaki lines/dots/aas-paas
-   ke labels par chadhe bhi to text readable rahe (collision-proof legibility) */
-.gnode text{font-family:var(--font-body);fill:var(--ink);pointer-events:none;paint-order:stroke;stroke:var(--white);stroke-width:3px;stroke-linejoin:round;stroke-linecap:round}
+.gnode text{font-family:var(--font-body);fill:var(--ink);pointer-events:none}
 .glabel-sub{fill:var(--grey-olive) !important;font-size:9.5px}
-.center-name{font-family:var(--font-display);font-weight:600;fill:var(--mahogany);text-anchor:middle;stroke-width:2.2px}
+.center-name{font-family:var(--font-display);font-weight:600;fill:var(--mahogany);text-anchor:middle}
 .ring-guide{fill:none;stroke:rgba(66,30,24,.14);stroke-dasharray:2 6}
 .ring-outer{fill:none;stroke:rgba(66,30,24,.30);stroke-width:2}
 .r1-label{font-weight:600;font-size:13.5px;fill:var(--ink);letter-spacing:.005em}
 .r1-count{font-size:11.5px;fill:var(--grey-olive-d);font-weight:500;letter-spacing:.01em}
-.r2-label{fill:#3d3d3d}
+.r2-label{font-size:11px;fill:#3d3d3d}
 #tooltip{position:absolute;background:#fff;border:1px solid var(--line-strong);border-radius:10px;padding:9px 13px;font-size:12px;pointer-events:none;display:none;z-index:50;max-width:270px;box-shadow:var(--shadow)}
 #tooltip b{display:block;font-size:12.5px;color:var(--mahogany)}
 #tooltip span{color:var(--grey-olive-d);font-size:11px}
@@ -914,22 +893,10 @@ function drawGraph(){
   const isMobile=W<640;
   const A=Math.max(W-PW-24,300);
   const small=Math.min(A,H-(isMobile?100:60));
-  const horiz=n<=6&&!isMobile;                  /* sirf bahut kam nodes par horizontal; warna radial = no collision */
-  const CLEAR=horiz?180:(isMobile?64:140);      /* labels ke liye reserved space */
-  const CR=Math.max(50,Math.min(small*(isMobile?0.18:0.155),120));
-
-  /* density classes — jitne zyada nodes, utne chhote/short labels */
-  const dense=n>18, mid=n>10;
-
-  /* base ring radius (available screen se) */
-  let R=Math.max(CR+98,small/2-CLEAR);
-  /* COLLISION GUARD: har node ke beech minimum arc-length guarantee karo,
-     warna dense ring me radial labels ek-doosre par chadh jaate hain */
-  if(!horiz){
-    const minArc=isMobile?42:(dense?62:70);     /* px arc length per node on the ring */
-    const rNeeded=(n*minArc)/(2*Math.PI);
-    if(rNeeded>R)R=rNeeded;                      /* ring bada -> labels ke beech zyada gap */
-  }
+  const horiz=n<=7&&!isMobile;                  /* sirf bahut kam nodes par horizontal; warna radial = no collision */
+  const CLEAR=horiz?170:(isMobile?54:134);      /* labels ke liye reserved space */
+  const CR=Math.max(54,Math.min(small*(isMobile?0.19:0.16),128));
+  const R=Math.max(CR+104,small/2-CLEAR);       /* ring ko bahar push -> nodes/labels ke beech zyada gap */
   const newPos={};
 
   const defs=el('defs',{},gRoot);
@@ -1026,28 +993,14 @@ function drawGraph(){
     }else if(!isMobile){
       const deg=d.a*180/Math.PI,flip=Math.cos(d.a)<0;
       const lg=el('g',{transform:`rotate(${flip?deg+180:deg})`},g);
-      /* gap-aware labels: jitne paas-paas nodes, utna chhota font + kam lines -> overlap khatam */
-      const gap=2*Math.PI*R/n;                     /* adjacent labels ke beech arc spacing */
-      const fsz=gap<22?9:gap<30?10:gap<42?11:12;   /* dense ring -> chhota font */
-      const rLines=gap<34?1:2;                      /* tight spacing -> single line */
-      const cpl=Math.round((rLines===1?27:23)*(11/fsz));  /* font ke hisaab se chars/line */
-      const lh2=fsz+1.5;
-      const l2=makeLines(d.label,cpl,rLines);
-      const tt=el('text',{class:'r2-label','font-size':fsz,'text-anchor':flip?'end':'start',y:fsz*0.34-(l2.length-1)*lh2/2},lg);
-      l2.forEach((ln,i)=>{const ts=el('tspan',{x:flip?-(nr+11):(nr+11),dy:i?lh2:0},tt);ts.textContent=ln;});
+      const rLines=n>16?1:2;                       /* dense ring -> 1 line, taaki labels overlap na hon */
+      const l2=makeLines(d.label,rLines===1?26:22,rLines);
+      const tt=el('text',{class:'r2-label','text-anchor':flip?'end':'start',y:3.5-(l2.length-1)*6},lg);
+      l2.forEach((ln,i)=>{const ts=el('tspan',{x:flip?-(nr+11):(nr+11),dy:i?12:0},tt);ts.textContent=ln;});
     }
     attachNode(g,d);
     glide(g,d.kind+':'+(d.real||d.id),d.x,d.y,newPos);
   });
-
-  /* AUTO-FIT: collision-guard se ring bada ho sakta hai -> initial zoom fit karo
-     taaki labels samet poora graph screen me aaye (user phir bhi pan/zoom kar sakta hai) */
-  const labelReach=horiz?180:(dense?100:150);
-  const needR=R+labelReach+18;
-  const availH=H/2-14, availW=(W-PW)/2-14;
-  zoom.k=Math.min(1,availH/needR,availW/needR);
-  if(zoom.k<0.4)zoom.k=0.4;
-  gRoot.setAttribute('transform',`translate(${zoom.x+baseX},${zoom.y}) scale(${zoom.k})`);
 
   prevPos=newPos;
   enablePanZoom();
@@ -1109,14 +1062,6 @@ window.addEventListener('resize',()=>{if($('#mapview').classList.contains('activ
    SIDE PANEL
    ========================================================= */
 const panel=$('#side-panel');
-function statPills(sub){
-  return String(sub).split('·').map(part=>{
-    const t=part.trim();if(!t)return'';
-    const m=t.match(/^(\d[\d,]*)\s+(.*)$/);
-    return m?`<span class="sp-stat"><b>${esc(m[1])}</b> ${esc(m[2])}</span>`
-            :`<span class="sp-stat">${esc(t)}</span>`;
-  }).join('');
-}
 function panelShell(kind,color,title,sub,body,domId){
   const img=domId&&DOMAIN_IMG[domId]?`<img src="${DOMAIN_IMG[domId]}" alt="" onerror="this.remove()">`:'';
   panel.innerHTML=`<div class="sp-hero" style="--sp-c:${color}">${img}
@@ -1126,7 +1071,7 @@ function panelShell(kind,color,title,sub,body,domId){
       <h2>${esc(title)}</h2>
       <div class="cur">Curation: Office of Research &amp; Development · IIT Kanpur</div>
     </div></div>
-  <div class="sp-stats">${statPills(sub)}</div>
+  <div class="sp-stats">${esc(sub)}</div>
   <div class="sp-body">${body}</div>`;
 }
 function renderCenterPanel(){

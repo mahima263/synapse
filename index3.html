@@ -150,7 +150,7 @@ main{flex:1;position:relative;overflow:hidden}
 .dbody{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
 .dbody h3{font-family:var(--font-display);font-size:16px;font-weight:600;line-height:1.3;color:var(--mahogany);min-height:42px}
 .dbody p{font-size:11.5px;color:var(--ink-soft);line-height:1.55;margin-top:6px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.dfoot{display:flex;align-items:center;justify-content:space-between;margin-top:13px;padding-top:11px;border-top:1px dashed var(--line)}
+.dfoot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:11px;border-top:1px dashed var(--line)}
 .dfoot .nums{font-size:11px;color:var(--grey-olive)}
 .dfoot .nums b{color:var(--mahogany)}
 .dfoot .go{font-size:12px;font-weight:700;color:var(--dc)}
@@ -435,9 +435,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <div class="hero">
       <div class="wrap hero-grid">
         <div>
-          <span class="eyebrow">Dept. of Electrical Engineering &amp; Sustainable Energy Engineering</span>
-          <h1>One map of <em>every researcher,</em> every project at IIT Kanpur.</h1>
-          <p class="lede">Synapse Nexus connects research domains, faculty expertise and sponsored projects into a single explorable knowledge graph — built for students, collaborators, industry and funding agencies.</p>
+          <span class="eyebrow">Electrical Engineering · Sustainable Energy Engineering</span>
+          <h1>Every researcher, every project — <em>one map.</em></h1>
+          <p class="lede">Search a domain, a faculty member, or a funding agency.</p>
           <div class="big-search">
             <span class="icon">⌕</span>
             <input id="bsearch" type="text" placeholder="Search a technology, faculty member, or funding agency…" autocomplete="off">
@@ -453,9 +453,8 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <div class="section" id="sec-domains">
       <div class="wrap">
         <div class="sec-head">
-          <div><span class="kicker">Research landscape</span>
-          <h2>Eight research domains</h2>
-          <p>Every domain opens an interactive map of its sub-domains, faculty and sponsored projects.</p></div>
+          <div><span class="kicker">Explore</span>
+          <h2>Research domains</h2></div>
           <span class="spacer"></span>
           <button class="see-all" onclick="openLastMap()">Open knowledge map →</button>
         </div>
@@ -467,8 +466,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
       <div class="wrap">
         <div class="sec-head">
           <div><span class="kicker">Research pulse</span>
-          <h2>Where the action is</h2>
-          <p>The busiest research areas right now, and the partners funding them — straight from the project database.</p></div>
+          <h2>Where the activity is</h2></div>
         </div>
         <div class="pulse-grid">
           <div class="pulse-card"><h4>Most active sub-domains</h4><div id="pulse-subs"></div></div>
@@ -477,28 +475,11 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
       </div>
     </div>
 
-    <div class="section tint">
-      <div class="wrap">
-        <div class="sec-head">
-          <div><span class="kicker">How it works</span>
-          <h2>From domain to project, in four clicks</h2></div>
-        </div>
-        <div class="journey">
-          <div class="jstep"><span class="num">STEP 1</span><h4>Pick a domain</h4><p>Start from one of the eight research domains on this page.</p></div>
-          <div class="jstep"><span class="num">STEP 2</span><h4>Explore sub-domains</h4><p>The map expands into specialised research areas around the domain.</p></div>
-          <div class="jstep"><span class="num">STEP 3</span><h4>Meet the faculty</h4><p>See exactly who works in each area, with profiles and interests.</p></div>
-          <div class="jstep"><span class="num">STEP 4</span><h4>Open the projects</h4><p>Drill into sponsored projects — funder, PI, department and status.</p></div>
-          <div class="jcta"><button class="btn-primary" onclick="openLastMap()">Start exploring →</button></div>
-        </div>
-      </div>
-    </div>
-
     <div class="section" id="sec-fac">
       <div class="wrap">
         <div class="sec-head">
           <div><span class="kicker">People</span>
-          <h2>Featured researchers</h2>
-          <p>Most active faculty by sponsored projects. Photos can be linked from official IITK profiles.</p></div>
+          <h2>Most active researchers</h2></div>
           <span class="spacer"></span>
           <button class="see-all" onclick="showFacultyDir()">Full faculty directory →</button>
         </div>
@@ -509,48 +490,12 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <div class="section tint" id="sec-fund" style="margin-top:42px">
       <div class="wrap">
         <div class="sec-head">
-          <div><span class="kicker">Sponsors &amp; collaborators</span>
-          <h2>Funding partners</h2>
-          <p>Agencies and industry partners currently sponsoring research. Click to see their projects.</p></div>
+          <div><span class="kicker">Sponsors</span>
+          <h2>Funding partners</h2></div>
         </div>
         <div class="fund-row" id="fund-row"></div>
       </div>
     </div>
-
-    <div class="section">
-      <div class="wrap">
-        <div class="sec-head">
-          <div><span class="kicker">Who is it for</span>
-          <h2>Built for everyone around research</h2></div>
-        </div>
-        <div class="aud-grid">
-          <div class="aud-card">
-            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4L2 9l10 5 10-5-10-5z" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5M22 9v5"/></svg></span>
-            <h4>For students</h4>
-            <p>Thesis guide ya project supervisor dhoondh rahe ho? Domain se shuru karo, area chuno, aur dekho kaun-si faculty wahan kaam kar rahi hai — profile aur email ke saath.</p>
-            <button class="aud-btn" onclick="showFacultyDir()">Browse faculty directory →</button>
-          </div>
-          <div class="aud-card">
-            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/><path d="M9 9h.01M9 13h.01M15 9h.01M15 13h.01"/></svg></span>
-            <h4>For industry</h4>
-            <p>Collaboration ya consultancy ke liye sahi lab chahiye? Knowledge map pe technology search karo aur seedha relevant research group tak pahuncho.</p>
-            <button class="aud-btn" onclick="openLastMap()">Explore the map →</button>
-          </div>
-          <div class="aud-card">
-            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-            <h4>For funding agencies</h4>
-            <p>Dekho aapki agency ke sponsored projects kahan chal rahe hain, kaun PI hai, aur kis domain mein portfolio sabse strong hai.</p>
-            <button class="aud-btn" onclick="document.getElementById('sec-fund').scrollIntoView({behavior:'smooth'})">See funding partners →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cta-band"><div class="wrap cta-inner">
-      <div><h2>Looking for an expert or a collaboration?</h2>
-      <p>Search the knowledge map and reach the right lab in minutes.</p></div>
-      <button class="btn-light" onclick="openLastMap()">Open the Knowledge Map</button>
-    </div></div>
 
     <footer><div class="wrap">
       <div class="foot-grid">
@@ -559,7 +504,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
             <span class="foot-logo-chip"><img id="iitk-logo-foot" alt="IIT Kanpur"></span>
             <div><b>Indian Institute of Technology Kanpur</b><span>Synapse Nexus · Research Intelligence</span></div>
           </div>
-          <p>Faculty Research Intelligence Portal of IIT Kanpur. Mapping institutional research across domains, people and projects to make expertise discoverable.</p></div>
+          <p>Research intelligence portal — domains, people and projects across EE &amp; SEE.</p></div>
         <div><h5>Research domains</h5><ul id="foot-domains"></ul></div>
         <div><h5>Portal</h5><ul>
           <li onclick="openLastMap()">Knowledge Map</li>
@@ -576,7 +521,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <div class="dir-hero"><div class="wrap">
       <span class="eyebrow">People</span>
       <h1>Faculty directory</h1>
-      <p>Every faculty member of EE &amp; SEE with contact details, official profile link and research mapping. Photos appear automatically once a photo URL is added in the data.</p>
+      <p>EE &amp; SEE faculty — contacts, profiles and research areas.</p>
       <div class="dir-controls">
         <input id="dir-q" type="text" placeholder="Search by name or research area…" autocomplete="off">
         <select id="dir-dept"><option value="">All departments</option></select>
@@ -611,8 +556,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   <div id="data-loader">
     <div class="dl-box">
       <div class="dl-spin"></div>
-      <h3 id="dl-title">Loading data from Google Sheet…</h3>
-      <p id="dl-msg">Aapke IIT Kanpur research data ko sheet se la rahe hain.</p>
+     
       <button id="dl-retry" onclick="tryLoadExternal(true)" style="display:none">Retry</button>
     </div>
   </div>
@@ -714,7 +658,6 @@ function renderDiscover(){
       </div>
       <div class="dbody">
         <h3>${esc(d.name)}</h3>
-        <p>${esc(d.desc||d.apps)}</p>
         <div class="dsubs">${top3.map(esc).join(' · ')}</div>
         <div class="dfoot">
           <span class="nums"><b>${fac.length}</b> faculty · <b>${prj.length}</b> projects</span>
@@ -771,6 +714,7 @@ function showFacultyDir(){
 function openDomain(id){prevPos={};navigate({type:'domain',id});}
 function openProjectGlobal(pid){const p=byId(DB.projects,pid);navigate({type:'faculty',id:p.faculty[0]},true,()=>showProjectPanel(pid));}
 function navigate(v,push=true,after){
+  if(v.type==='subdomain'&&!v.mode)v.mode='dept';   /* chain: domain -> subdomain -> DEPARTMENT -> faculty -> project */
   view=v;lastView=v;showMap();
   if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept));historyStack.push({...v});}
   drawGraph();renderBreadcrumb();renderHistory();renderLegend();renderModeSwitch();openPanel();renderCenterPanel();
