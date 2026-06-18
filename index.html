@@ -22,7 +22,7 @@
   --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%;-webkit-text-size-adjust:100%}
 body{background:var(--white);color:var(--ink);font-family:var(--font-body);overflow:hidden}
 button{font-family:inherit;cursor:pointer}
 a{color:var(--reddish-brown)}
@@ -315,10 +315,15 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .sp-sec h5{display:flex;align-items:center;gap:9px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-olive-d);margin-bottom:12px;font-weight:700}
 .sp-sec h5::before{content:'';width:14px;height:2px;background:var(--gold);border-radius:2px;flex:none}
 .sp-sec p{font-size:13.5px;line-height:1.72;color:var(--ink-soft)}
-.kv{display:grid;grid-template-columns:150px 1fr;gap:0;font-size:13px}
-.kv dt{color:var(--grey-olive);padding:8px 0;border-top:1px dashed var(--line);font-size:12px}
-.kv dd{color:var(--ink);padding:8px 0;border-top:1px dashed var(--line);font-weight:500}
+.kv{display:grid;grid-template-columns:148px 1fr;gap:0;font-size:13px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kv dt{color:var(--grey-olive-d);padding:10px 14px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;background:var(--champagne-soft);border-top:1px solid var(--line);display:flex;align-items:center}
+.kv dd{color:var(--mahogany);padding:10px 14px;font-weight:600;border-top:1px solid var(--line);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
 .kv dt:first-of-type,.kv dd:first-of-type{border-top:none}
+.kv-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:var(--pill);border:1px solid var(--line);border-radius:7px;padding:2px 9px;color:var(--ink);font-weight:600}
+.kv-tag{display:inline-block;background:rgba(201,148,58,.15);color:var(--gold-d);border:1px solid rgba(201,148,58,.42);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700}
+.kv-link{color:var(--reddish-brown);font-weight:700;cursor:pointer;display:inline-flex;align-items:center}
+.kv-link:hover{text-decoration:underline}
+.kv-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;flex:none}
 .chip-row{display:flex;flex-wrap:wrap;gap:7px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;color:var(--ink-soft);cursor:pointer;font-weight:500;transition:background .15s,color .15s,border-color .15s}
 .chip:hover{background:var(--champagne-soft);color:var(--mahogany);border-color:var(--gold)}
@@ -381,33 +386,76 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .aud-btn{align-self:flex-start;border:1px solid rgba(171,69,49,.45);background:#fff;color:var(--reddish-brown);border-radius:999px;padding:9px 16px;font-size:12.5px;font-weight:600}
 .aud-btn:hover{background:var(--champagne-soft)}
 
+/* ===================== RESPONSIVE ===================== */
 @media (max-width:1280px){
   .domain-grid{grid-template-columns:repeat(3,1fr)}
+  .wrap{padding:0 40px}
 }
 @media (max-width:1080px){
   .pulse-grid,.aud-grid{grid-template-columns:1fr}
   .domain-grid{grid-template-columns:repeat(2,1fr)}
   .journey{grid-template-columns:repeat(2,1fr)}
   .jstep::after{content:''}
-  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero-grid{grid-template-columns:1fr;gap:30px;padding:46px 0 42px}
   .hero-visual{display:none}
   .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:18px}
   .foot-grid{grid-template-columns:1fr 1fr}
 }
+/* tablets + small laptops: header ko crowd hone se bachao */
+@media (max-width:960px){
+  .wrap{padding:0 32px}
+  .section{padding:42px 0 8px}
+  header{gap:12px;padding:10px 18px}
+  .nav-tab{padding:8px 11px;font-size:13px}
+  .hdr-search{display:none}            /* search hide -> CTAs ke liye jagah */
+  #btn-refresh{margin-left:auto}       /* search gone, ab CTAs ko right push karo */
+}
 @media (max-width:760px){
+  .nav-tabs{display:none}              /* phone: top tabs hide; logo=home, Open Map button + landing links se navigate */
   #side-panel{width:100vw;box-shadow:none}
-  #btn-back,#btn-panel,#history-box .pill-btn{padding:7px 12px;font-size:12px}
-  #breadcrumb{bottom:12px;max-width:70vw}
-  .crumb{padding:5px 10px;font-size:10.5px}
+  .sp-hero{height:158px}
+  .sp-stats{padding:12px 18px}
+  .sp-body{padding:20px 18px 36px}
+  .sp-hero-txt{left:18px;right:50px}
+  /* map controls: top row + bottom row, koi overlap nahi */
+  #btn-back{top:12px;left:12px}
+  #history-box{top:12px;right:12px}
+  #btn-back,#btn-panel,#history-box .pill-btn{padding:8px 13px;font-size:12px}
+  #btn-panel{bottom:12px}
+  #breadcrumb{bottom:12px;left:12px;right:116px;max-width:none;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #breadcrumb::-webkit-scrollbar{display:none}
+  .crumb{padding:6px 11px;font-size:11px;flex:none}
 }
 @media (max-width:640px){
-  .wrap{padding:0 20px}
+  .wrap{padding:0 18px}
   .domain-grid,.journey{grid-template-columns:1fr}
-  .nav-tabs,.hdr-search,#legend{display:none}
+  #legend{display:none}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .sstat{padding:6px 16px}
   .foot-grid{grid-template-columns:1fr}
-  #breadcrumb{max-width:55vw}
+  .section{padding:34px 0 6px}
+  .hero-grid{padding:32px 0 28px}
+  .hero .lede{font-size:14px}
+  .big-search input{padding:14px 16px 14px 46px;font-size:14px}
+  .hdr-cta{padding:9px 14px;font-size:12.5px}
+  .dir-controls{gap:8px}
+  .dir-controls input{min-width:100%}
+  .dir-grid{grid-template-columns:1fr}
 }
+@media (max-width:420px){
+  header{padding:9px 12px;gap:8px}
+  .logo-mark{width:38px;height:38px}
+  .logo-name{font-size:15px}
+  .logo-inst{display:none}
+  #btn-refresh{display:none}           /* tiny screens: header clean, sirf Open Map */
+  .hdr-cta:last-child{margin-left:auto}
+  .hdr-cta{padding:8px 12px;font-size:12px}
+  .hero h1{font-size:26px}
+  .sstat b{font-size:26px}
+  .sp-hero h2{font-size:21px}
+}
+/* touch scroll momentum on scrollable areas */
+#discover,#facdir,.sp-body,.fac-scroll,.dir-grid{-webkit-overflow-scrolling:touch}
 #data-loader{position:fixed;inset:0;z-index:200;background:linear-gradient(180deg,var(--champagne-soft),#fff);display:flex;align-items:center;justify-content:center;text-align:center}
 #data-loader.gone{display:none}
 #data-loader.error{background:#fff}
@@ -425,15 +473,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   <header>
     <div class="logo" onclick="goDiscover()">
       <div class="logo-mark">
-        <img id="iitk-logo" alt="IIT Kanpur" style="display:none;width:100%;height:100%;object-fit:contain">
-        <svg id="logo-fallback" viewBox="0 0 34 34" fill="none">
-          <circle cx="17" cy="17" r="4.4" fill="#AB4531"/>
-          <circle cx="17" cy="17" r="12.5" stroke="#C9943A" stroke-opacity=".7"/>
-          <circle cx="29" cy="17" r="2.4" fill="#C9943A"/>
-          <circle cx="8" cy="8.5" r="2.4" fill="#798478"/>
-          <circle cx="9.5" cy="27" r="2.4" fill="#421E18"/>
-          <path d="M17 17l12 0M17 17L8 8.5M17 17l-7.5 10" stroke="#AB4531" stroke-opacity=".55" stroke-width="1.1"/>
-        </svg>
+        <img id="iitk-logo" alt="IIT Kanpur" style="width:100%;height:100%;object-fit:contain">
       </div>
       <div><div class="logo-name">SYNAPSE<span> NEXUS</span></div><span class="logo-inst">IIT Kanpur · Research Intelligence</span></div>
     </div>
@@ -567,13 +607,6 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <div id="side-panel"></div>
     <div id="tooltip"></div>
   </section>
-  <div id="data-loader">
-    <div class="dl-box">
-      <div class="dl-spin"></div>
-     
-      <button id="dl-retry" onclick="tryLoadExternal(true)" style="display:none">Retry</button>
-    </div>
-  </div>
   </main>
 </div>
 
@@ -629,6 +662,8 @@ const ICONS={
 };
 /* ▼ LOGO image path — YAHAN change karein (header me wordmark ke saath + footer) ▼ */
 const IITK_LOGO_SOURCES=['IITK Logo (1).png','https://www.iitk.ac.in/new/images/IIT_Kanpur_Logo.png']; /* pehle local file, phir official URL; apni file ka naam/path yahan rakhein */
+/* ▼ FOOTER ke dark background ke liye WHITE logo — YAHAN file name change karein ▼ */
+const IITK_LOGO_WHITE=['IITK Logo_White-01.png'];
 const EMAIL_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>';
 const PHONE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>';
 const LINK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg>';
@@ -663,8 +698,7 @@ function renderDiscover(){
   $('#hero-visual').innerHTML=
     `<div class="hv-img hv-1"><div class="hv-fallback">${ICONS.D1}</div><img src="${HERO_IMG[0]}" alt="Research at IIT Kanpur" onerror="this.remove()"></div>
      <div class="hv-img hv-2"><div class="hv-fallback">${ICONS.D5}</div><img src="${HERO_IMG[1]}" alt="" onerror="this.remove()"></div>
-     <div class="hv-img hv-3"><div class="hv-fallback">${ICONS.D7}</div><img src="${HERO_IMG[2]}" alt="" onerror="this.remove()"></div>
-     <div class="hv-badge"><b>${DB.projects.length}</b><span>Active projects</span></div>`;
+     <div class="hv-img hv-3"><div class="hv-fallback">${ICONS.D7}</div><img src="${HERO_IMG[2]}" alt="" onerror="this.remove()"></div>`;
 
   const stats=[[DB.domains.length,'Research domains'],[DB.subdomains.length,'Sub-domains'],[DB.faculty.length,'Faculty members'],[DB.projects.length,'Sponsored projects']];
   $('#hero-stats').innerHTML=stats.map(([n,l])=>`<div class="sstat"><b>${n}</b><span>${l}</span></div>`).join('');
@@ -993,9 +1027,16 @@ function drawGraph(){
       const firstText=gC.querySelector('text');
       const im=el('image',{href:DOMAIN_IMG[domId],x:-CR,y:-CR,width:CR*2,height:CR*2,
         preserveAspectRatio:'xMidYMid slice','clip-path':'url(#cclip)'});
-      const ov=el('circle',{r:CR-2,fill:'rgba(46,20,15,.58)'});
+      const ov=el('circle',{r:CR-2,fill:'rgba(40,17,12,.66)'});
       gC.insertBefore(ov,firstText);gC.insertBefore(im,ov);
-      gC.querySelectorAll('text').forEach(tx=>tx.style.setProperty('fill','#fff','important'));
+      gC.querySelectorAll('text').forEach(tx=>{
+        tx.style.setProperty('fill','#fff','important');
+        /* photo ke upar DARK halo -> white text crisp, fuzzy nahi */
+        tx.style.setProperty('stroke','rgba(20,8,5,.92)','important');
+        tx.style.setProperty('paint-order','stroke');
+        tx.style.setProperty('stroke-width','2.6px','important');
+        tx.style.setProperty('stroke-linejoin','round','important');
+      });
     };
     pre.src=DOMAIN_IMG[domId];
   }
@@ -1204,14 +1245,14 @@ function showProjectPanel(pid){
   panelShell('Project detail',c,p.name,`${p.fund} · ${p.status}`,`
     ${sd&&sd.desc?`<div class="sp-sec"><p class="sp-lead">${esc(sd.desc)}.</p></div>`:''}
     <div class="sp-sec"><h5>Details</h5><dl class="kv">
-      <dt>Project No.</dt><dd>${esc(p.no||'—')}</dd>
-      <dt>Principal Investigator</dt><dd>${esc(pi?pi.name:'—')}</dd>
+      <dt>Project No.</dt><dd><span class="kv-code">${esc(p.no||'—')}</span></dd>
+      <dt>Principal Investigator</dt><dd>${pi?`<span class="kv-link" onclick='navigate({type:"faculty",id:"${pi.id}"})'>${esc(pi.name)}</span>`:'—'}</dd>
       <dt>Department</dt><dd>${esc(p.dept)}, IIT Kanpur</dd>
-      <dt>Research Domain</dt><dd>${esc(dom?dom.name:'—')}</dd>
-      <dt>Sub-domain</dt><dd>${esc(sd?sd.name:'—')}</dd>
-      <dt>Funding Agency</dt><dd>${esc(p.fund)}</dd>
+      <dt>Research Domain</dt><dd>${dom?`<span class="kv-link" onclick='navigate({type:"domain",id:"${dom.id}"})'><i class="kv-dot" style="background:${COLORS[dom.id]}"></i>${esc(dom.name)}</span>`:'—'}</dd>
+      <dt>Sub-domain</dt><dd>${sd?`<span class="kv-link" onclick='navigate({type:"subdomain",id:"${sd.id}"})'><i class="kv-dot" style="background:${colorOfSub(sd.id)}"></i>${esc(sd.name)}</span>`:'—'}</dd>
+      <dt>Funding Agency</dt><dd><span class="kv-tag">${esc(p.fund)}</span></dd>
       <dt>Project Type</dt><dd>${esc(p.type)}</dd>
-      <dt>Status</dt><dd>${esc(p.status)}</dd></dl></div>
+      <dt>Status</dt><dd><span class="status-pill status-${esc(p.status)}">${esc(p.status)}</span></dd></dl></div>
     ${pi?`<div class="sp-sec"><h5>Principal Investigator</h5>${listFaculty(pi,c)}</div>`:''}
     <div class="sp-sec"><h5>Explore</h5><div class="chip-row">
       ${sd?`<button class="chip" onclick='navigate({type:"subdomain",id:"${sd.id}"})'>↳ ${esc(sd.name)} map</button>`:''}
@@ -1307,15 +1348,15 @@ function renderDir(){
 /* init */
 renderDiscover();
 (function(){
-  const targets=[['iitk-logo','logo-fallback'],['iitk-logo-foot',null]];
-  targets.forEach(([imgId,fbId])=>{
+  const targets=[['iitk-logo',IITK_LOGO_SOURCES],['iitk-logo-foot',IITK_LOGO_WHITE]];
+  targets.forEach(([imgId,srcs])=>{
     const im=document.getElementById(imgId);if(!im)return;
     let i=0;
     const tryNext=()=>{
-      if(i>=IITK_LOGO_SOURCES.length){im.remove();return;}
-      im.src=IITK_LOGO_SOURCES[i++];
+      if(i>=srcs.length){im.remove();return;}
+      im.src=srcs[i++];
     };
-    im.onload=()=>{im.style.display='block';if(fbId){const fb=document.getElementById(fbId);if(fb)fb.style.display='none';}};
+    im.onload=()=>{im.style.display='block';};
     im.onerror=tryNext;
     tryNext();
   });
