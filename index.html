@@ -34,18 +34,19 @@ img{display:block}
 header{
   display:flex;align-items:center;gap:18px;padding:11px 26px;
   border-bottom:1px solid var(--line);background:rgba(255,255,255,.95);
-  backdrop-filter:blur(8px);z-index:40;
+  backdrop-filter:blur(8px);z-index:40;position:relative;
 }
 .logo{display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none}
 .logo-mark{width:46px;height:46px;flex:none}.logo-mark svg{width:100%;height:100%}
 .logo-name{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--mahogany);letter-spacing:.02em}
 .logo-name span{color:var(--reddish-brown)}
 .logo-inst{font-size:9.5px;letter-spacing:.14em;color:var(--grey-olive);display:block;margin-top:1px;text-transform:uppercase;font-weight:600}
-.nav-tabs{display:flex;gap:2px;margin-left:14px}
-.nav-tab{background:none;border:none;color:var(--ink-soft);padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500;border-bottom:2px solid transparent}
+.nav-tabs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;gap:2px;z-index:1}
+.nav-tab{position:relative;background:none;border:none;color:var(--ink-soft);padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
 .nav-tab:hover{color:var(--reddish-brown)}
 .nav-tab.active{color:var(--reddish-brown);font-weight:600}
-.hdr-search{margin-left:auto;position:relative;width:min(290px,28vw)}
+.nav-tab.active::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2.5px;border-radius:3px;background:var(--reddish-brown)}
+.hdr-search{margin-left:auto;position:relative;width:min(340px,30vw)}
 .hdr-search input{width:100%;background:var(--pill);border:1px solid transparent;color:var(--ink);padding:9px 13px 9px 34px;border-radius:999px;font-size:12.5px;outline:none;font-family:var(--font-body)}
 .hdr-search input:focus{border-color:var(--reddish-brown);background:#fff;box-shadow:0 0 0 3px rgba(171,69,49,.13)}
 .hdr-search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--grey-olive);font-size:13px}
@@ -76,20 +77,16 @@ main{flex:1;position:relative;overflow:hidden}
 
 /* --- hero --- */
 .hero{background:linear-gradient(180deg,var(--champagne-soft) 0%,#fff 100%);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center;padding:56px 0 50px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center;padding:68px 0 64px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--reddish-brown);font-weight:700;margin-bottom:16px}
 .eyebrow::before{content:'';width:26px;height:2px;background:var(--gold)}
 .hero h1{font-family:var(--font-display);font-size:clamp(30px,3.8vw,50px);font-weight:600;line-height:1.12;color:var(--mahogany)}
 .hero h1 em{font-style:italic;color:var(--reddish-brown)}
-.hero .lede{color:var(--ink-soft);max-width:540px;margin-top:16px;font-size:15px;line-height:1.7}
-.big-search{position:relative;margin-top:26px;max-width:600px}
-.big-search input{
-  width:100%;background:#fff;border:1.5px solid var(--line-strong);color:var(--ink);
-  padding:16px 20px 16px 52px;border-radius:14px;font-size:15px;outline:none;
-  font-family:var(--font-body);box-shadow:0 10px 30px rgba(66,30,24,.10);
-}
-.big-search input:focus{border-color:var(--reddish-brown);box-shadow:0 0 0 4px rgba(171,69,49,.14),0 10px 30px rgba(66,30,24,.10)}
-.big-search .icon{position:absolute;left:19px;top:50%;transform:translateY(-50%);color:var(--reddish-brown);font-size:19px}
+.hero .lede{color:var(--ink-soft);max-width:540px;margin-top:18px;font-size:15.5px;line-height:1.75}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.hero-cta .btn-primary,.hero-cta .btn-ghost{font-size:14.5px}
+.btn-ghost{background:#fff;color:var(--reddish-brown);border:1.5px solid rgba(171,69,49,.4);border-radius:12px;padding:14px 22px;font-weight:600;white-space:nowrap}
+.btn-ghost:hover{background:var(--champagne-soft);border-color:var(--reddish-brown)}
 
 .hero-visual{position:relative;min-height:380px}
 .hv-img{
@@ -111,22 +108,31 @@ main{flex:1;position:relative;overflow:hidden}
 
 /* --- stats band --- */
 .stats-band{background:var(--mahogany);color:var(--champagne)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:26px 0}
-.sstat{padding:6px 26px;border-left:1px solid rgba(252,226,197,.18)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:38px 0}
+.sstat{padding:10px 30px;border-left:1px solid rgba(252,226,197,.18)}
 .sstat:first-child{border-left:none}
-.sstat b{font-family:var(--font-display);font-size:32px;font-weight:600;color:var(--gold);display:block;line-height:1.1}
-.sstat span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;font-weight:600}
+.sstat b{font-family:var(--font-display);font-size:34px;font-weight:600;color:var(--gold);display:block;line-height:1.1;margin-bottom:8px}
+.sstat span{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;font-weight:600;line-height:1.4}
 
 /* --- sections --- */
 .section{padding:52px 0 10px}
-.section.tint{background:var(--champagne-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-bottom:52px;margin-top:42px}
+.section.tint{background:#F5F3F1;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-bottom:52px;margin-top:42px}
 .sec-head{display:flex;align-items:flex-end;gap:18px;margin-bottom:24px}
 .sec-head .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-d);font-weight:700;display:block;margin-bottom:8px}
 .sec-head h2{font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);font-weight:600;color:var(--mahogany);line-height:1.15}
 .sec-head p{font-size:13px;color:var(--grey-olive);margin-top:6px;max-width:520px}
 .sec-head .spacer{flex:1}
+.sec-head.center{position:relative;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.sec-head.center .kicker{margin-bottom:6px}
+.sec-head.center .see-all{position:absolute;right:0;top:50%;transform:translateY(-50%);border:1.5px solid rgba(171,69,49,.4);border-radius:999px;padding:9px 16px;background:#fff}
+.sec-head.center .see-all:hover{background:var(--champagne-soft);text-decoration:none}
+@media (max-width:760px){
+  .sec-head.center .see-all{position:static;transform:none;margin-top:4px}
+}
 .see-all{font-size:13px;font-weight:600;color:var(--reddish-brown);cursor:pointer;background:none;border:none;white-space:nowrap}
 .see-all:hover{text-decoration:underline}
+.arr{display:inline-block;transition:transform .22s ease}
+button:hover .arr,.dcard:hover .arr{transform:translateX(5px)}
 
 /* --- domain grid: BADE prominent cards (3 per row) --- */
 .domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
@@ -208,7 +214,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .foot-grid h5{font-family:var(--font-display);font-size:15px;margin-bottom:12px;color:#fff;font-weight:600}
 .foot-grid p,.foot-grid li{font-size:12.5px;line-height:1.8;opacity:.82;list-style:none}
 .foot-grid li{cursor:pointer}.foot-grid li:hover{opacity:1;color:var(--gold)}
-.foot-base{border-top:1px solid rgba(252,226,197,.18);margin-top:28px;padding-top:16px;font-size:11.5px;opacity:.65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-base{border-top:1px solid rgba(252,226,197,.18);margin-top:28px;padding-top:16px;font-size:11.5px;opacity:.65;display:flex;justify-content:center;text-align:center;flex-wrap:wrap;gap:10px}
 
 
 /* --- domain card hover: top sub-domains preview --- */
@@ -260,7 +266,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .map-chrome > *{pointer-events:auto}
 .pill-btn{background:rgba(255,255,255,.95);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:999px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(66,30,24,.08)}
 .pill-btn:hover{border-color:var(--reddish-brown)}
-#btn-back{position:absolute;top:16px;left:18px}
+#btn-back{position:absolute;top:16px;left:18px;padding:12px 22px;font-size:14.5px;font-weight:600;border-radius:10px}
 #mode-switch{position:absolute;top:16px;left:50%;transform:translateX(-50%);display:none;gap:7px}
 #mode-switch.show{display:flex}
 #mode-switch .pill-btn.on{background:var(--reddish-brown);color:#fff;border-color:var(--reddish-brown)}
@@ -271,11 +277,11 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .hist-item{padding:10px 14px;font-size:12.5px;cursor:pointer;display:flex;gap:9px;align-items:center;color:var(--ink-soft)}
 .hist-item:hover{background:var(--champagne-soft);color:var(--ink)}
 .hist-item .lvl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:2px 7px;border-radius:999px;flex:none}
-#breadcrumb{position:absolute;bottom:16px;left:18px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:60vw}
-.crumb{background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:11.5px;color:var(--ink-soft);cursor:pointer}
+#breadcrumb{position:absolute;bottom:18px;left:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:64vw}
+.crumb{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:500;color:var(--ink-soft);cursor:pointer;box-shadow:0 2px 10px rgba(66,30,24,.08)}
 .crumb:hover{color:var(--ink);border-color:var(--line-strong)}
-.crumb.current{color:var(--reddish-brown);border-color:var(--reddish-brown);font-weight:600}
-.crumb-sep{color:var(--grey-olive);font-size:11px}
+.crumb.current{color:#fff;background:var(--reddish-brown);border-color:var(--reddish-brown);font-weight:700;box-shadow:0 4px 14px rgba(171,69,49,.28)}
+.crumb-sep{color:var(--grey-olive);font-size:14px;font-weight:600}
 #btn-panel{position:absolute;bottom:16px;right:18px}
 #legend{position:absolute;top:70px;left:18px;display:flex;flex-direction:column;gap:6px}
 .leg-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--grey-olive-d)}
@@ -305,7 +311,8 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .sp-stat b{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--mahogany);line-height:1}
 .sp-stats .sp-stat:first-child{background:var(--mahogany);border-color:transparent;color:var(--champagne);box-shadow:0 2px 8px rgba(66,30,24,.22)}
 .sp-stats .sp-stat:first-child b{color:var(--gold)}
-.sp-lead{font-size:14.5px;font-weight:600;color:var(--mahogany);line-height:1.65;padding:13px 16px;border-left:3px solid var(--gold);background:var(--champagne-soft);border-radius:0 12px 12px 0}
+.sp-lead{position:relative;font-size:14px;font-weight:500;color:var(--ink-soft);line-height:1.72;padding:15px 18px 15px 22px;background:linear-gradient(135deg,var(--champagne-soft) 0%,#fff 72%);border:1px solid rgba(201,148,58,.28);border-radius:12px}
+.sp-lead::before{content:'';position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:linear-gradient(180deg,var(--gold),var(--reddish-brown))}
 .sp-body{flex:1;overflow:auto;padding:24px 26px 40px;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
 .sp-body::-webkit-scrollbar{width:9px}
 .sp-body::-webkit-scrollbar-thumb{background:rgba(66,30,24,.22);border-radius:999px;border:2px solid #fff}
@@ -328,6 +335,14 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;color:var(--ink-soft);cursor:pointer;font-weight:500;transition:background .15s,color .15s,border-color .15s}
 .chip:hover{background:var(--champagne-soft);color:var(--mahogany);border-color:var(--gold)}
 .chip.static{cursor:default;background:var(--pill);border-color:transparent;color:var(--pill-text)}.chip.static:hover{background:var(--pill);color:var(--pill-text);border-color:transparent}
+/* --- funders & partners: premium highlighted block --- */
+.sp-funders{background:linear-gradient(140deg,var(--mahogany) 0%,var(--mahogany-d) 100%);border-radius:14px;padding:18px 18px 16px;box-shadow:0 8px 24px rgba(66,30,24,.18);position:relative;overflow:hidden}
+.sp-funders::after{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(201,148,58,.35),transparent 70%)}
+.sp-funders .fund-head{display:flex;align-items:center;gap:9px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:13px;position:relative;z-index:1}
+.sp-funders .fund-head::before{content:'';width:14px;height:2px;background:var(--gold);border-radius:2px;flex:none}
+.funder-chip-row{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
+.funder-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(252,226,197,.12);border:1px solid rgba(201,148,58,.45);color:var(--champagne);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;backdrop-filter:blur(2px)}
+.funder-chip::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none}
 .list-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px;cursor:pointer;background:#fff;position:relative;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .15s}
 .list-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:center;transition:transform .2s}
 .list-item:hover{border-color:var(--line-strong);box-shadow:0 4px 14px rgba(66,30,24,.10);transform:translateX(2px)}
@@ -396,9 +411,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   .domain-grid{grid-template-columns:repeat(2,1fr)}
   .journey{grid-template-columns:repeat(2,1fr)}
   .jstep::after{content:''}
-  .hero-grid{grid-template-columns:1fr;gap:30px;padding:46px 0 42px}
+  .hero-grid{grid-template-columns:1fr;gap:30px;padding:54px 0 50px}
   .hero-visual{display:none}
-  .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:18px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:28px}
   .foot-grid{grid-template-columns:1fr 1fr}
 }
 /* tablets + small laptops: header ko crowd hone se bachao */
@@ -411,7 +426,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   #btn-refresh{margin-left:auto}       /* search gone, ab CTAs ko right push karo */
 }
 @media (max-width:760px){
-  .nav-tabs{display:none}              /* phone: top tabs hide; logo=home, Open Map button + landing links se navigate */
+  .nav-tabs{display:none}              /* phone: top tabs hide; logo=home, landing links se navigate */
   #side-panel{width:100vw;box-shadow:none}
   .sp-hero{height:158px}
   .sp-stats{padding:12px 18px}
@@ -424,19 +439,19 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   #btn-panel{bottom:12px}
   #breadcrumb{bottom:12px;left:12px;right:116px;max-width:none;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   #breadcrumb::-webkit-scrollbar{display:none}
-  .crumb{padding:6px 11px;font-size:11px;flex:none}
+  .crumb{padding:8px 14px;font-size:13px;flex:none}
+  .crumb-sep{font-size:13px}
 }
 @media (max-width:640px){
   .wrap{padding:0 18px}
   .domain-grid,.journey{grid-template-columns:1fr}
   #legend{display:none}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .sstat{padding:6px 16px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);padding:30px 0}
+  .sstat{padding:10px 16px}
   .foot-grid{grid-template-columns:1fr}
   .section{padding:34px 0 6px}
-  .hero-grid{padding:32px 0 28px}
-  .hero .lede{font-size:14px}
-  .big-search input{padding:14px 16px 14px 46px;font-size:14px}
+  .hero-grid{padding:40px 0 36px}
+  .hero .lede{font-size:14.5px}
   .hdr-cta{padding:9px 14px;font-size:12.5px}
   .dir-controls{gap:8px}
   .dir-controls input{min-width:100%}
@@ -447,11 +462,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   .logo-mark{width:38px;height:38px}
   .logo-name{font-size:15px}
   .logo-inst{display:none}
-  #btn-refresh{display:none}           /* tiny screens: header clean, sirf Open Map */
-  .hdr-cta:last-child{margin-left:auto}
-  .hdr-cta{padding:8px 12px;font-size:12px}
+  #btn-refresh{display:none}           /* tiny screens: header clean */
   .hero h1{font-size:26px}
-  .sstat b{font-size:26px}
+  .sstat b{font-size:28px}
   .sp-hero h2{font-size:21px}
 }
 /* touch scroll momentum on scrollable areas */
@@ -486,11 +499,10 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     </nav>
     <div class="hdr-search">
       <span class="icon">⌕</span>
-      <input id="hsearch" type="text" placeholder="Quick search…" autocomplete="off">
+      <input id="hsearch" type="text" placeholder="Search domains, faculty, projects or funders…" autocomplete="off">
       <div class="search-results" id="hsearch-results"></div>
     </div>
     <button class="hdr-cta" id="btn-refresh" onclick="tryLoadExternal(true)" title="Reload latest data from Google Sheet" style="background:var(--grey-olive)">↻ Refresh</button>
-    <button class="hdr-cta" onclick="openLastMap()">Open Map</button>
   </header>
 
   <main>
@@ -501,11 +513,10 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
         <div>
           <span class="eyebrow">Electrical Engineering · Sustainable Energy Engineering</span>
           <h1>Every researcher, every project — <em>one map.</em></h1>
-          <p class="lede">Search a domain, a faculty member, or a funding agency.</p>
-          <div class="big-search">
-            <span class="icon">⌕</span>
-            <input id="bsearch" type="text" placeholder="Search a technology, faculty member, or funding agency…" autocomplete="off">
-            <div class="search-results" id="bsearch-results"></div>
+          <p class="lede">Explore IIT Kanpur's research landscape across domains, faculty and funding partners — visualised as one connected knowledge map.</p>
+          <div class="hero-cta">
+            <button class="btn-primary" onclick="document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'})">Explore research domains <span class="arr">→</span></button>
+            <button class="btn-ghost" onclick="showFacultyDir()">Browse faculty</button>
           </div>
         </div>
         <div class="hero-visual" id="hero-visual"></div>
@@ -516,23 +527,20 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 
     <div class="section" id="sec-domains">
       <div class="wrap">
-        <div class="sec-head">
+        <div class="sec-head center">
           <div><span class="kicker">Explore</span>
           <h2>Research domains</h2></div>
-          <span class="spacer"></span>
-          <button class="see-all" onclick="openLastMap()">Open knowledge map →</button>
         </div>
         <div class="domain-grid" id="domain-grid"></div>
       </div>
     </div>
 
-    <div class="section" id="sec-fac">
+    <div class="section tint" id="sec-fac">
       <div class="wrap">
-        <div class="sec-head">
+        <div class="sec-head center">
           <div><span class="kicker">People</span>
           <h2>Most active researchers</h2></div>
-          <span class="spacer"></span>
-          <button class="see-all" onclick="showFacultyDir()">Full faculty directory →</button>
+          <button class="see-all" onclick="showFacultyDir()">Full faculty directory <span class="arr">→</span></button>
         </div>
         <div class="fac-scroll" id="fac-scroll"></div>
       </div>
@@ -540,7 +548,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 
     <div class="section">
       <div class="wrap">
-        <div class="sec-head">
+        <div class="sec-head center">
           <div><span class="kicker">Research pulse</span>
           <h2>Where the activity is</h2></div>
         </div>
@@ -566,7 +574,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
           <li onclick="document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'})">Domains</li>
         </ul></div>
       </div>
-      <div class="foot-base"><span>© Indian Institute of Technology Kanpur · Office of Research &amp; Development</span><span id="foot-stats"></span></div>
+      <div class="foot-base"><span>© Indian Institute of Technology Kanpur</span></div>
     </div></footer>
   </section>
 
@@ -580,7 +588,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
         <input id="dir-q" type="text" placeholder="Search by name or research area…" autocomplete="off">
         <select id="dir-dept"><option value="">All departments</option></select>
         <select id="dir-dom"><option value="">All domains</option></select>
-        <select id="dir-sort"><option value="name">Sort: A–Z</option><option value="projects">Sort: Most projects</option></select>
+        <select id="dir-sort"><option value="name">Sort: A–Z</option><option value="name-desc">Sort: Z–A</option></select>
       </div>
     </div></div>
     <div class="wrap"><div class="dir-count" id="dir-count"></div><div class="dir-grid" id="dir-grid"></div></div>
@@ -591,7 +599,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <canvas class="dotgrid" id="dots"></canvas>
     <svg id="graph-svg"></svg>
     <div class="map-chrome">
-      <button class="pill-btn" id="btn-back" onclick="goBack()">← Home</button>
+      <button class="pill-btn" id="btn-back" onclick="goBack()">← Back</button>
       <div id="mode-switch">
         <button class="pill-btn" id="ms-fac">Faculty wise</button>
         <button class="pill-btn" id="ms-dept">Department wise</button>
@@ -702,7 +710,6 @@ function renderDiscover(){
 
   const stats=[[DB.domains.length,'Research domains'],[DB.subdomains.length,'Sub-domains'],[DB.faculty.length,'Faculty members'],[DB.projects.length,'Sponsored projects']];
   $('#hero-stats').innerHTML=stats.map(([n,l])=>`<div class="sstat"><b>${n}</b><span>${l}</span></div>`).join('');
-  $('#foot-stats').textContent=`${DB.faculty.length} faculty · ${DB.projects.length} projects mapped`;
 
   $('#domain-grid').innerHTML=DB.domains.map(d=>{
     const fac=facultyOfDomain(d.id),prj=projectsOfDomain(d.id),subs=subsOfDomain(d.id);
@@ -718,7 +725,7 @@ function renderDiscover(){
         <div class="dsubs">${top3.map(esc).join(' · ')}</div>
         <div class="dfoot">
           <span class="nums"><b>${fac.length}</b> faculty · <b>${prj.length}</b> projects</span>
-          <span class="go">Explore →</span>
+          <span class="go">Explore <span class="arr">→</span></span>
         </div>
       </div></div>`;
   }).join('');
@@ -1185,16 +1192,22 @@ function panelSubdept(sid,dept){
     <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No faculty from this department here.</p>'}</div>
     <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No projects from this department here.</p>'}</div>`,s.domain);
 }
+function fundersBlock(funders){
+  if(!funders||!funders.length)return '';
+  return `<div class="sp-sec"><div class="sp-funders">
+    <div class="fund-head">Key funders &amp; partners</div>
+    <div class="funder-chip-row">${funders.map(f=>`<span class="funder-chip">${esc(f)}</span>`).join('')}</div>
+  </div></div>`;
+}
 function panelDomain(id){
   const d=byId(DB.domains,id),c=COLORS[id];
   const subs=subsOfDomain(id),fac=facultyOfDomain(id),prj=projectsOfDomain(id);
   panelShell('Research domain',c,d.name,`${subs.length} sub-domains · ${fac.length} faculty · ${prj.length} projects`,`
+    ${fundersBlock(d.funders)}
     <div class="sp-sec"><p class="sp-lead">${esc(d.desc)}</p></div>
     ${d.apps?`<div class="sp-sec"><h5>Application areas</h5><p>${esc(d.apps)}</p></div>`:''}
     <div class="sp-sec"><h5>Sub-domains</h5><div class="chip-row">
       ${subs.map(s=>`<button class="chip" onclick='navigate({type:"subdomain",id:"${s.id}"})'>${esc(s.name)}</button>`).join('')}</div></div>
-    ${d.funders&&d.funders.length?`<div class="sp-sec"><h5>Key funders &amp; partners</h5><div class="chip-row">
-      ${d.funders.map(f=>`<span class="chip static">${esc(f)}</span>`).join('')}</div></div>`:''}
     <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${capList(fac,f=>listFaculty(f,c),100)}</div>`,id);
 }
 function panelSubdomain(id){
@@ -1288,6 +1301,7 @@ function renderResults(box,q){
 }
 function wireSearch(inputId,boxId){
   const inp=$(inputId),box=$(boxId);
+  if(!inp||!box)return;
   inp.addEventListener('input',()=>renderResults(box,inp.value));
   inp.addEventListener('focus',()=>{if(inp.value.trim().length>=2)renderResults(box,inp.value);});
   inp.addEventListener('keydown',e=>{
@@ -1296,7 +1310,7 @@ function wireSearch(inputId,boxId){
   });
   document.addEventListener('click',e=>{if(!e.target.closest(inputId)&&!e.target.closest(boxId))box.classList.remove('open');});
 }
-function bigSearchSet(q){const i=$('#bsearch');i.value=q;i.focus();renderResults($('#bsearch-results'),q);}
+function bigSearchSet(q){const i=$('#hsearch');if(!i)return;i.value=q;i.focus();renderResults($('#hsearch-results'),q);}
 
 function sizeDots(){
   const c=$('#dots'),m=$('#mapview');c.width=m.clientWidth;c.height=m.clientHeight;
@@ -1337,8 +1351,8 @@ function renderDir(){
   const q=($('#dir-q').value||'').toLowerCase(),dept=$('#dir-dept').value,dom=$('#dir-dom').value,sort=$('#dir-sort').value;
   let list=DB.faculty.filter(f=>(!dept||f.dept===dept)&&(!dom||f.domain===dom)&&
     (!q||f.name.toLowerCase().includes(q)||(f.areas||'').toLowerCase().includes(q)));
-  list=list.slice().sort(sort==='projects'
-    ?(a,b)=>projectsOfFaculty(b.id).length-projectsOfFaculty(a.id).length
+  list=list.slice().sort(sort==='name-desc'
+    ?(a,b)=>b.name.localeCompare(a.name)
     :(a,b)=>a.name.localeCompare(b.name));
   const CAP=200,shown=list.slice(0,CAP);
   $('#dir-count').textContent=list.length>CAP?`Showing first ${CAP} of ${list.length} faculty — filters se refine karein`:`Showing ${list.length} of ${DB.faculty.length} faculty members`;
@@ -1361,7 +1375,6 @@ renderDiscover();
     tryNext();
   });
 })();
-wireSearch('#bsearch','#bsearch-results');
 wireSearch('#hsearch','#hsearch-results');
 $('#ms-fac').addEventListener('click',()=>{if(view&&view.type==='subdomain'&&view.mode==='dept'){view.mode='fac';drawGraph();renderLegend();renderModeSwitch();renderCenterPanel();}});
 $('#ms-dept').addEventListener('click',()=>{if(view&&view.type==='subdomain'&&view.mode!=='dept'){view.mode='dept';drawGraph();renderLegend();renderModeSwitch();renderCenterPanel();}});
