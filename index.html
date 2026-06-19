@@ -1072,17 +1072,17 @@ function drawGraph(){
         c2.textContent=d.count.length>34?d.count.slice(0,32)+'…':d.count;
       }
     }else if(!isMobile){
-      const deg=d.a*180/Math.PI,flip=Math.cos(d.a)<0;
-      const lg=el('g',{transform:`rotate(${flip?deg+180:deg})`},g);
-      /* gap-aware labels: jitne paas-paas nodes, utna chhota font + kam lines -> overlap khatam */
+      /* UPRIGHT horizontal labels — same reading style as the sub-domain page (no rotation) */
+      const side=Math.cos(d.a)>=0?1:-1;            /* right half -> text goes right; left half -> left */
       const gap=2*Math.PI*R/n;                     /* adjacent labels ke beech arc spacing */
-      const fsz=gap<22?9:gap<30?10:gap<42?11:12;   /* dense ring -> chhota font */
-      const rLines=gap<34?1:2;                      /* tight spacing -> single line */
-      const cpl=Math.round((rLines===1?27:23)*(11/fsz));  /* font ke hisaab se chars/line */
-      const lh2=fsz+1.5;
+      const fsz=gap<26?10:gap<40?11:12;            /* dense ring -> thoda chhota font */
+      const rLines=gap<46?1:2;                      /* tight spacing -> single line (vertical overlap kam) */
+      const cpl=Math.round((rLines===1?26:18)*(12/fsz));  /* font ke hisaab se chars/line */
+      const lh2=fsz+2.5;
       const l2=makeLines(d.label,cpl,rLines);
-      const tt=el('text',{class:'r2-label','font-size':fsz,'text-anchor':flip?'end':'start',y:fsz*0.34-(l2.length-1)*lh2/2},lg);
-      l2.forEach((ln,i)=>{const ts=el('tspan',{x:flip?-(nr+11):(nr+11),dy:i?lh2:0},tt);ts.textContent=ln;});
+      const xo=side*(nr+12);
+      const tt=el('text',{class:'r1-label','font-size':fsz,'text-anchor':side>0?'start':'end',y:fsz*0.34-(l2.length-1)*lh2/2},g);
+      l2.forEach((ln,i)=>{const ts=el('tspan',{x:xo,dy:i?lh2:0},tt);ts.textContent=ln;});
     }
     attachNode(g,d);
     glide(g,d.kind+':'+(d.real||d.id),d.x,d.y,newPos);
@@ -1090,7 +1090,7 @@ function drawGraph(){
 
   /* AUTO-FIT: collision-guard se ring bada ho sakta hai -> initial zoom fit karo
      taaki labels samet poora graph screen me aaye (user phir bhi pan/zoom kar sakta hai) */
-  const labelReach=horiz?180:(dense?100:150);
+  const labelReach=horiz?180:(isMobile?70:175);
   const needR=R+labelReach+18;
   const availH=H/2-14, availW=(W-PW)/2-14;
   zoom.k=Math.min(1,availH/needR,availW/needR);
