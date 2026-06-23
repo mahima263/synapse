@@ -805,7 +805,7 @@ function openProjectGlobal(pid){const p=byId(DB.projects,pid);navigate({type:'fa
 function navigate(v,push=true,after){
   if(v.type==='subdomain'&&!v.mode)v.mode='fac';   /* default: faculty-wise (dept-wise mode-switch se available) */
   view=v;lastView=v;showMap();
-  if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept&&h.dom===v.dom&&h.sub===v.sub));historyStack.push({...v});}
+  if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept&&h.dom===v.dom&&h.sub===v.sub&&h.pmode===v.pmode&&h.fromSub===v.fromSub));historyStack.push({...v});}
   drawGraph();renderBreadcrumb();renderHistory();renderLegend();renderModeSwitch();openPanel();renderCenterPanel();
   if(after)after();
 }
@@ -830,11 +830,19 @@ function breadcrumbTrail(){
     t.push({kind:'Sub-domain',label:sd.name,view:{type:'subdomain',id:sd.id,mode:'dept'}});
     t.push({kind:'Department',label:deptFull(view.dept),view});}
   if(view.type==='faculty'){const f=byId(DB.faculty,view.id);
-    t.push({kind:'Faculty',label:f.name,view:{type:'faculty',id:f.id}});
-    if(view.dom){const d=byId(DB.domains,view.dom);
-      t.push({kind:'Domain',label:d?d.name:view.dom,view:{type:'faculty',id:f.id,dom:view.dom}});}
-    if(view.sub){const s=byId(DB.subdomains,view.sub);
-      t.push({kind:'Sub-domain',label:s?s.name:view.sub,view:{type:'faculty',id:f.id,dom:view.dom,sub:view.sub}});}
+    if(view.pmode){                              /* domain flow: Domain › Sub-domain › Faculty */
+      const sid=view.fromSub;
+      if(sid){const s=byId(DB.subdomains,sid);
+        t.push({kind:'Domain',label:domainOf(sid).name,view:{type:'domain',id:s.domain}});
+        t.push({kind:'Sub-domain',label:s.name,view:{type:'subdomain',id:sid}});}
+      t.push({kind:'Faculty',label:f.name,view:{type:'faculty',id:f.id,pmode:true,fromSub:sid}});
+    }else{                                        /* directory flow: Faculty › Domain › Sub-domain */
+      t.push({kind:'Faculty',label:f.name,view:{type:'faculty',id:f.id}});
+      if(view.dom){const d=byId(DB.domains,view.dom);
+        t.push({kind:'Domain',label:d?d.name:view.dom,view:{type:'faculty',id:f.id,dom:view.dom}});}
+      if(view.sub){const s=byId(DB.subdomains,view.sub);
+        t.push({kind:'Sub-domain',label:s?s.name:view.sub,view:{type:'faculty',id:f.id,dom:view.dom,sub:view.sub}});}
+    }
   }
   return t;
 }
@@ -861,6 +869,7 @@ function renderLegend(){
     ?['Centre — Sub-domain','Ring — Departments','Click a department to see its faculty']
     :['Centre — Sub-domain','Ring — Faculty','Click a faculty member to go deeper'];
   else if(view.type==='subdept')items=['Centre — Department','Ring — Faculty of this dept','Click a faculty member to go deeper'];
+  else if(view.pmode)items=['Centre — Faculty','Ring — Their projects','Click a project for details'];
   else if(view.sub)items=['Centre — Sub-domain','Ring — Projects','Click a project for details'];
   else if(view.dom)items=['Centre — Domain','Ring — Sub-domains','Click a sub-domain to see projects'];
   else items=['Centre — Faculty','Ring — Their research domains','Click a domain to go deeper'];
@@ -917,6 +926,16 @@ function buildGraphData(){
      level 3 (dom + sub)     -> centre = sub-domain, ring = us faculty ke us sub-domain ke PROJECTS */
   const f=byId(DB.faculty,view.id);const c=fcolor(f);
   const prj=projectsOfFaculty(f.id);
+
+  if(view.pmode){                                /* DOMAIN-entry flow: faculty -> projects directly */
+    const sub=view.fromSub;
+    let list=sub?prj.filter(p=>p.sub===sub):prj;
+    if(sub&&!list.length)list=prj;               /* us sub me project na ho to saare dikhao */
+    const ring=list.map(p=>({id:p.id,kind:'project',label:p.name,
+      color:p.sub?colorOfSub(p.sub):c,count:p.fund.split(' ').slice(0,4).join(' ')}));
+    const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean).slice(0,3);
+    return {center:{label:f.name,sub:(f.desig?f.desig+' · ':'')+f.dept+', IIT Kanpur',color:c,ava:true,areas},ring};
+  }
 
   if(view.sub){                                  /* level 3 — projects */
     const s=byId(DB.subdomains,view.sub),sc=colorOfSub(view.sub);
@@ -1170,7 +1189,11 @@ function attachNode(g,d){
     e.stopPropagation();hideTooltip();
     if(d.kind==='subdomain')navigate({type:'subdomain',id:d.id});
     else if(d.kind==='dept')navigate({type:'subdept',id:view.id,dept:d.id});
-    else if(d.kind==='faculty')navigate({type:'faculty',id:d.real||d.id});
+    else if(d.kind==='faculty'){
+      if(view.type==='subdomain'||view.type==='subdept')   /* domain flow: faculty -> uske projects */
+        navigate({type:'faculty',id:d.real||d.id,pmode:true,fromSub:view.id});
+      else navigate({type:'faculty',id:d.real||d.id});      /* directory se: full drill */
+    }
     else if(d.kind==='fdomain')navigate({type:'faculty',id:view.id,dom:d.id});
     else if(d.kind==='fsub')navigate({type:'faculty',id:view.id,dom:view.dom,sub:d.id});
     else if(d.kind==='project'){openPanel();showProjectPanel(d.id);pulse(g);}
@@ -1262,7 +1285,7 @@ function panelDomain(id){
   panelShell('Research domain',c,d.name,`${subs.length} sub-domains · ${fac.length} faculty · ${prj.length} projects`,`
     ${fundersBlock(d.funders)}
     <div class="sp-sec"><h5>About this domain</h5><p class="sp-lead">${esc(d.desc)}</p></div>
-    ${d.apps?`<div class="sp-sec"><h5>Where it is applied</h5><p>${esc(d.apps)}</p></div>`:''}
+    ${d.apps?`<div class="sp-sec"><h5>Key Application Areas</h5><p>${esc(d.apps)}</p></div>`:''}
     <div class="sp-sec"><h5>Sub-domains inside this domain</h5><div class="chip-row">
       ${subs.map(s=>`<button class="chip" onclick='navigate({type:"subdomain",id:"${s.id}"})'>${esc(s.name)}<span class="code-badge">${codeOf('sub',s.id)}</span></button>`).join('')}</div></div>
     <div class="sp-sec"><h5>Faculty working in this domain (${fac.length})</h5>${capList(fac,f=>listFaculty(f,c),100)}</div>`,id,codeOf('dom',id));
@@ -1286,9 +1309,9 @@ function panelFaculty(id){
       ${f.home?`<a href="${esc(f.home)}" target="_blank" rel="noopener">${LINK_ICON}Official faculty profile</a>`:''}
       ${!f.email&&!f.phone&&!f.home?'<span class="row">Contact details coming soon</span>':''}
     </div></div>
-    ${areas.length?`<div class="sp-sec"><h5>Research interests (keywords)</h5><div class="chip-row">
+    ${areas.length?`<div class="sp-sec"><h5>Research areas</h5><div class="chip-row">
       ${areas.map(a=>`<span class="chip static">${esc(a)}</span>`).join('')}</div></div>`:''}
-    <div class="sp-sec"><h5>Research areas / sub-domains they work in</h5><div class="chip-row">
+    <div class="sp-sec"><h5>Sub-domains</h5><div class="chip-row">
       ${f.subs.map(sid=>{const s=byId(DB.subdomains,sid);return s?`<button class="chip" onclick='navigate({type:"subdomain",id:"${sid}"})'>${esc(s.name)}<span class="code-badge">${codeOf('sub',sid)}</span></button>`:'';}).join('')}</div></div>
     <div class="sp-sec"><h5>Sponsored projects (${prj.length})</h5>${capList(prj,listProject)}</div>`,f.domain);
 }
