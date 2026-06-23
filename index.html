@@ -1087,8 +1087,23 @@ function drawGraph(){
   const y0=glyphOff-(lines.length-1)*lh/2-(hasSub?fs*0.30:0);
   lines.forEach((l,i)=>{const tx=el('text',{y:y0+i*lh,class:'center-name','font-size':fs},gC);tx.textContent=l;});
   if(hasSub){
-    const subT=el('text',{y:y0+lines.length*lh+4,class:'glabel-sub','text-anchor':'middle','font-size':Math.max(12,CR*0.115),'font-weight':600},gC);
-    subT.textContent=data.center.sub.length>38?data.center.sub.slice(0,36)+'…':data.center.sub;
+    const subFs=Math.max(10.5,Math.min(CR*0.10,14));            /* readable but circle ke andar */
+    const subPer=Math.max(12,Math.floor((CR*1.7)/(subFs*0.55))); /* width-based char budget */
+    const subLines=makeLines(data.center.sub,subPer,2);          /* zaroorat ho to 2 line, overflow nahi */
+    const subLh=subFs+2.5;
+    const subY=y0+lines.length*lh+subFs*0.55+3;
+    const subT=el('text',{class:'glabel-sub','text-anchor':'middle','font-size':subFs,'font-weight':600},gC);
+    subLines.forEach((ln,i)=>{const ts=el('tspan',{x:0,y:subY+i*subLh},subT);ts.textContent=ln;});
+    if(!data.center.ava){                                        /* image center -> naam ke peeche dark band, taaki saaf dikhe */
+      try{
+        const bb=subT.getBBox(),px=11,py=4.5;
+        const bg=el('rect',{x:bb.x-px,y:bb.y-py,width:bb.width+px*2,height:bb.height+py*2,rx:9,
+          fill:'rgba(171,69,49,.85)',stroke:'rgba(255,255,255,.25)','stroke-width':1});
+        gC.insertBefore(bg,subT);
+        subT.setAttribute('data-band','1');                     /* band hai -> halo ki zaroorat nahi */
+        subT.style.setProperty('stroke','none','important');
+      }catch(e){}
+    }
   }
   if(data.center.areas&&data.center.areas.length&&!isMobile){
     const at=el('text',{y:CR+30,'text-anchor':'middle','font-size':10.5,'font-weight':700,fill:'var(--grey-olive)',style:'letter-spacing:.08em;text-transform:uppercase'},gC);
@@ -1118,6 +1133,9 @@ function drawGraph(){
       gC.insertBefore(ov,firstText);gC.insertBefore(im,ov);
       gC.querySelectorAll('text').forEach(tx=>{
         tx.style.setProperty('fill','#fff','important');
+        if(tx.getAttribute('data-band')){                       /* band ke peeche text -> koi halo nahi */
+          tx.style.setProperty('stroke','none','important');return;
+        }
         /* photo ke upar DARK halo -> white text crisp, fuzzy nahi */
         tx.style.setProperty('stroke','rgba(20,8,5,.92)','important');
         tx.style.setProperty('paint-order','stroke');
