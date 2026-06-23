@@ -36,21 +36,21 @@ header{
   border-bottom:1px solid var(--line);background:rgba(255,255,255,.95);
   backdrop-filter:blur(8px);z-index:40;position:relative;
 }
-.logo{display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none}
+.logo{display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none;flex:none}
 .logo-mark{width:46px;height:46px;flex:none}.logo-mark svg{width:100%;height:100%}
 .logo-name{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--mahogany);letter-spacing:.02em}
 .logo-name span{color:var(--reddish-brown)}
 .logo-inst{font-size:9.5px;letter-spacing:.14em;color:var(--grey-olive);display:block;margin-top:1px;text-transform:uppercase;font-weight:600}
-.nav-tabs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;gap:2px;z-index:1}
-.nav-tab{position:relative;background:none;border:none;color:var(--ink-soft);padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.nav-tabs{flex:1 1 auto;display:flex;justify-content:center;gap:2px;min-width:0}
+.nav-tab{position:relative;background:none;border:none;color:var(--ink-soft);padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500;white-space:nowrap}
 .nav-tab:hover{color:var(--reddish-brown)}
 .nav-tab.active{color:var(--reddish-brown);font-weight:600}
 .nav-tab.active::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2.5px;border-radius:3px;background:var(--reddish-brown)}
-.hdr-search{margin-left:auto;position:relative;width:min(340px,30vw)}
+.hdr-search{flex:0 1 320px;position:relative;min-width:0}
 .hdr-search input{width:100%;background:var(--pill);border:1px solid transparent;color:var(--ink);padding:9px 13px 9px 34px;border-radius:999px;font-size:12.5px;outline:none;font-family:var(--font-body)}
 .hdr-search input:focus{border-color:var(--reddish-brown);background:#fff;box-shadow:0 0 0 3px rgba(171,69,49,.13)}
 .hdr-search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--grey-olive);font-size:13px}
-.hdr-cta{background:var(--reddish-brown);color:#fff;border:none;border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600}
+.hdr-cta{background:var(--reddish-brown);color:#fff;border:none;border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600;flex:none}
 .hdr-cta:hover{background:var(--reddish-brown-d)}
 
 main{flex:1;position:relative;overflow:hidden}
@@ -260,8 +260,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 /* ================ MAP VIEW ================ */
 #mapview{position:absolute;inset:0;display:none;background:radial-gradient(circle at 50% 42%,#fff 0%,var(--champagne-soft) 78%,#f6e8d8 100%)}
 #mapview.active{display:block}
-#graph-svg{width:100%;height:100%;display:block;cursor:grab}
-#graph-svg.grabbing{cursor:grabbing}
+#graph-svg{width:100%;height:100%;display:block;cursor:default}
 .map-chrome{position:absolute;pointer-events:none;inset:0;z-index:20}
 .map-chrome > *{pointer-events:auto}
 .pill-btn{background:rgba(255,255,255,.95);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:999px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(66,30,24,.08)}
@@ -278,7 +277,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .hist-item:hover{background:var(--champagne-soft);color:var(--ink)}
 .hist-item .lvl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:2px 7px;border-radius:999px;flex:none}
 #breadcrumb{position:absolute;bottom:18px;left:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:64vw}
-.crumb{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:500;color:var(--ink-soft);cursor:pointer;box-shadow:0 2px 10px rgba(66,30,24,.08)}
+.crumb{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:14px;padding:7px 16px;font-size:14px;font-weight:500;color:var(--ink-soft);cursor:pointer;box-shadow:0 2px 10px rgba(66,30,24,.08);display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;text-align:left}
+.crumb-kind{font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;opacity:.55;margin-bottom:1px}
+.crumb-name{font-weight:600}
 .crumb:hover{color:var(--ink);border-color:var(--line-strong)}
 .crumb.current{color:#fff;background:var(--reddish-brown);border-color:var(--reddish-brown);font-weight:700;box-shadow:0 4px 14px rgba(171,69,49,.28)}
 .crumb-sep{color:var(--grey-olive);font-size:14px;font-weight:600}
@@ -300,6 +301,8 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .sp-hero::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(46,20,15,.10) 0%,rgba(46,20,15,.30) 45%,rgba(46,20,15,.82) 100%)}
 .sp-hero-txt{position:absolute;left:26px;right:58px;bottom:18px;z-index:2;color:#fff}
 .sp-hero-kind{display:inline-flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);padding:4px 10px;border-radius:999px;margin-bottom:9px;backdrop-filter:blur(3px)}
+.sp-hero-code{display:inline-block;margin-left:8px;vertical-align:middle;font-size:10px;letter-spacing:.1em;font-weight:800;color:#fff;background:rgba(20,8,5,.4);border:1px solid rgba(255,255,255,.45);padding:4px 10px;border-radius:999px;backdrop-filter:blur(3px)}
+.code-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--gold-d);background:rgba(201,148,58,.14);border:1px solid rgba(201,148,58,.42);border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:middle}
 .sp-hero h2{font-family:var(--font-display);font-size:24.5px;line-height:1.2;font-weight:600;color:#fff;margin:0;text-shadow:0 1px 14px rgba(0,0,0,.4);letter-spacing:.005em}
 .sp-hero .cur{font-size:10.5px;opacity:.85;margin-top:6px;display:flex;align-items:center;gap:6px}
 .sp-hero .cur::before{content:'';width:13px;height:1.5px;background:var(--gold)}
@@ -311,6 +314,11 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .sp-stat b{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--mahogany);line-height:1}
 .sp-stats .sp-stat:first-child{background:var(--mahogany);border-color:transparent;color:var(--champagne);box-shadow:0 2px 8px rgba(66,30,24,.22)}
 .sp-stats .sp-stat:first-child b{color:var(--gold)}
+/* status pill inside the stat strip (e.g. Active = green) */
+.sp-stat.sp-status{align-items:center;gap:7px;font-weight:700}
+.sp-stat.sp-status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+.sp-stat.sp-status.status-Active{background:rgba(31,158,87,.18);border-color:rgba(31,158,87,.4);color:#15803d}
+.sp-stat.sp-status.status-Closed{background:var(--pill);border-color:transparent;color:var(--pill-text)}
 .sp-lead{position:relative;font-size:14px;font-weight:500;color:var(--ink-soft);line-height:1.72;padding:15px 18px 15px 22px;background:linear-gradient(135deg,var(--champagne-soft) 0%,#fff 72%);border:1px solid rgba(201,148,58,.28);border-radius:12px}
 .sp-lead::before{content:'';position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:linear-gradient(180deg,var(--gold),var(--reddish-brown))}
 .sp-body{flex:1;overflow:auto;padding:24px 26px 40px;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
@@ -353,9 +361,11 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .li-main b{font-size:14px;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
 .li-main span{font-size:11.5px;color:var(--grey-olive);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .li-count{font-size:11px;color:var(--ink-soft);flex:none;background:var(--pill);border-radius:999px;padding:3px 10px;font-weight:600}
-.status-pill{font-size:10px;padding:3px 9px;border-radius:999px;font-weight:700;flex:none}
-.status-Active{background:rgba(79,122,91,.16);color:#3c6048}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;padding:4px 11px;border-radius:999px;font-weight:700;flex:none}
+.status-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.status-Active{background:rgba(31,158,87,.18);color:#15803d}
 .status-Closed{background:var(--pill);color:var(--pill-text)}
+/* status meaning note under the details table */
 .home-link{display:inline-flex;gap:7px;align-items:center;font-size:12px;font-weight:600;color:var(--reddish-brown);text-decoration:none;border:1px solid rgba(171,69,49,.4);padding:7px 14px;border-radius:999px}
 .home-link:hover{background:var(--champagne-soft)}
 
@@ -366,7 +376,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 /* paint-order:stroke -> har label ke peeche safed halo, taaki lines/dots/aas-paas
    ke labels par chadhe bhi to text readable rahe (collision-proof legibility) */
 .gnode text{font-family:var(--font-body);fill:var(--ink);pointer-events:none;paint-order:stroke;stroke:var(--white);stroke-width:3px;stroke-linejoin:round;stroke-linecap:round}
-.glabel-sub{fill:var(--grey-olive) !important;font-size:9.5px}
+.glabel-sub{fill:var(--ink-soft) !important;font-weight:600}
 .center-name{font-family:var(--font-display);font-weight:600;fill:var(--mahogany);text-anchor:middle;stroke-width:2.2px}
 .ring-guide{fill:none;stroke:rgba(66,30,24,.14);stroke-dasharray:2 6}
 .ring-outer{fill:none;stroke:rgba(66,30,24,.30);stroke-width:2}
@@ -377,6 +387,12 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 #tooltip b{display:block;font-size:12.5px;color:var(--mahogany)}
 #tooltip span{color:var(--grey-olive-d);font-size:11px}
 .dotgrid{position:absolute;inset:0;pointer-events:none;opacity:.5}
+
+/* zoom controls */
+#zoom-ctrl{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:22px;padding:5px;box-shadow:0 2px 10px rgba(66,30,24,.10)}
+#zoom-ctrl button{width:34px;height:34px;border:none;background:none;border-radius:50%;font-size:18px;color:var(--mahogany);display:flex;align-items:center;justify-content:center;line-height:1}
+#zoom-ctrl button:hover{background:var(--champagne-soft)}
+#zoom-ctrl .zlabel{font-size:9.5px;color:var(--grey-olive-d);width:36px;text-align:center;font-weight:700;padding:1px 0}
 
 /* --- research pulse --- */
 .pulse-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -406,6 +422,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   .domain-grid{grid-template-columns:repeat(3,1fr)}
   .wrap{padding:0 40px}
 }
+@media (max-width:1140px){
+  .hdr-search{display:none}            /* search hide -> nav-tabs ke saath overlap na ho */
+}
 @media (max-width:1080px){
   .pulse-grid,.aud-grid{grid-template-columns:1fr}
   .domain-grid{grid-template-columns:repeat(2,1fr)}
@@ -416,14 +435,13 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:28px}
   .foot-grid{grid-template-columns:1fr 1fr}
 }
-/* tablets + small laptops: header ko crowd hone se bachao */
+/* tablets + small laptops */
 @media (max-width:960px){
   .wrap{padding:0 32px}
   .section{padding:42px 0 8px}
   header{gap:12px;padding:10px 18px}
+  .nav-tabs{justify-content:flex-end;flex:1}
   .nav-tab{padding:8px 11px;font-size:13px}
-  .hdr-search{display:none}            /* search hide -> CTAs ke liye jagah */
-  #btn-refresh{margin-left:auto}       /* search gone, ab CTAs ko right push karo */
 }
 @media (max-width:760px){
   .nav-tabs{display:none}              /* phone: top tabs hide; logo=home, landing links se navigate */
@@ -437,6 +455,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   #history-box{top:12px;right:12px}
   #btn-back,#btn-panel,#history-box .pill-btn{padding:8px 13px;font-size:12px}
   #btn-panel{bottom:12px}
+  #zoom-ctrl{left:10px}
   #breadcrumb{bottom:12px;left:12px;right:116px;max-width:none;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   #breadcrumb::-webkit-scrollbar{display:none}
   .crumb{padding:8px 14px;font-size:13px;flex:none}
@@ -462,7 +481,6 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   .logo-mark{width:38px;height:38px}
   .logo-name{font-size:15px}
   .logo-inst{display:none}
-  #btn-refresh{display:none}           /* tiny screens: header clean */
   .hero h1{font-size:26px}
   .sstat b{font-size:28px}
   .sp-hero h2{font-size:21px}
@@ -493,7 +511,6 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
     <nav class="nav-tabs">
       <button class="nav-tab active" id="tab-discover" onclick="goDiscover()">Home</button>
       <button class="nav-tab" onclick="goDiscover();setTimeout(()=>document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'}),60)">Domains</button>
-      <button class="nav-tab" onclick="goDiscover();setTimeout(()=>document.getElementById('sec-fac').scrollIntoView({behavior:'smooth'}),60)">Researchers</button>
       <button class="nav-tab" id="tab-dir" onclick="showFacultyDir()">Faculty</button>
       <button class="nav-tab" id="tab-map" onclick="openLastMap()">Knowledge Map</button>
     </nav>
@@ -610,6 +627,12 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
       </div>
       <div id="legend"></div>
       <div id="breadcrumb"></div>
+      <div id="zoom-ctrl">
+        <button onclick="zoomBy(0.8)" title="Zoom out">−</button>
+        <span class="zlabel" id="zoom-label">100%</span>
+        <button onclick="zoomBy(1.25)" title="Zoom in">+</button>
+        <button onclick="zoomReset()" title="Reset view" style="font-size:14px">⤢</button>
+      </div>
       <button class="pill-btn" id="btn-panel" onclick="togglePanel()">Hide panel →</button>
     </div>
     <div id="side-panel"></div>
@@ -691,6 +714,8 @@ const facultyOfDomain=d=>DB.faculty.filter(f=>f.domain===d||f.subs.some(s=>byId(
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fcolor=f=>COLORS[f.domain]||'#AB4531';
 const fsoft=f=>SOFT[f.domain]||'#F6E3DE';
+/* domain/sub-domain ka code (D2, SD5 …) — raw id hi code hai, bas uppercase */
+const codeOf=(kind,id)=>String(id||'').toUpperCase();
 const DEPT_FULL={EE:'Electrical Engineering',SEE:'Sustainable Energy Engineering','EE+BSBE':'EE + BSBE (Joint)'};
 const deptFull=d=>DEPT_FULL[d]||d;
 const shortName=n=>{ // "Dr. Aditya K. Jagannatham" -> "Dr. Jagannatham" for tight graph labels
@@ -721,7 +746,7 @@ function renderDiscover(){
         <span class="badge">${ICONS[d.id]}</span>
       </div>
       <div class="dbody">
-        <h3>${esc(d.name)}</h3>
+        <h3>${esc(d.name)} <span class="code-badge">${codeOf('dom',d.id)}</span></h3>
         <div class="dsubs">${top3.map(esc).join(' · ')}</div>
         <div class="dfoot">
           <span class="nums"><b>${fac.length}</b> faculty · <b>${prj.length}</b> projects</span>
@@ -780,7 +805,7 @@ function openProjectGlobal(pid){const p=byId(DB.projects,pid);navigate({type:'fa
 function navigate(v,push=true,after){
   if(v.type==='subdomain'&&!v.mode)v.mode='fac';   /* default: faculty-wise (dept-wise mode-switch se available) */
   view=v;lastView=v;showMap();
-  if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept));historyStack.push({...v});}
+  if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept&&h.dom===v.dom&&h.sub===v.sub));historyStack.push({...v});}
   drawGraph();renderBreadcrumb();renderHistory();renderLegend();renderModeSwitch();openPanel();renderCenterPanel();
   if(after)after();
 }
@@ -796,25 +821,27 @@ function renderModeSwitch(){
 function goBack(){const t=breadcrumbTrail();if(t.length>1)navigate(t[t.length-2].view);else goDiscover();}
 function breadcrumbTrail(){
   const t=[];if(!view)return t;
-  if(view.type==='domain')t.push({label:byId(DB.domains,view.id).name,view});
+  if(view.type==='domain')t.push({kind:'Domain',label:byId(DB.domains,view.id).name,view});
   if(view.type==='subdomain'){const sd=byId(DB.subdomains,view.id);
-    t.push({label:domainOf(view.id).name,view:{type:'domain',id:sd.domain}});t.push({label:sd.name,view});}
+    t.push({kind:'Domain',label:domainOf(view.id).name,view:{type:'domain',id:sd.domain}});
+    t.push({kind:'Sub-domain',label:sd.name,view});}
   if(view.type==='subdept'){const sd=byId(DB.subdomains,view.id);
-    t.push({label:domainOf(view.id).name,view:{type:'domain',id:sd.domain}});
-    t.push({label:sd.name,view:{type:'subdomain',id:sd.id,mode:'dept'}});
-    t.push({label:deptFull(view.dept),view});}
+    t.push({kind:'Domain',label:domainOf(view.id).name,view:{type:'domain',id:sd.domain}});
+    t.push({kind:'Sub-domain',label:sd.name,view:{type:'subdomain',id:sd.id,mode:'dept'}});
+    t.push({kind:'Department',label:deptFull(view.dept),view});}
   if(view.type==='faculty'){const f=byId(DB.faculty,view.id);
-    const did=f.domain||(f.subs[0]?byId(DB.subdomains,f.subs[0]).domain:'D1');
-    const dom=byId(DB.domains,did);
-    t.push({label:dom?dom.name:'Research',view:{type:'domain',id:did}});
-    if(f.subs[0]){const s=byId(DB.subdomains,f.subs[0]);t.push({label:s.name,view:{type:'subdomain',id:s.id}});}
-    t.push({label:f.name,view});}
+    t.push({kind:'Faculty',label:f.name,view:{type:'faculty',id:f.id}});
+    if(view.dom){const d=byId(DB.domains,view.dom);
+      t.push({kind:'Domain',label:d?d.name:view.dom,view:{type:'faculty',id:f.id,dom:view.dom}});}
+    if(view.sub){const s=byId(DB.subdomains,view.sub);
+      t.push({kind:'Sub-domain',label:s?s.name:view.sub,view:{type:'faculty',id:f.id,dom:view.dom,sub:view.sub}});}
+  }
   return t;
 }
 function renderBreadcrumb(){
   const t=breadcrumbTrail();
   $('#breadcrumb').innerHTML=`<button class="crumb" onclick="goDiscover()">Home</button><span class="crumb-sep">›</span>`+
-    t.map((c,i)=>`<button class="crumb ${i===t.length-1?'current':''}" onclick='navigate(${JSON.stringify(c.view)})'>${esc(c.label)}</button>`).join('<span class="crumb-sep">›</span>');
+    t.map((c,i)=>`<button class="crumb ${i===t.length-1?'current':''}" onclick='navigate(${JSON.stringify(c.view)})'>${c.kind?`<span class="crumb-kind">${esc(c.kind)}</span>`:''}<span class="crumb-name">${esc(c.label)}</span></button>`).join('<span class="crumb-sep">›</span>');
 }
 function renderHistory(){
   const lvl={domain:'Domain',subdomain:'Sub-domain',subdept:'Department',faculty:'Faculty'};
@@ -834,7 +861,9 @@ function renderLegend(){
     ?['Centre — Sub-domain','Ring — Departments','Click a department to see its faculty']
     :['Centre — Sub-domain','Ring — Faculty','Click a faculty member to go deeper'];
   else if(view.type==='subdept')items=['Centre — Department','Ring — Faculty of this dept','Click a faculty member to go deeper'];
-  else items=['Centre — Faculty','Ring — Their projects','Click a project for details'];
+  else if(view.sub)items=['Centre — Sub-domain','Ring — Projects','Click a project for details'];
+  else if(view.dom)items=['Centre — Domain','Ring — Sub-domains','Click a sub-domain to see projects'];
+  else items=['Centre — Faculty','Ring — Their research domains','Click a domain to go deeper'];
   $('#legend').innerHTML=items.map(l=>`<div class="leg-item"><span class="leg-dot"></span>${l}</div>`).join('');
 }
 function togglePanel(){panelOpen=!panelOpen;$('#side-panel').classList.toggle('open',panelOpen);$('#btn-panel').textContent=panelOpen?'Hide panel →':'← Show panel';repositionGraph();}
@@ -843,9 +872,9 @@ function repositionGraph(){
   try{
     if(!gRoot||!$('#mapview').classList.contains('active'))return;
     const ob=baseX;baseX=-panelOffset()/2;
-    gRoot.setAttribute('transform',`translate(${zoom.x+baseX},${zoom.y}) scale(${zoom.k})`);
-    gRoot.animate([{transform:`translate(${zoom.x+ob}px,${zoom.y}px) scale(${zoom.k})`},
-                   {transform:`translate(${zoom.x+baseX}px,${zoom.y}px) scale(${zoom.k})`}],
+    gRoot.setAttribute('transform',`translate(${baseX},0) scale(${zoom.k})`);
+    gRoot.animate([{transform:`translate(${ob}px,0px) scale(${zoom.k})`},
+                   {transform:`translate(${baseX}px,0px) scale(${zoom.k})`}],
       {duration:380,easing:'cubic-bezier(.4,0,.2,1)'});
   }catch(e){}
 }
@@ -857,8 +886,8 @@ function buildGraphData(){
   if(view.type==='domain'){
     const d=byId(DB.domains,view.id),c=COLORS[d.id];
     const ring=subsOfDomain(d.id).map(s=>({id:s.id,kind:'subdomain',label:s.name,color:c,
-      count:`${facultyOfSub(s.id).length} faculty · ${projectsOfSub(s.id).length} projects`}));
-    return {center:{label:d.name,sub:'Research domain',color:c},ring};
+      count:`${codeOf('sub',s.id)} · ${facultyOfSub(s.id).length} faculty · ${projectsOfSub(s.id).length} projects`}));
+    return {center:{label:d.name,sub:`Research domain · ${codeOf('dom',d.id)}`,color:c},ring};
   }
   if(view.type==='subdomain'){
     const s=byId(DB.subdomains,view.id),c=colorOfSub(s.id);
@@ -870,11 +899,11 @@ function buildGraphData(){
         return {id:dp,kind:'dept',label:deptFull(dp),color:c,dim:nf===0,
           count:nf?`${nf} faculty · ${np} projects`:'No faculty in this area'};
       });
-      return {center:{label:s.name,sub:domainOf(s.id).name,color:c},ring};
+      return {center:{label:s.name,sub:`${domainOf(s.id).name} · ${codeOf("sub",s.id)}`,color:c},ring};
     }
     const ring=facultyOfSub(s.id).map(f=>({id:f.id,kind:'faculty',label:f.name,color:c,
       count:projectsOfFaculty(f.id).length+' projects',ava:true}));
-    return {center:{label:s.name,sub:domainOf(s.id).name,color:c},ring};
+    return {center:{label:s.name,sub:`${domainOf(s.id).name} · ${codeOf("sub",s.id)}`,color:c},ring};
   }
   if(view.type==='subdept'){
     const s=byId(DB.subdomains,view.id),c=colorOfSub(s.id);
@@ -882,9 +911,40 @@ function buildGraphData(){
       count:projectsOfFaculty(f.id).filter(p=>p.dept===view.dept).length+' projects',ava:true}));
     return {center:{label:deptFull(view.dept),sub:s.name,color:c,dept:true},ring};
   }
+  /* ===== FACULTY: 3-level scoped drill =====
+     level 1 (no dom)        -> centre = faculty,    ring = uske research DOMAINS
+     level 2 (dom)           -> centre = domain,     ring = us faculty ke us domain ke SUB-DOMAINS
+     level 3 (dom + sub)     -> centre = sub-domain, ring = us faculty ke us sub-domain ke PROJECTS */
   const f=byId(DB.faculty,view.id);const c=fcolor(f);
-  const ring=projectsOfFaculty(f.id).map(p=>({id:p.id,kind:'project',label:p.name,
-    color:p.sub?colorOfSub(p.sub):c,count:p.fund.split(' ').slice(0,4).join(' ')}));
+  const prj=projectsOfFaculty(f.id);
+
+  if(view.sub){                                  /* level 3 — projects */
+    const s=byId(DB.subdomains,view.sub),sc=colorOfSub(view.sub);
+    const list=prj.filter(p=>p.sub===view.sub);
+    const ring=list.map(p=>({id:p.id,kind:'project',label:p.name,
+      color:sc,count:p.fund.split(' ').slice(0,4).join(' ')}));
+    return {center:{label:s.name,sub:`${f.name} · ${codeOf('sub',s.id)}`,color:sc},ring};
+  }
+  if(view.dom){                                  /* level 2 — sub-domains in this domain */
+    const d=byId(DB.domains,view.dom),dc=COLORS[view.dom];
+    const subIds=new Set();
+    prj.forEach(p=>{if(p.dom===view.dom&&p.sub)subIds.add(p.sub);});
+    f.subs.forEach(sid=>{const s=byId(DB.subdomains,sid);if(s&&s.domain===view.dom)subIds.add(sid);});
+    const ring=[...subIds].map(sid=>{const s=byId(DB.subdomains,sid);if(!s)return null;
+      const np=prj.filter(p=>p.sub===sid).length;
+      return {id:sid,kind:'fsub',label:s.name,color:dc,count:`${codeOf('sub',sid)} · ${np} projects`};}).filter(Boolean);
+    return {center:{label:d.name,sub:`${f.name} · ${codeOf('dom',d.id)}`,color:dc},ring};
+  }
+  /* level 1 — domains the faculty works in */
+  const domIds=new Set();
+  prj.forEach(p=>{if(p.dom)domIds.add(p.dom);});
+  f.subs.forEach(sid=>{const s=byId(DB.subdomains,sid);if(s)domIds.add(s.domain);});
+  if(f.domain)domIds.add(f.domain);
+  const ring=[...domIds].map(did=>{const d=byId(DB.domains,did);if(!d)return null;
+    const np=prj.filter(p=>p.dom===did).length;
+    const ns=new Set(prj.filter(p=>p.dom===did&&p.sub).map(p=>p.sub)).size;
+    return {id:did,kind:'fdomain',label:d.name,color:COLORS[did],
+      count:`${codeOf('dom',did)} · ${ns} sub-domains · ${np} projects`};}).filter(Boolean);
   const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean).slice(0,3);
   return {center:{label:f.name,sub:(f.desig?f.desig+' · ':'')+f.dept+', IIT Kanpur',color:c,ava:true,areas},ring};
 }
@@ -893,9 +953,10 @@ function buildGraphData(){
    GRAPH RENDERING — WEF-style with animated recentring
    ========================================================= */
 const svg=$('#graph-svg'),SVGNS='http://www.w3.org/2000/svg';
-let gRoot,zoom={k:1,x:0,y:0},prevPos={},drawToken=0,baseX=0;
+let gRoot,zoom={k:1},prevPos={},drawToken=0,baseX=0,fitK=1;
 function panelOffset(){return (panelOpen&&window.innerWidth>760)?Math.min(520,window.innerWidth*0.94):0;}
 const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ZMIN=0.55,ZMAX=2.2;   /* zoom limits — bahut zyada in/out se rokein */
 function el(t,a,p){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
 function polar(r,a){return [r*Math.cos(a),r*Math.sin(a)];}
 function personGlyph(parent,r,color){
@@ -945,7 +1006,6 @@ function drawGraph(){
   svg.innerHTML='';
   const W=svg.clientWidth||window.innerWidth,H=svg.clientHeight||(window.innerHeight-56);
   svg.setAttribute('viewBox',`${-W/2} ${-H/2} ${W} ${H}`);
-  zoom={k:1,x:0,y:0};
   const PW=panelOffset();
   baseX=-PW/2;
   gRoot=el('g',{transform:`translate(${baseX},0)`},svg);
@@ -1008,8 +1068,8 @@ function drawGraph(){
   const y0=glyphOff-(lines.length-1)*lh/2-(hasSub?fs*0.30:0);
   lines.forEach((l,i)=>{const tx=el('text',{y:y0+i*lh,class:'center-name','font-size':fs},gC);tx.textContent=l;});
   if(hasSub){
-    const subT=el('text',{y:y0+lines.length*lh+2,class:'glabel-sub','text-anchor':'middle','font-size':Math.max(9,CR*0.085)},gC);
-    subT.textContent=data.center.sub.length>34?data.center.sub.slice(0,32)+'…':data.center.sub;
+    const subT=el('text',{y:y0+lines.length*lh+4,class:'glabel-sub','text-anchor':'middle','font-size':Math.max(12,CR*0.115),'font-weight':600},gC);
+    subT.textContent=data.center.sub.length>38?data.center.sub.slice(0,36)+'…':data.center.sub;
   }
   if(data.center.areas&&data.center.areas.length&&!isMobile){
     const at=el('text',{y:CR+30,'text-anchor':'middle','font-size':10.5,'font-weight':700,fill:'var(--grey-olive)',style:'letter-spacing:.08em;text-transform:uppercase'},gC);
@@ -1024,6 +1084,7 @@ function drawGraph(){
 
   const domId=view.type==='domain'?view.id
     :(view.type==='subdomain'||view.type==='subdept')?byId(DB.subdomains,view.id).domain
+    :view.type==='faculty'?(view.sub?byId(DB.subdomains,view.sub).domain:(view.dom||byId(DB.faculty,view.id).domain))
     :byId(DB.faculty,view.id).domain;
   if(!data.center.ava&&DOMAIN_IMG[domId]){
     const pre=new Image();
@@ -1089,16 +1150,17 @@ function drawGraph(){
   });
 
   /* AUTO-FIT: collision-guard se ring bada ho sakta hai -> initial zoom fit karo
-     taaki labels samet poora graph screen me aaye (user phir bhi pan/zoom kar sakta hai) */
+     taaki labels samet poora graph screen me aaye */
   const labelReach=horiz?180:(isMobile?70:175);
   const needR=R+labelReach+18;
   const availH=H/2-14, availW=(W-PW)/2-14;
-  zoom.k=Math.min(1,availH/needR,availW/needR);
-  if(zoom.k<0.4)zoom.k=0.4;
-  gRoot.setAttribute('transform',`translate(${zoom.x+baseX},${zoom.y}) scale(${zoom.k})`);
+  fitK=Math.min(1,availH/needR,availW/needR);
+  if(fitK<ZMIN)fitK=ZMIN;
+  zoom.k=fitK;
+  gRoot.setAttribute('transform',`translate(${baseX},0) scale(${zoom.k})`);
+  updateZoomLabel();
 
   prevPos=newPos;
-  enablePanZoom();
 }
 function attachNode(g,d){
   g.addEventListener('mouseenter',e=>{highlight(d.id,d.parent);showTooltip(e,d);});
@@ -1109,6 +1171,8 @@ function attachNode(g,d){
     if(d.kind==='subdomain')navigate({type:'subdomain',id:d.id});
     else if(d.kind==='dept')navigate({type:'subdept',id:view.id,dept:d.id});
     else if(d.kind==='faculty')navigate({type:'faculty',id:d.real||d.id});
+    else if(d.kind==='fdomain')navigate({type:'faculty',id:view.id,dom:d.id});
+    else if(d.kind==='fsub')navigate({type:'faculty',id:view.id,dom:view.dom,sub:d.id});
     else if(d.kind==='project'){openPanel();showProjectPanel(d.id);pulse(g);}
   });
 }
@@ -1134,23 +1198,12 @@ function moveTooltip(e){const r=$('#mapview').getBoundingClientRect();
   tip.style.left=Math.min(e.clientX-r.left+16,r.width-290)+'px';tip.style.top=(e.clientY-r.top+14)+'px';}
 function hideTooltip(){tip.style.display='none';}
 
-function enablePanZoom(){
-  let start=null,dragging=false;
-  const apply=()=>gRoot.setAttribute('transform',`translate(${zoom.x+baseX},${zoom.y}) scale(${zoom.k})`);
-  svg.onwheel=e=>{e.preventDefault();const f=e.deltaY<0?1.12:0.89;zoom.k=Math.min(3.5,Math.max(0.4,zoom.k*f));apply();};
-  svg.onpointerdown=e=>{start={x:e.clientX,y:e.clientY};dragging=false;};
-  svg.onpointermove=e=>{
-    if(!start)return;
-    const dx=e.clientX-start.x,dy=e.clientY-start.y;
-    if(!dragging){
-      if(Math.hypot(dx,dy)<5)return;
-      dragging=true;svg.classList.add('grabbing');
-      try{svg.setPointerCapture(e.pointerId);}catch(_){}
-    }
-    zoom.x+=dx;zoom.y+=dy;start={x:e.clientX,y:e.clientY};apply();
-  };
-  svg.onpointerup=svg.onpointercancel=svg.onpointerleave=()=>{start=null;dragging=false;svg.classList.remove('grabbing');};
-}
+/* ===== ZOOM ONLY (no pan) — map move nahi hoga, sirf zoom in/out ===== */
+function applyZoom(){if(gRoot)gRoot.setAttribute('transform',`translate(${baseX},0) scale(${zoom.k})`);updateZoomLabel();}
+function updateZoomLabel(){const l=$('#zoom-label');if(l)l.textContent=Math.round((zoom.k/fitK)*100)+'%';}
+function zoomBy(f){zoom.k=Math.min(ZMAX,Math.max(ZMIN,zoom.k*f));applyZoom();}
+function zoomReset(){zoom.k=fitK;applyZoom();}
+svg.addEventListener('wheel',e=>{e.preventDefault();zoomBy(e.deltaY<0?1.12:0.893);},{passive:false});
 window.addEventListener('resize',()=>{if($('#mapview').classList.contains('active')){prevPos={};drawGraph();sizeDots();}});
 
 /* =========================================================
@@ -1160,17 +1213,21 @@ const panel=$('#side-panel');
 function statPills(sub){
   return String(sub).split('·').map(part=>{
     const t=part.trim();if(!t)return'';
+    const low=t.toLowerCase();
+    if(low==='active'||low==='closed')          /* status token -> coloured pill (Active = green) */
+      return `<span class="sp-stat sp-status status-${esc(t)}">${esc(t)}</span>`;
     const m=t.match(/^(\d[\d,]*)\s+(.*)$/);
     return m?`<span class="sp-stat"><b>${esc(m[1])}</b> ${esc(m[2])}</span>`
             :`<span class="sp-stat">${esc(t)}</span>`;
   }).join('');
 }
-function panelShell(kind,color,title,sub,body,domId){
+function panelShell(kind,color,title,sub,body,domId,code){
   const img=domId&&DOMAIN_IMG[domId]?`<img src="${DOMAIN_IMG[domId]}" alt="" onerror="this.remove()">`:'';
+  const codeBadge=code?`<span class="sp-hero-code">${esc(code)}</span>`:'';
   panel.innerHTML=`<div class="sp-hero" style="--sp-c:${color}">${img}
     <button class="sp-close" onclick="togglePanel()">✕</button>
     <div class="sp-hero-txt">
-      <span class="sp-hero-kind">${kind}</span>
+      <span class="sp-hero-kind">${kind}</span>${codeBadge}
       <h2>${esc(title)}</h2>
       <div class="cur">Curation: Office of Research &amp; Development · IIT Kanpur</div>
     </div></div>
@@ -1188,9 +1245,9 @@ function panelSubdept(sid,dept){
   const fac=facultyOfSub(sid).filter(f=>f.dept===dept);
   const prj=projectsOfSub(sid).filter(p=>p.dept===dept);
   panelShell('Department view',c,`${deptFull(dept)}`,`${s.name} · ${fac.length} faculty · ${prj.length} projects`,`
-    <div class="sp-sec"><p class="sp-lead">${esc(s.name)} ke andar ${esc(deptFull(dept))} department ki faculty aur unke sponsored projects.</p></div>
+    <div class="sp-sec"><h5>What you are seeing</h5><p class="sp-lead">${esc(s.name)} ke andar ${esc(deptFull(dept))} department ki faculty aur unke sponsored projects.</p></div>
     <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No faculty from this department here.</p>'}</div>
-    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No projects from this department here.</p>'}</div>`,s.domain);
+    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No projects from this department here.</p>'}</div>`,s.domain,codeOf('sub',sid));
 }
 function fundersBlock(funders){
   if(!funders||!funders.length)return '';
@@ -1204,19 +1261,19 @@ function panelDomain(id){
   const subs=subsOfDomain(id),fac=facultyOfDomain(id),prj=projectsOfDomain(id);
   panelShell('Research domain',c,d.name,`${subs.length} sub-domains · ${fac.length} faculty · ${prj.length} projects`,`
     ${fundersBlock(d.funders)}
-    <div class="sp-sec"><p class="sp-lead">${esc(d.desc)}</p></div>
-    ${d.apps?`<div class="sp-sec"><h5>Application areas</h5><p>${esc(d.apps)}</p></div>`:''}
-    <div class="sp-sec"><h5>Sub-domains</h5><div class="chip-row">
-      ${subs.map(s=>`<button class="chip" onclick='navigate({type:"subdomain",id:"${s.id}"})'>${esc(s.name)}</button>`).join('')}</div></div>
-    <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${capList(fac,f=>listFaculty(f,c),100)}</div>`,id);
+    <div class="sp-sec"><h5>About this domain</h5><p class="sp-lead">${esc(d.desc)}</p></div>
+    ${d.apps?`<div class="sp-sec"><h5>Where it is applied</h5><p>${esc(d.apps)}</p></div>`:''}
+    <div class="sp-sec"><h5>Sub-domains inside this domain</h5><div class="chip-row">
+      ${subs.map(s=>`<button class="chip" onclick='navigate({type:"subdomain",id:"${s.id}"})'>${esc(s.name)}<span class="code-badge">${codeOf('sub',s.id)}</span></button>`).join('')}</div></div>
+    <div class="sp-sec"><h5>Faculty working in this domain (${fac.length})</h5>${capList(fac,f=>listFaculty(f,c),100)}</div>`,id,codeOf('dom',id));
 }
 function panelSubdomain(id){
   const s=byId(DB.subdomains,id),c=colorOfSub(id);
   const fac=facultyOfSub(id),prj=projectsOfSub(id);
   panelShell('Sub-domain',c,s.name,`${domainOf(id).name} · ${fac.length} faculty · ${prj.length} projects`,`
-    ${s.desc?`<div class="sp-sec"><p class="sp-lead">${esc(s.desc)}.</p></div>`:''}
-    <div class="sp-sec"><h5>Faculty</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No mapped faculty yet.</p>'}</div>
-    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No mapped projects yet.</p>'}</div>`,s.domain);
+    ${s.desc?`<div class="sp-sec"><h5>What this research area covers</h5><p class="sp-lead">${esc(s.desc)}.</p></div>`:''}
+    <div class="sp-sec"><h5>Faculty in this area</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No mapped faculty yet.</p>'}</div>
+    <div class="sp-sec"><h5>Projects in this area (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No mapped projects yet.</p>'}</div>`,s.domain,codeOf('sub',id));
 }
 function panelFaculty(id){
   const f=byId(DB.faculty,id),c=fcolor(f);
@@ -1229,11 +1286,11 @@ function panelFaculty(id){
       ${f.home?`<a href="${esc(f.home)}" target="_blank" rel="noopener">${LINK_ICON}Official faculty profile</a>`:''}
       ${!f.email&&!f.phone&&!f.home?'<span class="row">Contact details coming soon</span>':''}
     </div></div>
-    ${areas.length?`<div class="sp-sec"><h5>Research interests</h5><div class="chip-row">
+    ${areas.length?`<div class="sp-sec"><h5>Research interests (keywords)</h5><div class="chip-row">
       ${areas.map(a=>`<span class="chip static">${esc(a)}</span>`).join('')}</div></div>`:''}
-    <div class="sp-sec"><h5>Mapped research areas</h5><div class="chip-row">
-      ${f.subs.map(sid=>{const s=byId(DB.subdomains,sid);return s?`<button class="chip" onclick='navigate({type:"subdomain",id:"${sid}"})'>${esc(s.name)}</button>`:'';}).join('')}</div></div>
-    <div class="sp-sec"><h5>Projects (${prj.length})</h5>${capList(prj,listProject)}</div>`,f.domain);
+    <div class="sp-sec"><h5>Research areas / sub-domains they work in</h5><div class="chip-row">
+      ${f.subs.map(sid=>{const s=byId(DB.subdomains,sid);return s?`<button class="chip" onclick='navigate({type:"subdomain",id:"${sid}"})'>${esc(s.name)}<span class="code-badge">${codeOf('sub',sid)}</span></button>`:'';}).join('')}</div></div>
+    <div class="sp-sec"><h5>Sponsored projects (${prj.length})</h5>${capList(prj,listProject)}</div>`,f.domain);
 }
 function capList(arr,render,cap=80){
   return arr.slice(0,cap).map(render).join('')+(arr.length>cap?`<p style="font-size:12px;color:var(--grey-olive);padding:4px 2px">+ ${arr.length-cap} more — search se refine karein</p>`:'');
@@ -1256,13 +1313,13 @@ function showProjectPanel(pid){
   const sd=p.sub?byId(DB.subdomains,p.sub):null,dom=byId(DB.domains,p.dom),c=COLORS[p.dom]||'#AB4531';
   const pi=byId(DB.faculty,p.faculty[0]);
   panelShell('Project detail',c,p.name,`${p.fund} · ${p.status}`,`
-    ${sd&&sd.desc?`<div class="sp-sec"><p class="sp-lead">${esc(sd.desc)}.</p></div>`:''}
+    ${sd&&sd.desc?`<div class="sp-sec"><h5>Research area this project belongs to</h5><p class="sp-lead">${esc(sd.desc)}.</p></div>`:''}
     <div class="sp-sec"><h5>Details</h5><dl class="kv">
       <dt>Project No.</dt><dd><span class="kv-code">${esc(p.no||'—')}</span></dd>
       <dt>Principal Investigator</dt><dd>${pi?`<span class="kv-link" onclick='navigate({type:"faculty",id:"${pi.id}"})'>${esc(pi.name)}</span>`:'—'}</dd>
       <dt>Department</dt><dd>${esc(p.dept)}, IIT Kanpur</dd>
-      <dt>Research Domain</dt><dd>${dom?`<span class="kv-link" onclick='navigate({type:"domain",id:"${dom.id}"})'><i class="kv-dot" style="background:${COLORS[dom.id]}"></i>${esc(dom.name)}</span>`:'—'}</dd>
-      <dt>Sub-domain</dt><dd>${sd?`<span class="kv-link" onclick='navigate({type:"subdomain",id:"${sd.id}"})'><i class="kv-dot" style="background:${colorOfSub(sd.id)}"></i>${esc(sd.name)}</span>`:'—'}</dd>
+      <dt>Research Domain</dt><dd>${dom?`<span class="kv-link" onclick='navigate({type:"domain",id:"${dom.id}"})'><i class="kv-dot" style="background:${COLORS[dom.id]}"></i>${esc(dom.name)}</span><span class="code-badge">${codeOf('dom',dom.id)}</span>`:'—'}</dd>
+      <dt>Sub-domain</dt><dd>${sd?`<span class="kv-link" onclick='navigate({type:"subdomain",id:"${sd.id}"})'><i class="kv-dot" style="background:${colorOfSub(sd.id)}"></i>${esc(sd.name)}</span><span class="code-badge">${codeOf('sub',sd.id)}</span>`:'—'}</dd>
       <dt>Funding Agency</dt><dd><span class="kv-tag">${esc(p.fund)}</span></dd>
       <dt>Project Type</dt><dd>${esc(p.type)}</dd>
       <dt>Status</dt><dd><span class="status-pill status-${esc(p.status)}">${esc(p.status)}</span></dd></dl></div>
@@ -1383,24 +1440,34 @@ $('#ms-dept').addEventListener('click',()=>{if(view&&view.type==='subdomain'&&vi
    LIVE GOOGLE SHEET DATA
    ========================================================= */
 const DATA_FILE='data.xlsx';
-const GOOGLE_PUBLISHED_XLSX='https://docs.google.com/spreadsheets/d/e/2PACX-1vSyhV6HamyRSLZGOpLPDns21_qAINOlx8DOtjVQURbOMU7hnzDkbmMmMphKklh4NpKV3MhAN8OL2bGu/pub?output=xlsx';
-const GOOGLE_SHEET_ID='1q2h8QRMJaRfN02689y1h9tPyErw3ltToIulM-Ws7_VE';
+/* ▼ DATA SOURCE — yahan se data aata hai. Naya "Publish to web" sheet (XLSX) ▼
+   pubhtml link ko pub?output=xlsx me badal kar use kiya hai.
+   Naya sheet badalna ho to neeche wali line me URL replace kar dena. */
+const GOOGLE_PUBLISHED_XLSX='https://docs.google.com/spreadsheets/d/e/2PACX-1vRE9y_sL9YnpFMseXf-fAxQdsWAXWmiSP8yfp4G_MXqZBbELUvq0EFAiSCmAP93OA/pub?output=xlsx';
+const GOOGLE_SHEET_ID='';   /* purana private sheet hata diya — ab sirf upar wale published sheet se data */
 const SHEET_FIRST=true;
 
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
 
 function buildFromWorkbook(wb){
-  const sheet=key=>{const sn=wb.SheetNames.find(s=>s.toLowerCase().includes(key));
+  const sheetRows=key=>{const sn=wb.SheetNames.find(s=>s.toLowerCase().includes(key));
     return sn?XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:''}):null;};
-  const afterHeader=(rows,marker)=>{if(!rows)return null;
+  const split=(rows,marker)=>{if(!rows)return {head:null,body:null};
     const i=rows.findIndex(r=>r.some(c=>String(c).trim().toLowerCase()===marker));
-    return i<0?null:rows.slice(i+1);};
-  const S=afterHeader(sheet('summary'),'domain id');
-  const T=afterHeader(sheet('taxonomy'),'domain id');
-  const F=afterHeader(sheet('faculty'),'faculty name');
-  const P=afterHeader(sheet('project'),'project title');
+    return i<0?{head:null,body:null}:{head:rows[i],body:rows.slice(i+1)};};
+  const colIdx=(head,...names)=>{if(!head)return -1;
+    for(let i=0;i<head.length;i++){const h=String(head[i]).trim().toLowerCase();
+      if(names.some(n=>h===n||h.includes(n)))return i;}return -1;};
+  const sx=split(sheetRows('summary'),'domain id'),   S=sx.body;
+  const tx=split(sheetRows('taxonomy'),'domain id'),  T=tx.body;
+  const fx=split(sheetRows('faculty'),'faculty name'),F=fx.body;
+  const px=split(sheetRows('project'),'project title'),P=px.body;
   if(!S||!T||!F||!P){console.warn('Google Sheet: sheets/headers not recognised');return null;}
   const str=v=>String(v==null?'':v).trim();
+  /* Faculty ID column header se detect — agar Faculty Master + Project Database dono me
+     "Faculty ID" column hai to usi se reliable join hota hai (naam-matching ki zaroorat nahi) */
+  const facIdCol=colIdx(fx.head,'faculty id');
+  const proFacIdCol=colIdx(px.head,'faculty id');
 
   const domains={};
   S.forEach(r=>{const id=str(r[0]);if(!id)return;
@@ -1418,7 +1485,8 @@ function buildFromWorkbook(wb){
   F.forEach(r=>{const nm=str(r[2]);if(!nm)return;
     faculty[normN(nm)]={name:nm,dept:str(r[3]),desig:str(r[4]),email:str(r[5]),
       domain:str(r[6]),subname:str(r[8]),areas:str(r[9]),home:str(r[10]),
-      phone:str(r[11]),photo:str(r[12]),subs:new Set()};});
+      phone:str(r[11]),photo:str(r[12]),
+      fid:facIdCol>=0?str(r[facIdCol]):'',subs:new Set()};});
 
   const keys=Object.keys(faculty);
   const find=name=>{const k=normN(name);if(faculty[k])return k;
@@ -1437,12 +1505,18 @@ function buildFromWorkbook(wb){
   Object.values(subdomains).forEach(s=>s.keyfac.forEach(kn=>{
     const fk=find(kn.replace(/\(partial\)/g,''));if(fk)faculty[fk].subs.add(s.id);}));
 
+  /* Faculty ID -> faculty key lookup (reliable join, naam ke bharose nahi) */
+  const idMap={};
+  for(const k in faculty){const fd=faculty[k].fid;if(fd)idMap[fd.toLowerCase()]=k;}
+  const findById=id=>{const v=str(id).toLowerCase();return v&&idMap[v]?idMap[v]:null;};
+
   const projects=[];
   P.forEach(r=>{const title=str(r[5]);if(!title)return;
-    const fname=str(r[4]);let fk=find(fname);
+    const fname=str(r[4]);
+    let fk=(proFacIdCol>=0?findById(r[proFacIdCol]):null)||find(fname);
     if(!fk){fk=normN(fname);
       if(!faculty[fk])faculty[fk]={name:'Dr. '+fname.replace(/\s+\.$/,''),dept:str(r[2]),desig:'',email:'',
-        domain:str(r[7]),subname:'',areas:'',home:'',phone:'',photo:'',subs:new Set()};}
+        domain:str(r[7]),subname:'',areas:'',home:'',phone:'',photo:'',fid:'',subs:new Set()};}
     const sid=subdomains[str(r[9])]?str(r[9]):'';
     if(sid)faculty[fk].subs.add(sid);
     projects.push({no:str(r[1]),dept:str(r[2]),fk,title,fund:str(r[6]),sub:sid,
