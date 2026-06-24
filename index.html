@@ -522,7 +522,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
       <button class="nav-tab active" id="tab-discover" onclick="goDiscover()">Home</button>
       <button class="nav-tab" onclick="goDiscover();setTimeout(()=>document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'}),60)">Domains</button>
       <button class="nav-tab" id="tab-dir" onclick="showFacultyDir()">Faculty</button>
-      <button class="nav-tab" id="tab-map" onclick="openLastMap()"></button>
+      <button class="nav-tab" id="tab-map" onclick="openLastMap()">Knowledge Map</button>
     </nav>
     <div class="hdr-search">
       <span class="icon">⌕</span>
@@ -719,6 +719,10 @@ const facultyOfDomain=d=>DB.faculty.filter(f=>f.domain===d||f.subs.some(s=>byId(
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fcolor=f=>COLORS[f.domain]||'#AB4531';
 const fsoft=f=>SOFT[f.domain]||'#F6E3DE';
+/* research areas string -> array. Sheet me areas ; , | · / ya newline kisi se bhi
+   alag ho sakte hain — sirf ';' pe split karte the to multiple areas ek hi item ban
+   jaate the (sirf pehla dikhta). Ab har common separator handle hota hai. */
+const splitAreas=s=>String(s||'').split(/[;,|·\n]+/).map(x=>x.trim()).filter(Boolean);
 /* domain/sub-domain ka code (D2, SD5 …) — raw id hi code hai, bas uppercase */
 const codeOf=(kind,id)=>String(id||'').toUpperCase();
 const DEPT_FULL={EE:'Electrical Engineering',SEE:'Sustainable Energy Engineering','EE+BSBE':'EE + BSBE (Joint)'};
@@ -769,7 +773,7 @@ function renderDiscover(){
       <div class="photo">${f.photo?`<img src="${esc(f.photo)}" alt="${esc(f.name)}" onerror="this.outerHTML='${PERSON.replace(/'/g,"\\'")}'">`:PERSON}</div>
       <h4>${esc(f.name)}</h4>
       <div class="meta">${esc(f.desig||'Faculty')} · ${esc(f.dept)}, IIT Kanpur</div>
-      <div class="area">${esc((f.areas||'').split(';').slice(0,3).join(' · '))}</div>
+      <div class="area">${esc(splitAreas(f.areas).slice(0,3).join(' · '))}</div>
       <span class="cnt">${n} sponsored projects</span>
     </div>`;
   }).join('');
@@ -941,7 +945,7 @@ function buildGraphData(){
     if(sub&&!list.length)list=prj;               /* us sub me project na ho to saare dikhao */
     const ring=list.map(p=>({id:p.id,kind:'project',label:p.name,
       color:p.sub?colorOfSub(p.sub):c,count:p.fund.split(' ').slice(0,4).join(' ')}));
-    const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean).slice(0,3);
+    const areas=splitAreas(f.areas).slice(0,3);
     return {center:{label:f.name,sub:(f.desig?f.desig+' · ':'')+f.dept+', IIT Kanpur',color:c,ava:true,areas},ring};
   }
 
@@ -972,7 +976,7 @@ function buildGraphData(){
     const ns=new Set(prj.filter(p=>p.dom===did&&p.sub).map(p=>p.sub)).size;
     return {id:did,kind:'fdomain',label:d.name,color:COLORS[did],
       count:`${codeOf('dom',did)} · ${ns} sub-domains · ${np} projects`};}).filter(Boolean);
-  const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean).slice(0,3);
+  const areas=splitAreas(f.areas).slice(0,3);
   return {center:{label:f.name,sub:(f.desig?f.desig+' · ':'')+f.dept+', IIT Kanpur',color:c,ava:true,areas},ring};
 }
 
@@ -1342,7 +1346,7 @@ function panelSubdomain(id){
 function panelFaculty(id){
   const f=byId(DB.faculty,id),c=fcolor(f);
   const prj=projectsOfFaculty(id);
-  const areas=(f.areas||'').split(';').map(x=>x.trim()).filter(Boolean);
+  const areas=splitAreas(f.areas);
   panelShell('Faculty member',c,f.name,`${f.desig?f.desig+' · ':''}${f.dept}, IIT Kanpur · ${prj.length} projects`,`
     <div class="sp-sec"><h5>Contact</h5><div class="contact-rows">
       ${f.email?`<a href="mailto:${esc(f.email)}">${EMAIL_ICON}${esc(f.email)}</a>`:''}
@@ -1533,6 +1537,28 @@ function buildFromWorkbook(wb){
   const facIdCol=colIdx(fx.head,'faculty id');
   const proFacIdCol=colIdx(px.head,'faculty id');
 
+  /* --- Faculty Master columns ko HEADER naam se detect karo ---
+     Sheet me ab extra "Research Domain" + "Sub-Domain ID" columns hain, isliye fixed
+     index galat pad rahe the ("Research Areas" ki jagah Sub-Domain naam aa raha tha). */
+  const fh=fx.head||[];
+  const cE=(...names)=>{for(let i=0;i<fh.length;i++){const h=String(fh[i]).trim().toLowerCase();if(names.some(n=>h===n))return i;}return -1;};
+  const cI=(...names)=>colIdx(fh,...names);
+  const C_NAME =cE('faculty name')>=0?cE('faculty name'):2;
+  const C_DEPT =cE('department')>=0?cE('department'):cI('department','dept');
+  const C_DESIG=cI('designation');
+  const C_EMAIL=cI('email');
+  const C_DOM  =cE('domain id')>=0?cE('domain id'):cI('domain id');
+  const C_SUB  =cE('sub-domain','sub domain','subdomain');   /* NAME col (exact -> "Sub-Domain ID" na pakde) */
+  const C_AREA =cI('research area');                          /* "Research Areas" */
+  const C_HOME =cI('profile','homepage','faculty url','url');
+  const C_PHONE=cI('phone','mobile','contact no');
+  const C_PHOTO=cI('photo','image','picture');
+  const gv=(r,c)=>c>=0?str(r[c]):'';
+  /* ek area-cell ko items me todo (; | newline). "Also active — ..." auto-note research
+     area nahi (woh sub-domain list me already hai), use chhod do. Comma frontend handle karega. */
+  const addAreas=(set,cell)=>{if(!cell)return;
+    cell.split(/[;|\n]+/).forEach(a=>{a=a.trim();if(a&&!/^also active/i.test(a))set.add(a);});};
+
   const domains={};
   S.forEach(r=>{const id=str(r[0]);if(!id)return;
     domains[id]={id,name:str(r[1]),apps:str(r[5]),funders:str(r[6]).split(';').map(x=>x.trim()).filter(Boolean),desc:''};});
@@ -1546,11 +1572,24 @@ function buildFromWorkbook(wb){
 
   const normN=n=>str(n).replace(/^(Dr\.?|Prof\.?)\s*/i,'').replace(/[.\u00b7]/g,' ').replace(/\s+/g,' ').trim().toLowerCase();
   const faculty={};
-  F.forEach(r=>{const nm=str(r[2]);if(!nm)return;
-    faculty[normN(nm)]={name:nm,dept:str(r[3]),desig:str(r[4]),email:str(r[5]),
-      domain:str(r[6]),subname:str(r[8]),areas:str(r[9]),home:str(r[10]),
-      phone:str(r[11]),photo:str(r[12]),
-      fid:facIdCol>=0?str(r[facIdCol]):'',subs:new Set()};});
+  F.forEach(r=>{const nm=gv(r,C_NAME);if(!nm)return;
+    const k=normN(nm);
+    if(!faculty[k]){
+      faculty[k]={name:nm,dept:gv(r,C_DEPT),desig:gv(r,C_DESIG),email:gv(r,C_EMAIL),
+        domain:gv(r,C_DOM),subname:gv(r,C_SUB),home:gv(r,C_HOME),
+        phone:gv(r,C_PHONE),photo:gv(r,C_PHOTO),
+        fid:facIdCol>=0?str(r[facIdCol]):'',areaSet:new Set(),subs:new Set()};
+    }else{                                   /* same faculty ki doosri row -> missing details bharo */
+      const f=faculty[k];
+      if(!f.email)f.email=gv(r,C_EMAIL);
+      if(!f.desig)f.desig=gv(r,C_DESIG);
+      if(!f.home)f.home=gv(r,C_HOME);
+      if(!f.phone)f.phone=gv(r,C_PHONE);
+      if(!f.photo)f.photo=gv(r,C_PHOTO);
+      if(!f.domain)f.domain=gv(r,C_DOM);
+    }
+    addAreas(faculty[k].areaSet,gv(r,C_AREA));   /* har row ke research areas ko union karo */
+  });
 
   const keys=Object.keys(faculty);
   const find=name=>{const k=normN(name);if(faculty[k])return k;
@@ -1592,7 +1631,7 @@ function buildFromWorkbook(wb){
     const fid='F'+String(i+1).padStart(3,'0');fids[k]=fid;
     const nm=/^(dr|prof)/i.test(f.name)?f.name:'Dr. '+f.name;
     out.faculty.push({id:fid,name:nm,dept:f.dept,desig:f.desig,email:f.email,phone:f.phone,photo:f.photo,
-      areas:f.areas,home:f.home,subs:[...f.subs].sort(),domain:f.domain});});
+      areas:f.areaSet?[...f.areaSet].join('; '):(f.areas||''),home:f.home,subs:[...f.subs].sort(),domain:f.domain});});
   projects.forEach((p,i)=>out.projects.push({id:'P'+String(i+1).padStart(3,'0'),no:p.no,name:p.title,
     faculty:[fids[p.fk]],sub:p.sub,dom:p.dom,fund:p.fund,type:p.type,status:p.status,dept:p.dept}));
   if(!out.domains.length||!out.projects.length)return null;
