@@ -343,6 +343,16 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;color:var(--ink-soft);cursor:pointer;font-weight:500;transition:background .15s,color .15s,border-color .15s}
 .chip:hover{background:var(--champagne-soft);color:var(--mahogany);border-color:var(--gold)}
 .chip.static{cursor:default;background:var(--pill);border-color:transparent;color:var(--pill-text)}.chip.static:hover{background:var(--pill);color:var(--pill-text);border-color:transparent}
+/* --- Key Application Areas: feature tiles --- */
+.app-areas{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.app-area{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid rgba(201,148,58,.30);border-radius:12px;background:linear-gradient(135deg,var(--champagne-soft) 0%,#fff 80%);font-size:12.5px;font-weight:600;color:var(--mahogany);line-height:1.35;transition:border-color .18s,box-shadow .18s,transform .15s}
+.app-area:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(201,148,58,.16);transform:translateY(-1px)}
+.app-area .ic{flex:none;width:26px;height:26px;border-radius:8px;background:rgba(201,148,58,.16);color:var(--gold-d);display:flex;align-items:center;justify-content:center}
+.app-area .ic svg{width:15px;height:15px}
+.app-lead{position:relative;display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.7;color:var(--ink-soft);padding:14px 16px;border:1px solid rgba(201,148,58,.28);border-radius:12px;background:linear-gradient(135deg,var(--champagne-soft) 0%,#fff 72%)}
+.app-lead .ic{flex:none;width:30px;height:30px;border-radius:9px;background:rgba(201,148,58,.16);color:var(--gold-d);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.app-lead .ic svg{width:17px;height:17px}
+@media(max-width:760px){.app-areas{grid-template-columns:1fr}}
 /* --- funders & partners: premium highlighted block --- */
 .sp-funders{background:linear-gradient(140deg,var(--mahogany) 0%,var(--mahogany-d) 100%);border-radius:14px;padding:18px 18px 16px;box-shadow:0 8px 24px rgba(66,30,24,.18);position:relative;overflow:hidden}
 .sp-funders::after{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(201,148,58,.35),transparent 70%)}
@@ -388,11 +398,6 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 #tooltip span{color:var(--grey-olive-d);font-size:11px}
 .dotgrid{position:absolute;inset:0;pointer-events:none;opacity:.5}
 
-/* zoom controls */
-#zoom-ctrl{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:22px;padding:5px;box-shadow:0 2px 10px rgba(66,30,24,.10)}
-#zoom-ctrl button{width:34px;height:34px;border:none;background:none;border-radius:50%;font-size:18px;color:var(--mahogany);display:flex;align-items:center;justify-content:center;line-height:1}
-#zoom-ctrl button:hover{background:var(--champagne-soft)}
-#zoom-ctrl .zlabel{font-size:9.5px;color:var(--grey-olive-d);width:36px;text-align:center;font-weight:700;padding:1px 0}
 
 /* --- research pulse --- */
 .pulse-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -445,8 +450,14 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
 }
 @media (max-width:760px){
   .nav-tabs{display:none}              /* phone: top tabs hide; logo=home, landing links se navigate */
-  #side-panel{width:100vw;box-shadow:none}
-  .sp-hero{height:158px}
+  /* side panel = bottom sheet (map upar dikhta rahe) */
+  #side-panel{top:auto;left:0;right:0;bottom:0;width:100%;height:74vh;max-height:74vh;overflow:hidden;
+    border-left:none;border-top:1px solid var(--line);border-radius:20px 20px 0 0;
+    transform:translateY(100%);box-shadow:0 -10px 34px rgba(66,30,24,.20)}
+  #side-panel.open{transform:translateY(0)}
+  #side-panel::before{content:'';display:block;flex:none;width:42px;height:5px;border-radius:999px;
+    background:rgba(66,30,24,.22);margin:8px auto 0}
+  .sp-hero{height:140px}
   .sp-stats{padding:12px 18px}
   .sp-body{padding:20px 18px 36px}
   .sp-hero-txt{left:18px;right:50px}
@@ -455,10 +466,9 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
   #history-box{top:12px;right:12px}
   #btn-back,#btn-panel,#history-box .pill-btn{padding:8px 13px;font-size:12px}
   #btn-panel{bottom:12px}
-  #zoom-ctrl{left:10px}
-  #breadcrumb{bottom:12px;left:12px;right:116px;max-width:none;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #breadcrumb{bottom:12px;left:12px;right:104px;max-width:none;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   #breadcrumb::-webkit-scrollbar{display:none}
-  .crumb{padding:8px 14px;font-size:13px;flex:none}
+  .crumb{padding:7px 13px;font-size:12.5px;flex:none}
   .crumb-sep{font-size:13px}
 }
 @media (max-width:640px){
@@ -512,7 +522,7 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
       <button class="nav-tab active" id="tab-discover" onclick="goDiscover()">Home</button>
       <button class="nav-tab" onclick="goDiscover();setTimeout(()=>document.getElementById('sec-domains').scrollIntoView({behavior:'smooth'}),60)">Domains</button>
       <button class="nav-tab" id="tab-dir" onclick="showFacultyDir()">Faculty</button>
-      <button class="nav-tab" id="tab-map" onclick="openLastMap()">Knowledge Map</button>
+      <button class="nav-tab" id="tab-map" onclick="openLastMap()"></button>
     </nav>
     <div class="hdr-search">
       <span class="icon">⌕</span>
@@ -627,12 +637,6 @@ footer{background:var(--mahogany);color:var(--champagne);padding:38px 0 26px}
       </div>
       <div id="legend"></div>
       <div id="breadcrumb"></div>
-      <div id="zoom-ctrl">
-        <button onclick="zoomBy(0.8)" title="Zoom out">−</button>
-        <span class="zlabel" id="zoom-label">100%</span>
-        <button onclick="zoomBy(1.25)" title="Zoom in">+</button>
-        <button onclick="zoomReset()" title="Reset view" style="font-size:14px">⤢</button>
-      </div>
       <button class="pill-btn" id="btn-panel" onclick="togglePanel()">Hide panel →</button>
     </div>
     <div id="side-panel"></div>
@@ -699,6 +703,7 @@ const EMAIL_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const PHONE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>';
 const LINK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="14" height="14"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg>';
 const PERSON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4.2 4.2 0 1 0 0-8.4A4.2 4.2 0 0 0 12 12zm0 2.1c-4.4 0-7.6 2.3-7.6 5.1v1.2h15.2v-1.2c0-2.8-3.2-5.1-7.6-5.1z"/></svg>';
+const APP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>';
 
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -806,7 +811,8 @@ function navigate(v,push=true,after){
   if(v.type==='subdomain'&&!v.mode)v.mode='fac';   /* default: faculty-wise (dept-wise mode-switch se available) */
   view=v;lastView=v;showMap();
   if(push){historyStack=historyStack.filter(h=>!(h.type===v.type&&h.id===v.id&&h.dept===v.dept&&h.dom===v.dom&&h.sub===v.sub&&h.pmode===v.pmode&&h.fromSub===v.fromSub));historyStack.push({...v});}
-  drawGraph();renderBreadcrumb();renderHistory();renderLegend();renderModeSwitch();openPanel();renderCenterPanel();
+  drawGraph();renderBreadcrumb();renderHistory();renderLegend();renderModeSwitch();renderCenterPanel();
+  if(window.innerWidth<=760)closePanel();else openPanel();   /* mobile: map dikhe, panel tap pe khule */
   if(after)after();
 }
 function renderModeSwitch(){
@@ -875,8 +881,10 @@ function renderLegend(){
   else items=['Centre — Faculty','Ring — Their research domains','Click a domain to go deeper'];
   $('#legend').innerHTML=items.map(l=>`<div class="leg-item"><span class="leg-dot"></span>${l}</div>`).join('');
 }
-function togglePanel(){panelOpen=!panelOpen;$('#side-panel').classList.toggle('open',panelOpen);$('#btn-panel').textContent=panelOpen?'Hide panel →':'← Show panel';repositionGraph();}
-function openPanel(){const was=panelOpen;panelOpen=true;$('#side-panel').classList.add('open');$('#btn-panel').textContent='Hide panel →';if(!was)repositionGraph();}
+function setPanelBtn(){const m=window.innerWidth<=760;$('#btn-panel').textContent=panelOpen?(m?'Close ✕':'Hide panel →'):(m?'Details ↑':'← Show panel');}
+function togglePanel(){panelOpen=!panelOpen;$('#side-panel').classList.toggle('open',panelOpen);setPanelBtn();repositionGraph();}
+function openPanel(){const was=panelOpen;panelOpen=true;$('#side-panel').classList.add('open');setPanelBtn();if(!was)repositionGraph();}
+function closePanel(){panelOpen=false;$('#side-panel').classList.remove('open');setPanelBtn();}
 function repositionGraph(){
   try{
     if(!gRoot||!$('#mapview').classList.contains('active'))return;
@@ -1033,20 +1041,25 @@ function drawGraph(){
 
   const isMobile=W<640;
   const A=Math.max(W-PW-24,300);
+  const availW=(W-PW)/2-14, availH=H/2-14;     /* usable half-box (panel chhod ke) */
   const small=Math.min(A,H-(isMobile?100:60));
   const horiz=n<=6&&!isMobile;                  /* sirf bahut kam nodes par horizontal; warna radial = no collision */
-  const CLEAR=horiz?180:(isMobile?64:140);      /* labels ke liye reserved space */
-  const CR=Math.max(50,Math.min(small*(isMobile?0.18:0.155),120));
+  /* labels ring se kitna bahar nikalti hain (per side). desktop radial pehle 175 reserve karta tha
+     -> graph chhota/zoomed-out lagta tha; ab realistic 120 */
+  const labelReach=horiz?160:(isMobile?64:120);
+  const CR=Math.max(54,Math.min(small*(isMobile?0.17:0.15),118));
 
   /* density classes — jitne zyada nodes, utne chhote/short labels */
   const dense=n>18, mid=n>10;
 
-  /* base ring radius (available screen se) */
-  let R=Math.max(CR+98,small/2-CLEAR);
+  /* TARGET ring radius: available box ko (labels chhod ke) poora bhar do —
+     har view me consistent comfortable size, na bahut zoom-in na zoom-out */
+  const fitBox=Math.min(availW,availH);
+  let R=Math.max(CR+96,fitBox-labelReach);
   /* COLLISION GUARD: har node ke beech minimum arc-length guarantee karo,
      warna dense ring me radial labels ek-doosre par chadh jaate hain */
   if(!horiz){
-    const minArc=isMobile?42:(dense?62:70);     /* px arc length per node on the ring */
+    const minArc=isMobile?42:(dense?60:68);     /* px arc length per node on the ring */
     const rNeeded=(n*minArc)/(2*Math.PI);
     if(rNeeded>R)R=rNeeded;                      /* ring bada -> labels ke beech zyada gap */
   }
@@ -1169,16 +1182,16 @@ function drawGraph(){
         const c2=el('text',{class:'r1-count','text-anchor':side>0?'start':'end',x:gap,y:yT+(l1.length-1)*lh1+19},g);
         c2.textContent=d.count.length>34?d.count.slice(0,32)+'…':d.count;
       }
-    }else if(!isMobile){
+    }else{
       /* UPRIGHT horizontal labels — same reading style as the sub-domain page (no rotation) */
       const side=Math.cos(d.a)>=0?1:-1;            /* right half -> text goes right; left half -> left */
       const gap=2*Math.PI*R/n;                     /* adjacent labels ke beech arc spacing */
-      const fsz=gap<26?10:gap<40?11:12;            /* dense ring -> thoda chhota font */
-      const rLines=gap<46?1:2;                      /* tight spacing -> single line (vertical overlap kam) */
-      const cpl=Math.round((rLines===1?26:18)*(12/fsz));  /* font ke hisaab se chars/line */
+      const fsz=isMobile?10:(gap<26?10:gap<40?11:12);            /* dense ring -> thoda chhota font */
+      const rLines=isMobile?2:(gap<46?1:2);                      /* tight spacing -> single line (vertical overlap kam) */
+      const cpl=isMobile?13:Math.round((rLines===1?26:18)*(12/fsz));  /* font ke hisaab se chars/line */
       const lh2=fsz+2.5;
       const l2=makeLines(d.label,cpl,rLines);
-      const xo=side*(nr+12);
+      const xo=side*(nr+(isMobile?8:12));
       const tt=el('text',{class:'r1-label','font-size':fsz,'text-anchor':side>0?'start':'end',y:fsz*0.34-(l2.length-1)*lh2/2},g);
       l2.forEach((ln,i)=>{const ts=el('tspan',{x:xo,dy:i?lh2:0},tt);ts.textContent=ln;});
     }
@@ -1186,11 +1199,9 @@ function drawGraph(){
     glide(g,d.kind+':'+(d.real||d.id),d.x,d.y,newPos);
   });
 
-  /* AUTO-FIT: collision-guard se ring bada ho sakta hai -> initial zoom fit karo
-     taaki labels samet poora graph screen me aaye */
-  const labelReach=horiz?180:(isMobile?70:175);
-  const needR=R+labelReach+18;
-  const availH=H/2-14, availW=(W-PW)/2-14;
+  /* AUTO-FIT: ring + labels ko available box me consistently fit karo
+     (har view roughly same fill -> zoom level stable, na zyada in na out) */
+  const needR=R+labelReach+14;
   fitK=Math.min(1,availH/needR,availW/needR);
   if(fitK<ZMIN)fitK=ZMIN;
   zoom.k=fitK;
@@ -1290,6 +1301,18 @@ function panelSubdept(sid,dept){
     <div class="sp-sec"><h5>Faculty (${fac.length})</h5>${fac.map(f=>listFaculty(f,c)).join('')||'<p>No faculty from this department here.</p>'}</div>
     <div class="sp-sec"><h5>Projects (${prj.length})</h5>${prj.length?capList(prj,listProject):'<p>No projects from this department here.</p>'}</div>`,s.domain,codeOf('sub',sid));
 }
+function appAreasUI(raw){
+  /* split on common separators; agar list jaisa na ho to single styled callout */
+  let parts=String(raw).split(/[;\n•|·]+/).map(x=>x.trim()).filter(Boolean);
+  if(parts.length<2){
+    const cp=String(raw).split(',').map(x=>x.trim()).filter(Boolean);
+    if(cp.length>=2&&cp.every(p=>p.length<=46))parts=cp;     /* short comma items = list */
+  }
+  if(parts.length<2)                                          /* ek hi descriptive line -> callout */
+    return `<div class="app-lead"><span class="ic">${APP_ICON}</span><span>${esc(raw)}</span></div>`;
+  return `<div class="app-areas">${parts.map(p=>
+    `<span class="app-area"><span class="ic">${APP_ICON}</span><span>${esc(p)}</span></span>`).join('')}</div>`;
+}
 function fundersBlock(funders){
   if(!funders||!funders.length)return '';
   return `<div class="sp-sec"><div class="sp-funders">
@@ -1303,7 +1326,7 @@ function panelDomain(id){
   panelShell('Research domain',c,d.name,`${subs.length} sub-domains · ${fac.length} faculty · ${prj.length} projects`,`
     ${fundersBlock(d.funders)}
     <div class="sp-sec"><h5>About this domain</h5><p class="sp-lead">${esc(d.desc)}</p></div>
-    ${d.apps?`<div class="sp-sec"><h5>Key Application Areas</h5><p>${esc(d.apps)}</p></div>`:''}
+    ${d.apps?`<div class="sp-sec"><h5>Key Application Areas</h5>${appAreasUI(d.apps)}</div>`:''}
     <div class="sp-sec"><h5>Sub-domains inside this domain</h5><div class="chip-row">
       ${subs.map(s=>`<button class="chip" onclick='navigate({type:"subdomain",id:"${s.id}"})'>${esc(s.name)}<span class="code-badge">${codeOf('sub',s.id)}</span></button>`).join('')}</div></div>
     <div class="sp-sec"><h5>Faculty working in this domain (${fac.length})</h5>${capList(fac,f=>listFaculty(f,c),100)}</div>`,id,codeOf('dom',id));
